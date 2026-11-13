@@ -1,0 +1,21 @@
+# .NET / Visual Studio build output
+.vs/
+**/bin/
+**/obj/
+**/*.csproj.user
+*.suo
+*.user
+**/node_modules/
+
+# Local submission archives and duplicated assignment handouts
+/Midterm_*.zip
+/web-preview/*.zip
+/62b6c59d4bb77_KIU_CSharp_Midterm_Requirements_EN.html
+/a621fc6f9d791_KIU_CSharp_Midterm_Requirements_EN.html
+
+# Generated spreadsheet previews and inspection intermediates
+/data/georgian-intercity/.preview-*.png
+/data/georgian-intercity/*.inspect.ndjson
+
+# Agent planning scratch
+/docs/superpowers/

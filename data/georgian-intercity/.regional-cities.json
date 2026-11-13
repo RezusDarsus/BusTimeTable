@@ -1,0 +1,732 @@
+[
+  {
+    "CityId": "65f58ae339fd45017a7658b9",
+    "CityLabel": "Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58ae339fd45017a7658b9"
+  },
+  {
+    "CityId": "65f58b1539fd45017a7658ba",
+    "CityLabel": "Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58b1539fd45017a7658ba"
+  },
+  {
+    "CityId": "65f58e3139fd45017a7658bb",
+    "CityLabel": "Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58e3139fd45017a7658bb"
+  },
+  {
+    "CityId": "65f58e5139fd45017a7658bc",
+    "CityLabel": "Telavi (თელავი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58e5139fd45017a7658bc"
+  },
+  {
+    "CityId": "65f58e5d39fd45017a7658bd",
+    "CityLabel": "Gori (გორი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58e5d39fd45017a7658bd"
+  },
+  {
+    "CityId": "65f58e6739fd45017a7658be",
+    "CityLabel": "Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58e6739fd45017a7658be"
+  },
+  {
+    "CityId": "65f58e6f39fd45017a7658bf",
+    "CityLabel": "Poti (ფოთი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58e6f39fd45017a7658bf"
+  },
+  {
+    "CityId": "65f58e7839fd45017a7658c0",
+    "CityLabel": "Rustavi (რუსთავი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58e7839fd45017a7658c0"
+  },
+  {
+    "CityId": "65f58e8e39fd45017a7658c1",
+    "CityLabel": "Mestia (მესტია)",
+    "SourceUrl": "https://marshrutka.info/city/65f58e8e39fd45017a7658c1"
+  },
+  {
+    "CityId": "65f58ea839fd45017a7658c2",
+    "CityLabel": "Stepantsminda/Kazbegi (სტეფანწმინდა)",
+    "SourceUrl": "https://marshrutka.info/city/65f58ea839fd45017a7658c2"
+  },
+  {
+    "CityId": "65f58ed039fd45017a7658c3",
+    "CityLabel": "Kobuleti (ქობულეთი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58ed039fd45017a7658c3"
+  },
+  {
+    "CityId": "65f58ef739fd45017a7658c5",
+    "CityLabel": "Sarpi (სარფი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58ef739fd45017a7658c5"
+  },
+  {
+    "CityId": "65f58f0f39fd45017a7658c6",
+    "CityLabel": "Borjomi (ბორჯომი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58f0f39fd45017a7658c6"
+  },
+  {
+    "CityId": "65f58f2139fd45017a7658c7",
+    "CityLabel": "Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/city/65f58f2139fd45017a7658c7"
+  },
+  {
+    "CityId": "65f58f5239fd45017a7658c8",
+    "CityLabel": "Surami (სურამი)",
+    "SourceUrl": "https://marshrutka.info/city/65f58f5239fd45017a7658c8"
+  },
+  {
+    "CityId": "65f59203ef62d647196ba1b8",
+    "CityLabel": "Gudauri (გუდაური)",
+    "SourceUrl": "https://marshrutka.info/city/65f59203ef62d647196ba1b8"
+  },
+  {
+    "CityId": "65f5922eef62d647196ba1b9",
+    "CityLabel": "Khashuri (ხაშური)",
+    "SourceUrl": "https://marshrutka.info/city/65f5922eef62d647196ba1b9"
+  },
+  {
+    "CityId": "65f59250ef62d647196ba1ba",
+    "CityLabel": "Mtskheta (მცხეთა)",
+    "SourceUrl": "https://marshrutka.info/city/65f59250ef62d647196ba1ba"
+  },
+  {
+    "CityId": "65f592a4ef62d647196ba1bc",
+    "CityLabel": "Sighnaghi (სიღნაღი)",
+    "SourceUrl": "https://marshrutka.info/city/65f592a4ef62d647196ba1bc"
+  },
+  {
+    "CityId": "65f592aeef62d647196ba1bd",
+    "CityLabel": "Gurjaani (გურჯაანი)",
+    "SourceUrl": "https://marshrutka.info/city/65f592aeef62d647196ba1bd"
+  },
+  {
+    "CityId": "65f592b7ef62d647196ba1be",
+    "CityLabel": "Tsnori (წნორი)",
+    "SourceUrl": "https://marshrutka.info/city/65f592b7ef62d647196ba1be"
+  },
+  {
+    "CityId": "65f592ccef62d647196ba1bf",
+    "CityLabel": "Kvareli (ყვარელი)",
+    "SourceUrl": "https://marshrutka.info/city/65f592ccef62d647196ba1bf"
+  },
+  {
+    "CityId": "65f592d2ef62d647196ba1c0",
+    "CityLabel": "Gombori (გომბორი)",
+    "SourceUrl": "https://marshrutka.info/city/65f592d2ef62d647196ba1c0"
+  },
+  {
+    "CityId": "65f59330ef62d647196ba1c1",
+    "CityLabel": "Vardzia (ვარძია)",
+    "SourceUrl": "https://marshrutka.info/city/65f59330ef62d647196ba1c1"
+  },
+  {
+    "CityId": "65f593adef62d647196ba1c2",
+    "CityLabel": "Ozurgeti (ოზურგეთი)",
+    "SourceUrl": "https://marshrutka.info/city/65f593adef62d647196ba1c2"
+  },
+  {
+    "CityId": "65f593bbef62d647196ba1c3",
+    "CityLabel": "Ureki (ურეკი)",
+    "SourceUrl": "https://marshrutka.info/city/65f593bbef62d647196ba1c3"
+  },
+  {
+    "CityId": "65f59565ef62d647196ba1c5",
+    "CityLabel": "Khulo (ხულო)",
+    "SourceUrl": "https://marshrutka.info/city/65f59565ef62d647196ba1c5"
+  },
+  {
+    "CityId": "65f5960fef62d647196ba1c6",
+    "CityLabel": "Samtredia (სამტრედია)",
+    "SourceUrl": "https://marshrutka.info/city/65f5960fef62d647196ba1c6"
+  },
+  {
+    "CityId": "65f59686ef62d647196ba1c7",
+    "CityLabel": "Gelati (გელათი)",
+    "SourceUrl": "https://marshrutka.info/city/65f59686ef62d647196ba1c7"
+  },
+  {
+    "CityId": "65f597adef62d647196ba1c8",
+    "CityLabel": "Senaki (სენაკი)",
+    "SourceUrl": "https://marshrutka.info/city/65f597adef62d647196ba1c8"
+  },
+  {
+    "CityId": "65f597bdef62d647196ba1c9",
+    "CityLabel": "Zestaponi/Zestafoni (ზესტაფონი)",
+    "SourceUrl": "https://marshrutka.info/city/65f597bdef62d647196ba1c9"
+  },
+  {
+    "CityId": "65f597cfef62d647196ba1ca",
+    "CityLabel": "Marneuli (მარნეული)",
+    "SourceUrl": "https://marshrutka.info/city/65f597cfef62d647196ba1ca"
+  },
+  {
+    "CityId": "65f597deef62d647196ba1cb",
+    "CityLabel": "Kaspi (კასპი)",
+    "SourceUrl": "https://marshrutka.info/city/65f597deef62d647196ba1cb"
+  },
+  {
+    "CityId": "65f597e6ef62d647196ba1cc",
+    "CityLabel": "Chiatura (ჭიათურა)",
+    "SourceUrl": "https://marshrutka.info/city/65f597e6ef62d647196ba1cc"
+  },
+  {
+    "CityId": "65f597edef62d647196ba1cd",
+    "CityLabel": "Tsqaltubo/Tskaltubo (წყალტუბო)",
+    "SourceUrl": "https://marshrutka.info/city/65f597edef62d647196ba1cd"
+  },
+  {
+    "CityId": "65f597f7ef62d647196ba1ce",
+    "CityLabel": "Sagarejo (საგარეჯო)",
+    "SourceUrl": "https://marshrutka.info/city/65f597f7ef62d647196ba1ce"
+  },
+  {
+    "CityId": "65f59801ef62d647196ba1cf",
+    "CityLabel": "Gardabani (გარდაბანი)",
+    "SourceUrl": "https://marshrutka.info/city/65f59801ef62d647196ba1cf"
+  },
+  {
+    "CityId": "65f5980aef62d647196ba1d0",
+    "CityLabel": "Tkibuli (ტყიბული)",
+    "SourceUrl": "https://marshrutka.info/city/65f5980aef62d647196ba1d0"
+  },
+  {
+    "CityId": "65f59815ef62d647196ba1d1",
+    "CityLabel": "Bolnisi (ბოლნისი)",
+    "SourceUrl": "https://marshrutka.info/city/65f59815ef62d647196ba1d1"
+  },
+  {
+    "CityId": "65f59822ef62d647196ba1d2",
+    "CityLabel": "Akhmeta (ახმეტა)",
+    "SourceUrl": "https://marshrutka.info/city/65f59822ef62d647196ba1d2"
+  },
+  {
+    "CityId": "65f5982aef62d647196ba1d3",
+    "CityLabel": "Kareli, Georgia (ქარელი)",
+    "SourceUrl": "https://marshrutka.info/city/65f5982aef62d647196ba1d3"
+  },
+  {
+    "CityId": "65f59845ef62d647196ba1d4",
+    "CityLabel": "Lanchkhuti (ლანჩხუთი)",
+    "SourceUrl": "https://marshrutka.info/city/65f59845ef62d647196ba1d4"
+  },
+  {
+    "CityId": "65f59851ef62d647196ba1d5",
+    "CityLabel": "Tsalenjikha (წალენჯიხა)",
+    "SourceUrl": "https://marshrutka.info/city/65f59851ef62d647196ba1d5"
+  },
+  {
+    "CityId": "65f5985bef62d647196ba1d6",
+    "CityLabel": "Dusheti (დუშეთი)",
+    "SourceUrl": "https://marshrutka.info/city/65f5985bef62d647196ba1d6"
+  },
+  {
+    "CityId": "65f59863ef62d647196ba1d7",
+    "CityLabel": "Sachkhere (საჩხერე)",
+    "SourceUrl": "https://marshrutka.info/city/65f59863ef62d647196ba1d7"
+  },
+  {
+    "CityId": "65f5986def62d647196ba1d8",
+    "CityLabel": "Dedoplis Tskaro (დედოფლისწყარო)",
+    "SourceUrl": "https://marshrutka.info/city/65f5986def62d647196ba1d8"
+  },
+  {
+    "CityId": "65f59875ef62d647196ba1d9",
+    "CityLabel": "Lagodekhi (ლაგოდეხი)",
+    "SourceUrl": "https://marshrutka.info/city/65f59875ef62d647196ba1d9"
+  },
+  {
+    "CityId": "65f5987fef62d647196ba1da",
+    "CityLabel": "Ninotsminda (ნინოწმინდა)",
+    "SourceUrl": "https://marshrutka.info/city/65f5987fef62d647196ba1da"
+  },
+  {
+    "CityId": "65f5988aef62d647196ba1db",
+    "CityLabel": "Abasha (აბაშა)",
+    "SourceUrl": "https://marshrutka.info/city/65f5988aef62d647196ba1db"
+  },
+  {
+    "CityId": "65f59895ef62d647196ba1dc",
+    "CityLabel": "Terjola (თერჯოლა)",
+    "SourceUrl": "https://marshrutka.info/city/65f59895ef62d647196ba1dc"
+  },
+  {
+    "CityId": "65f598a2ef62d647196ba1dd",
+    "CityLabel": "Martvili (მარტვილი)",
+    "SourceUrl": "https://marshrutka.info/city/65f598a2ef62d647196ba1dd"
+  },
+  {
+    "CityId": "65f598adef62d647196ba1de",
+    "CityLabel": "Jvari (ჯვარი)",
+    "SourceUrl": "https://marshrutka.info/city/65f598adef62d647196ba1de"
+  },
+  {
+    "CityId": "65f598b8ef62d647196ba1df",
+    "CityLabel": "Vani (ვანი)",
+    "SourceUrl": "https://marshrutka.info/city/65f598b8ef62d647196ba1df"
+  },
+  {
+    "CityId": "65f598c1ef62d647196ba1e0",
+    "CityLabel": "Baghdati (ბაღდათი)",
+    "SourceUrl": "https://marshrutka.info/city/65f598c1ef62d647196ba1e0"
+  },
+  {
+    "CityId": "65f598ccef62d647196ba1e1",
+    "CityLabel": "Vale, Georgia (ვალე)",
+    "SourceUrl": "https://marshrutka.info/city/65f598ccef62d647196ba1e1"
+  },
+  {
+    "CityId": "65f598d8ef62d647196ba1e2",
+    "CityLabel": "Tetritsqaro/Tetritskaro (თეთრი წყარო)",
+    "SourceUrl": "https://marshrutka.info/city/65f598d8ef62d647196ba1e2"
+  },
+  {
+    "CityId": "65f598e2ef62d647196ba1e3",
+    "CityLabel": "Tsalka (წალკა)",
+    "SourceUrl": "https://marshrutka.info/city/65f598e2ef62d647196ba1e3"
+  },
+  {
+    "CityId": "65f598edef62d647196ba1e4",
+    "CityLabel": "Dmanisi (დმანისი)",
+    "SourceUrl": "https://marshrutka.info/city/65f598edef62d647196ba1e4"
+  },
+  {
+    "CityId": "65f598f7ef62d647196ba1e5",
+    "CityLabel": "Oni (ონი)",
+    "SourceUrl": "https://marshrutka.info/city/65f598f7ef62d647196ba1e5"
+  },
+  {
+    "CityId": "65f59902ef62d647196ba1e6",
+    "CityLabel": "Ambrolauri",
+    "SourceUrl": "https://marshrutka.info/city/65f59902ef62d647196ba1e6"
+  },
+  {
+    "CityId": "65f59919ef62d647196ba1e7",
+    "CityLabel": "Tsageri (ცაგერი)",
+    "SourceUrl": "https://marshrutka.info/city/65f59919ef62d647196ba1e7"
+  },
+  {
+    "CityId": "65f6056d59ce6e648e4f7512",
+    "CityLabel": "Aspindza (ასპინძა)",
+    "SourceUrl": "https://marshrutka.info/city/65f6056d59ce6e648e4f7512"
+  },
+  {
+    "CityId": "65f605e759ce6e648e4f7517",
+    "CityLabel": "Tsemi (ცემი)",
+    "SourceUrl": "https://marshrutka.info/city/65f605e759ce6e648e4f7517"
+  },
+  {
+    "CityId": "65f6064559ce6e648e4f751b",
+    "CityLabel": "Bakuriani (ბაკურიანი)",
+    "SourceUrl": "https://marshrutka.info/city/65f6064559ce6e648e4f751b"
+  },
+  {
+    "CityId": "65f60f417a6f580da1a80501",
+    "CityLabel": "Kvemo Alvani (ქვემო ალვანი)",
+    "SourceUrl": "https://marshrutka.info/city/65f60f417a6f580da1a80501"
+  },
+  {
+    "CityId": "65f6222b7a6f580da1a80516",
+    "CityLabel": "Shatili (შატილი)",
+    "SourceUrl": "https://marshrutka.info/city/65f6222b7a6f580da1a80516"
+  },
+  {
+    "CityId": "65fdc79e20ebd451435d9324",
+    "CityLabel": "Akhalkalaki (ახალქალაქი)",
+    "SourceUrl": "https://marshrutka.info/city/65fdc79e20ebd451435d9324"
+  },
+  {
+    "CityId": "65ff31f220ebd451435d939e",
+    "CityLabel": "Adigeni (ადიგენი)",
+    "SourceUrl": "https://marshrutka.info/city/65ff31f220ebd451435d939e"
+  },
+  {
+    "CityId": "65ff3d1520ebd451435d93b7",
+    "CityLabel": "Tianeti (თიანეთი)",
+    "SourceUrl": "https://marshrutka.info/city/65ff3d1520ebd451435d93b7"
+  },
+  {
+    "CityId": "6652447e34565605735ecc7b",
+    "CityLabel": "Chokhatauri (ჩოხატაური)",
+    "SourceUrl": "https://marshrutka.info/city/6652447e34565605735ecc7b"
+  },
+  {
+    "CityId": "665246fe34565605735ecc9a",
+    "CityLabel": "Abastumani, Adigeni Municipality (აბასთუმანი)",
+    "SourceUrl": "https://marshrutka.info/city/665246fe34565605735ecc9a"
+  },
+  {
+    "CityId": "6652481c34565605735ecca2",
+    "CityLabel": "Kharagauli (ხარაგაული)",
+    "SourceUrl": "https://marshrutka.info/city/6652481c34565605735ecca2"
+  },
+  {
+    "CityId": "66524ac534565605735eccbb",
+    "CityLabel": "Khoni (ხონი)",
+    "SourceUrl": "https://marshrutka.info/city/66524ac534565605735eccbb"
+  },
+  {
+    "CityId": "6652559434565605735eccc2",
+    "CityLabel": "Nukriani (ნუკრიანი)",
+    "SourceUrl": "https://marshrutka.info/city/6652559434565605735eccc2"
+  },
+  {
+    "CityId": "665255b734565605735eccc3",
+    "CityLabel": "Zemo Bodbe (ზემო ბოდბე)",
+    "SourceUrl": "https://marshrutka.info/city/665255b734565605735eccc3"
+  },
+  {
+    "CityId": "665255c534565605735eccc4",
+    "CityLabel": "Kvemo Bodbe (ქვემო ბოდბე)",
+    "SourceUrl": "https://marshrutka.info/city/665255c534565605735eccc4"
+  },
+  {
+    "CityId": "665255e034565605735eccc5",
+    "CityLabel": "Kvemo Magharo (ქვემო მაღარო)",
+    "SourceUrl": "https://marshrutka.info/city/665255e034565605735eccc5"
+  },
+  {
+    "CityId": "665255fe34565605735eccc6",
+    "CityLabel": "Zemo Magharo (ზემო მაღარო)",
+    "SourceUrl": "https://marshrutka.info/city/665255fe34565605735eccc6"
+  },
+  {
+    "CityId": "665257ac34565605735eccd3",
+    "CityLabel": "Anaga (ანაგა)",
+    "SourceUrl": "https://marshrutka.info/city/665257ac34565605735eccd3"
+  },
+  {
+    "CityId": "665257c434565605735eccd4",
+    "CityLabel": "Vaqiri (ვაქირი)",
+    "SourceUrl": "https://marshrutka.info/city/665257c434565605735eccd4"
+  },
+  {
+    "CityId": "665257d034565605735eccd5",
+    "CityLabel": "Mashnaari (მაშნაარი)",
+    "SourceUrl": "https://marshrutka.info/city/665257d034565605735eccd5"
+  },
+  {
+    "CityId": "665257db34565605735eccd6",
+    "CityLabel": "Sakobo (საქობო)",
+    "SourceUrl": "https://marshrutka.info/city/665257db34565605735eccd6"
+  },
+  {
+    "CityId": "6652737c34565605735ecd05",
+    "CityLabel": "Apeni (აფენი)",
+    "SourceUrl": "https://marshrutka.info/city/6652737c34565605735ecd05"
+  },
+  {
+    "CityId": "665b755834565605735ecef4",
+    "CityLabel": "Tbisi (ტბისი)",
+    "SourceUrl": "https://marshrutka.info/city/665b755834565605735ecef4"
+  },
+  {
+    "CityId": "665b759334565605735ecef5",
+    "CityLabel": "Partskhisi (ფარცხისი)",
+    "SourceUrl": "https://marshrutka.info/city/665b759334565605735ecef5"
+  },
+  {
+    "CityId": "666dad3834565605735ecf06",
+    "CityLabel": "Manglisi (მანგლისი)",
+    "SourceUrl": "https://marshrutka.info/city/666dad3834565605735ecf06"
+  },
+  {
+    "CityId": "666dad8034565605735ecf07",
+    "CityLabel": "Orbeti (ორბეთი)",
+    "SourceUrl": "https://marshrutka.info/city/666dad8034565605735ecf07"
+  },
+  {
+    "CityId": "666dad8e34565605735ecf08",
+    "CityLabel": "Pantiani (პანტიანი)",
+    "SourceUrl": "https://marshrutka.info/city/666dad8e34565605735ecf08"
+  },
+  {
+    "CityId": "666db2e334565605735ecf19",
+    "CityLabel": "Akhali Pantiani (ახალი პანტიანი)",
+    "SourceUrl": "https://marshrutka.info/city/666db2e334565605735ecf19"
+  },
+  {
+    "CityId": "666db36b34565605735ecf24",
+    "CityLabel": "Didi Toneti (დიდი თონეთი)",
+    "SourceUrl": "https://marshrutka.info/city/666db36b34565605735ecf24"
+  },
+  {
+    "CityId": "681267085e85df2c396b8de9",
+    "CityLabel": "Nigozeti (ნიგოზეთი)",
+    "SourceUrl": "https://marshrutka.info/city/681267085e85df2c396b8de9"
+  },
+  {
+    "CityId": "6812670f5e85df2c396b8dea",
+    "CityLabel": "Korbouli (კორბოული)",
+    "SourceUrl": "https://marshrutka.info/city/6812670f5e85df2c396b8dea"
+  },
+  {
+    "CityId": "681ccfe477807b265e514d89",
+    "CityLabel": "Tabatskuri (ტაბაწყური)",
+    "SourceUrl": "https://marshrutka.info/city/681ccfe477807b265e514d89"
+  },
+  {
+    "CityId": "68249abe77807b265e514d96",
+    "CityLabel": "Sairkhe (საირხე)",
+    "SourceUrl": "https://marshrutka.info/city/68249abe77807b265e514d96"
+  },
+  {
+    "CityId": "68249b0577807b265e514d99",
+    "CityLabel": "Chorvila (ჭორვილა)",
+    "SourceUrl": "https://marshrutka.info/city/68249b0577807b265e514d99"
+  },
+  {
+    "CityId": "68249d5c77807b265e514da3",
+    "CityLabel": "Modzvi (მოძვი)",
+    "SourceUrl": "https://marshrutka.info/city/68249d5c77807b265e514da3"
+  },
+  {
+    "CityId": "68249d6b77807b265e514da4",
+    "CityLabel": "Jalaurta (ჯალაურთა)",
+    "SourceUrl": "https://marshrutka.info/city/68249d6b77807b265e514da4"
+  },
+  {
+    "CityId": "68249d8c77807b265e514da5",
+    "CityLabel": "Khvani (ხვანი)",
+    "SourceUrl": "https://marshrutka.info/city/68249d8c77807b265e514da5"
+  },
+  {
+    "CityId": "68249fa277807b265e514dac",
+    "CityLabel": "Sareki (სარეკი)",
+    "SourceUrl": "https://marshrutka.info/city/68249fa277807b265e514dac"
+  },
+  {
+    "CityId": "68249fb477807b265e514dad",
+    "CityLabel": "Bajiti (ბაჯითი)",
+    "SourceUrl": "https://marshrutka.info/city/68249fb477807b265e514dad"
+  },
+  {
+    "CityId": "68249fc677807b265e514dae",
+    "CityLabel": "Mokhva (მოხვა)",
+    "SourceUrl": "https://marshrutka.info/city/68249fc677807b265e514dae"
+  },
+  {
+    "CityId": "68249fdf77807b265e514daf",
+    "CityLabel": "Tskhomareti (ცხომარეთი)",
+    "SourceUrl": "https://marshrutka.info/city/68249fdf77807b265e514daf"
+  },
+  {
+    "CityId": "6824d8fa77807b265e514dd0",
+    "CityLabel": "Speti (სპეთი)",
+    "SourceUrl": "https://marshrutka.info/city/6824d8fa77807b265e514dd0"
+  },
+  {
+    "CityId": "6824d91277807b265e514dd1",
+    "CityLabel": "Jria (ჯრია)",
+    "SourceUrl": "https://marshrutka.info/city/6824d91277807b265e514dd1"
+  },
+  {
+    "CityId": "6824d95677807b265e514dd2",
+    "CityLabel": "Zemo Karzmani (ზემო ქარზმანი)",
+    "SourceUrl": "https://marshrutka.info/city/6824d95677807b265e514dd2"
+  },
+  {
+    "CityId": "6824d96677807b265e514dd3",
+    "CityLabel": "Perevi (პერევი)",
+    "SourceUrl": "https://marshrutka.info/city/6824d96677807b265e514dd3"
+  },
+  {
+    "CityId": "6824dc0277807b265e514de3",
+    "CityLabel": "Zeda Chalovani (ზედა ჭალოვანი)",
+    "SourceUrl": "https://marshrutka.info/city/6824dc0277807b265e514de3"
+  },
+  {
+    "CityId": "6824dc6a77807b265e514de7",
+    "CityLabel": "Savane (სავანე)",
+    "SourceUrl": "https://marshrutka.info/city/6824dc6a77807b265e514de7"
+  },
+  {
+    "CityId": "6824dc7f77807b265e514de8",
+    "CityLabel": "Gorisa (გორისა)",
+    "SourceUrl": "https://marshrutka.info/city/6824dc7f77807b265e514de8"
+  },
+  {
+    "CityId": "6824dd2777807b265e514ded",
+    "CityLabel": "Itkhvisi (ითხვისი)",
+    "SourceUrl": "https://marshrutka.info/city/6824dd2777807b265e514ded"
+  },
+  {
+    "CityId": "6824de5977807b265e514df0",
+    "CityLabel": "Tuzi (თუზი)",
+    "SourceUrl": "https://marshrutka.info/city/6824de5977807b265e514df0"
+  },
+  {
+    "CityId": "6824de9c77807b265e514df3",
+    "CityLabel": "Bigha (ბიღა)",
+    "SourceUrl": "https://marshrutka.info/city/6824de9c77807b265e514df3"
+  },
+  {
+    "CityId": "6824deff77807b265e514df6",
+    "CityLabel": "Rtskhilati (რცხილათი)",
+    "SourceUrl": "https://marshrutka.info/city/6824deff77807b265e514df6"
+  },
+  {
+    "CityId": "6824df2f77807b265e514df9",
+    "CityLabel": "Melusheeti (მელუშეეთი)",
+    "SourceUrl": "https://marshrutka.info/city/6824df2f77807b265e514df9"
+  },
+  {
+    "CityId": "6824df6277807b265e514dfc",
+    "CityLabel": "Rgani (რგანი)",
+    "SourceUrl": "https://marshrutka.info/city/6824df6277807b265e514dfc"
+  },
+  {
+    "CityId": "6824dfca77807b265e514dff",
+    "CityLabel": "Khreiti (ხრეითი)",
+    "SourceUrl": "https://marshrutka.info/city/6824dfca77807b265e514dff"
+  },
+  {
+    "CityId": "6824e01277807b265e514e02",
+    "CityLabel": "Tsirkvali (წირქვალი)",
+    "SourceUrl": "https://marshrutka.info/city/6824e01277807b265e514e02"
+  },
+  {
+    "CityId": "6824e04977807b265e514e05",
+    "CityLabel": "Tabagrebi (თაბაგრები)",
+    "SourceUrl": "https://marshrutka.info/city/6824e04977807b265e514e05"
+  },
+  {
+    "CityId": "6829c3fd77807b265e514e43",
+    "CityLabel": "Andriatsminda (ანდრიაწმინდა)",
+    "SourceUrl": "https://marshrutka.info/city/6829c3fd77807b265e514e43"
+  },
+  {
+    "CityId": "6829c40e77807b265e514e44",
+    "CityLabel": "Muskhi (მუსხი)",
+    "SourceUrl": "https://marshrutka.info/city/6829c40e77807b265e514e44"
+  },
+  {
+    "CityId": "6829c57d77807b265e514e4c",
+    "CityLabel": "Tsira (წირა)",
+    "SourceUrl": "https://marshrutka.info/city/6829c57d77807b265e514e4c"
+  },
+  {
+    "CityId": "6829c58877807b265e514e4d",
+    "CityLabel": "Mikeltsminda (მიქელწმინდა)",
+    "SourceUrl": "https://marshrutka.info/city/6829c58877807b265e514e4d"
+  },
+  {
+    "CityId": "6829c59477807b265e514e4e",
+    "CityLabel": "Tskruti (წყრუთი)",
+    "SourceUrl": "https://marshrutka.info/city/6829c59477807b265e514e4e"
+  },
+  {
+    "CityId": "6829c59d77807b265e514e4f",
+    "CityLabel": "Ivlita (ივლიტა)",
+    "SourceUrl": "https://marshrutka.info/city/6829c59d77807b265e514e4f"
+  },
+  {
+    "CityId": "6829c68077807b265e514e5c",
+    "CityLabel": "Klde (კლდე)",
+    "SourceUrl": "https://marshrutka.info/city/6829c68077807b265e514e5c"
+  },
+  {
+    "CityId": "6829c7ba77807b265e514e61",
+    "CityLabel": "Eliatsminda (ელიაწმინდა)",
+    "SourceUrl": "https://marshrutka.info/city/6829c7ba77807b265e514e61"
+  },
+  {
+    "CityId": "6829c7e477807b265e514e64",
+    "CityLabel": "Chvinta (ჭვინთა)",
+    "SourceUrl": "https://marshrutka.info/city/6829c7e477807b265e514e64"
+  },
+  {
+    "CityId": "6829c95777807b265e514e6b",
+    "CityLabel": "Ani (ანი)",
+    "SourceUrl": "https://marshrutka.info/city/6829c95777807b265e514e6b"
+  },
+  {
+    "CityId": "6829ca6877807b265e514e71",
+    "CityLabel": "Agara, Akhaltsikhe Municipality (აგარა)",
+    "SourceUrl": "https://marshrutka.info/city/6829ca6877807b265e514e71"
+  },
+  {
+    "CityId": "6829ca7377807b265e514e72",
+    "CityLabel": "Persa (ფერსა)",
+    "SourceUrl": "https://marshrutka.info/city/6829ca7377807b265e514e72"
+  },
+  {
+    "CityId": "6829ca9e77807b265e514e73",
+    "CityLabel": "Mugareti (მუგარეთი)",
+    "SourceUrl": "https://marshrutka.info/city/6829ca9e77807b265e514e73"
+  },
+  {
+    "CityId": "6829cab677807b265e514e74",
+    "CityLabel": "Zikilia (ზიკილია)",
+    "SourceUrl": "https://marshrutka.info/city/6829cab677807b265e514e74"
+  },
+  {
+    "CityId": "6829cabf77807b265e514e75",
+    "CityLabel": "Gurkeli (გურკელი)",
+    "SourceUrl": "https://marshrutka.info/city/6829cabf77807b265e514e75"
+  },
+  {
+    "CityId": "682d947877807b265e514e99",
+    "CityLabel": "Zeda-Sazano (ზედა საზანო)",
+    "SourceUrl": "https://marshrutka.info/city/682d947877807b265e514e99"
+  },
+  {
+    "CityId": "68333f8877807b265e514ea4",
+    "CityLabel": "Navenakhevi (ნავენახევი)",
+    "SourceUrl": "https://marshrutka.info/city/68333f8877807b265e514ea4"
+  },
+  {
+    "CityId": "68336a6b77807b265e514eba",
+    "CityLabel": "Lentekhi (ლენტეხი)",
+    "SourceUrl": "https://marshrutka.info/city/68336a6b77807b265e514eba"
+  },
+  {
+    "CityId": "68336bcb77807b265e514ec8",
+    "CityLabel": "Chikhori (ჩიხორი)",
+    "SourceUrl": "https://marshrutka.info/city/68336bcb77807b265e514ec8"
+  },
+  {
+    "CityId": "68336d0377807b265e514ed1",
+    "CityLabel": "Etseri, Chiatura Municipality (ეწერი)",
+    "SourceUrl": "https://marshrutka.info/city/68336d0377807b265e514ed1"
+  },
+  {
+    "CityId": "68336dd877807b265e514ed8",
+    "CityLabel": "Dilikauri (დილიკაური)",
+    "SourceUrl": "https://marshrutka.info/city/68336dd877807b265e514ed8"
+  },
+  {
+    "CityId": "68336e2377807b265e514ed9",
+    "CityLabel": "Gomi (გომი)",
+    "SourceUrl": "https://marshrutka.info/city/68336e2377807b265e514ed9"
+  },
+  {
+    "CityId": "6833714a77807b265e514f04",
+    "CityLabel": "Chala, Sachkhere region (ჭალა)",
+    "SourceUrl": "https://marshrutka.info/city/6833714a77807b265e514f04"
+  },
+  {
+    "CityId": "6833722a77807b265e514f13",
+    "CityLabel": "Makhatauri (მახათაური)",
+    "SourceUrl": "https://marshrutka.info/city/6833722a77807b265e514f13"
+  },
+  {
+    "CityId": "683372c277807b265e514f20",
+    "CityLabel": "Skhvitori (სხვიტორი)",
+    "SourceUrl": "https://marshrutka.info/city/683372c277807b265e514f20"
+  },
+  {
+    "CityId": "683372df77807b265e514f21",
+    "CityLabel": "Irtavaza (ირტავაზა)",
+    "SourceUrl": "https://marshrutka.info/city/683372df77807b265e514f21"
+  },
+  {
+    "CityId": "683374ac77807b265e514f3a",
+    "CityLabel": "Koreti (ქორეთი)",
+    "SourceUrl": "https://marshrutka.info/city/683374ac77807b265e514f3a"
+  },
+  {
+    "CityId": "6833757d77807b265e514f41",
+    "CityLabel": "Sviri, Akhaltsikhe region (სვირი)",
+    "SourceUrl": "https://marshrutka.info/city/6833757d77807b265e514f41"
+  }
+]

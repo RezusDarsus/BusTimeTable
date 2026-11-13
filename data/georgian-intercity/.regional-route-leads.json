@@ -1,0 +1,1247 @@
+[
+  {
+    "RouteId": "01907d72-af41-40f7-8c6e-04070f86422c",
+    "RouteLabel": "Lagodekhi (ლაგოდეხი) - Telavi (თელავი)",
+    "SourceUrl": "https://marshrutka.info/line/01907d72-af41-40f7-8c6e-04070f86422c"
+  },
+  {
+    "RouteId": "032206c0-a788-4f15-90e3-28e1f916864b",
+    "RouteLabel": "Borjomi (ბორჯომი) - Khashuri (ხაშური)",
+    "SourceUrl": "https://marshrutka.info/line/032206c0-a788-4f15-90e3-28e1f916864b"
+  },
+  {
+    "RouteId": "08c96715-218c-43b7-9a05-96035e1727b5",
+    "RouteLabel": "Tbilisi (თბილისი) - Akhaltsikhe (ახალციხე) - Akhalkalaki (ახალქალაქი)",
+    "SourceUrl": "https://marshrutka.info/line/08c96715-218c-43b7-9a05-96035e1727b5"
+  },
+  {
+    "RouteId": "0e98970c-9cb7-47c2-a1f4-460246d98ddf",
+    "RouteLabel": "Tbilisi (თბილისი) - Dusheti (დუშეთი)",
+    "SourceUrl": "https://marshrutka.info/line/0e98970c-9cb7-47c2-a1f4-460246d98ddf"
+  },
+  {
+    "RouteId": "0eb1b0c6-143b-48be-863e-5d39e3c04c74",
+    "RouteLabel": "Shatili (შატილი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/0eb1b0c6-143b-48be-863e-5d39e3c04c74"
+  },
+  {
+    "RouteId": "0fbb5408-30c4-4a34-aa4f-96fe2ae2aed0",
+    "RouteLabel": "Telavi (თელავი) - Sighnaghi (სიღნაღი)",
+    "SourceUrl": "https://marshrutka.info/line/0fbb5408-30c4-4a34-aa4f-96fe2ae2aed0"
+  },
+  {
+    "RouteId": "13fc9c44-7264-416d-9aa8-9c5fd6bda145",
+    "RouteLabel": "Telavi (თელავი) - Akhmeta (ახმეტა)",
+    "SourceUrl": "https://marshrutka.info/line/13fc9c44-7264-416d-9aa8-9c5fd6bda145"
+  },
+  {
+    "RouteId": "14e4eb83-b918-4035-bc8e-0d18259e41fe",
+    "RouteLabel": "Telavi (თელავი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/14e4eb83-b918-4035-bc8e-0d18259e41fe"
+  },
+  {
+    "RouteId": "1510f5d6-20f9-4a52-a881-008b3a619c49",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/1510f5d6-20f9-4a52-a881-008b3a619c49"
+  },
+  {
+    "RouteId": "15435ec2-3429-46ee-aab8-1d03f43951c5",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Ozurgeti (ოზურგეთი)",
+    "SourceUrl": "https://marshrutka.info/line/15435ec2-3429-46ee-aab8-1d03f43951c5"
+  },
+  {
+    "RouteId": "20a83f2d-526d-4693-932b-aef264c878ca",
+    "RouteLabel": "Mestia (მესტია) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/20a83f2d-526d-4693-932b-aef264c878ca"
+  },
+  {
+    "RouteId": "2149f091-d862-4668-bd9a-94bce8ea9dd7",
+    "RouteLabel": "Tbilisi (თბილისი) - Tsalka (წალკა) - Akhalkalaki (ახალქალაქი)",
+    "SourceUrl": "https://marshrutka.info/line/2149f091-d862-4668-bd9a-94bce8ea9dd7"
+  },
+  {
+    "RouteId": "243c7362-42ee-4250-8703-50bb9b65fcd5",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Poti (ფოთი)",
+    "SourceUrl": "https://marshrutka.info/line/243c7362-42ee-4250-8703-50bb9b65fcd5"
+  },
+  {
+    "RouteId": "24effcac-0bf9-4723-bf90-8d91626f198a",
+    "RouteLabel": "Tbilisi (თბილისი) - Shatili (შატილი)",
+    "SourceUrl": "https://marshrutka.info/line/24effcac-0bf9-4723-bf90-8d91626f198a"
+  },
+  {
+    "RouteId": "26828691-3a15-44f1-9131-44fee99555f7",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Mestia (მესტია)",
+    "SourceUrl": "https://marshrutka.info/line/26828691-3a15-44f1-9131-44fee99555f7"
+  },
+  {
+    "RouteId": "27bd32be-8396-4cdc-a273-8d62b282ea2c",
+    "RouteLabel": "Ninotsminda (ნინოწმინდა) - Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/line/27bd32be-8396-4cdc-a273-8d62b282ea2c"
+  },
+  {
+    "RouteId": "27fc242b-7037-4306-a65a-27433cd8f6e0",
+    "RouteLabel": "Tbilisi (თბილისი) - Chiatura (ჭიათურა)",
+    "SourceUrl": "https://marshrutka.info/line/27fc242b-7037-4306-a65a-27433cd8f6e0"
+  },
+  {
+    "RouteId": "288cdb05-25a9-48f5-a1d4-6e03e03d652b",
+    "RouteLabel": "Akhalkalaki (ახალქალაქი) - Tsalka (წალკა) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/288cdb05-25a9-48f5-a1d4-6e03e03d652b"
+  },
+  {
+    "RouteId": "289d550c-f88c-4144-b976-b7085138f2ab",
+    "RouteLabel": "Sarpi (სარფი) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/289d550c-f88c-4144-b976-b7085138f2ab"
+  },
+  {
+    "RouteId": "2a7e1f1a-6c27-4d11-8295-bf64777832a3",
+    "RouteLabel": "Abasha (აბაშა) - Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/line/2a7e1f1a-6c27-4d11-8295-bf64777832a3"
+  },
+  {
+    "RouteId": "2b345b67-3438-4827-b27c-5f48a342461d",
+    "RouteLabel": "Batumi (ბათუმი) - Poti (ფოთი)",
+    "SourceUrl": "https://marshrutka.info/line/2b345b67-3438-4827-b27c-5f48a342461d"
+  },
+  {
+    "RouteId": "2c0dd498-d1d3-475d-8f33-0d916fca866c",
+    "RouteLabel": "Bakuriani (ბაკურიანი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/2c0dd498-d1d3-475d-8f33-0d916fca866c"
+  },
+  {
+    "RouteId": "2c8b9903-da14-4449-b61e-01079355ab63",
+    "RouteLabel": "Tbilisi (თბილისი) - Mestia (მესტია)",
+    "SourceUrl": "https://marshrutka.info/line/2c8b9903-da14-4449-b61e-01079355ab63"
+  },
+  {
+    "RouteId": "2cd885fd-55a5-4419-8d2a-3e0c2e20d03d",
+    "RouteLabel": "Akhalkalaki (ახალქალაქი) -  Borjomi (ბორჯომი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/2cd885fd-55a5-4419-8d2a-3e0c2e20d03d"
+  },
+  {
+    "RouteId": "2ce2e041-461a-430e-9119-ea4342822eee",
+    "RouteLabel": "Tbilisi (თბილისი) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/2ce2e041-461a-430e-9119-ea4342822eee"
+  },
+  {
+    "RouteId": "2cead4f0-ea6d-4640-9e6b-51610ae0c00b",
+    "RouteLabel": "Kobuleti (ქობულეთი) - Ureki (ურეკი)",
+    "SourceUrl": "https://marshrutka.info/line/2cead4f0-ea6d-4640-9e6b-51610ae0c00b"
+  },
+  {
+    "RouteId": "3138cf3c-c02b-4d88-92ce-d11ee2817949",
+    "RouteLabel": "N30 Kutaisi (ქუთაისი) (Red Bridge) - Tsqaltubo (წყალტუბო)",
+    "SourceUrl": "https://marshrutka.info/line/3138cf3c-c02b-4d88-92ce-d11ee2817949"
+  },
+  {
+    "RouteId": "36012857-0444-4c38-9ba0-bf25c20d60ea",
+    "RouteLabel": "Akhalkalaki (ახალქალაქი) - Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/line/36012857-0444-4c38-9ba0-bf25c20d60ea"
+  },
+  {
+    "RouteId": "360a9451-b21e-4f1a-ad82-c9e20887d95d",
+    "RouteLabel": "Tbilisi (თბილისი) - Aspindza (ასპინძა)",
+    "SourceUrl": "https://marshrutka.info/line/360a9451-b21e-4f1a-ad82-c9e20887d95d"
+  },
+  {
+    "RouteId": "36ffaf61-2449-4429-a48d-241b0a99edc5",
+    "RouteLabel": "Senaki (სენაკი) - Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/line/36ffaf61-2449-4429-a48d-241b0a99edc5"
+  },
+  {
+    "RouteId": "37f9c355-68a7-43cb-a99b-ad2531fc5fdf",
+    "RouteLabel": "Kvemo Alvani (ქვემო ალვანი) - Telavi (თელავი)",
+    "SourceUrl": "https://marshrutka.info/line/37f9c355-68a7-43cb-a99b-ad2531fc5fdf"
+  },
+  {
+    "RouteId": "3f90c31a-db0a-4db5-9bdc-d33058bd531a",
+    "RouteLabel": "Batumi (ბათუმი) - Borjomi (ბორჯომი)",
+    "SourceUrl": "https://marshrutka.info/line/3f90c31a-db0a-4db5-9bdc-d33058bd531a"
+  },
+  {
+    "RouteId": "40f617fe-7c02-469e-bf9e-6ae3cdf2417a",
+    "RouteLabel": "Tbilisi (თბილისი) - Borjomi (ბორჯომი)",
+    "SourceUrl": "https://marshrutka.info/line/40f617fe-7c02-469e-bf9e-6ae3cdf2417a"
+  },
+  {
+    "RouteId": "41799041-f5ff-44c7-9b3a-d156aaa5e9ef",
+    "RouteLabel": "Telavi (თელავი) - Lagodekhi (ლაგოდეხი)",
+    "SourceUrl": "https://marshrutka.info/line/41799041-f5ff-44c7-9b3a-d156aaa5e9ef"
+  },
+  {
+    "RouteId": "42dbea3d-bf9f-4f1f-9b51-d85a2e9de5d0",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Samtredia (სამტრედია)",
+    "SourceUrl": "https://marshrutka.info/line/42dbea3d-bf9f-4f1f-9b51-d85a2e9de5d0"
+  },
+  {
+    "RouteId": "44d02193-fa06-47d0-a79f-d6720f667f41",
+    "RouteLabel": "Tbilisi (თბილისი) - Mtskheta (მცხეთა)",
+    "SourceUrl": "https://marshrutka.info/line/44d02193-fa06-47d0-a79f-d6720f667f41"
+  },
+  {
+    "RouteId": "456393ab-f838-4add-9766-6f21428242fa",
+    "RouteLabel": "Batumi (ბათუმი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/456393ab-f838-4add-9766-6f21428242fa"
+  },
+  {
+    "RouteId": "4d4d8ca6-a35c-45e0-bda7-b15225f04cba",
+    "RouteLabel": "Telavi (თელავი) - Tsnori (წნორი)",
+    "SourceUrl": "https://marshrutka.info/line/4d4d8ca6-a35c-45e0-bda7-b15225f04cba"
+  },
+  {
+    "RouteId": "4f07ac93-f985-4469-a984-5738dbde008d",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/line/4f07ac93-f985-4469-a984-5738dbde008d"
+  },
+  {
+    "RouteId": "4fd20cf3-a11f-4f95-807d-81ccdb3fe28d",
+    "RouteLabel": "Batumi (ბათუმი) - Khashuri (ხაშური) - Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/line/4fd20cf3-a11f-4f95-807d-81ccdb3fe28d"
+  },
+  {
+    "RouteId": "4ff31d7d-0be4-4a05-8585-8e5a1e590f58",
+    "RouteLabel": "Tbilisi (თბილისი) - Martvili (მარტვილი)",
+    "SourceUrl": "https://marshrutka.info/line/4ff31d7d-0be4-4a05-8585-8e5a1e590f58"
+  },
+  {
+    "RouteId": "51cb30df-4073-46e1-add3-7ebaf35d5bbc",
+    "RouteLabel": "Chiatura (ჭიათურა) - Zestaponi/Zestafoni (ზესტაფონი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/51cb30df-4073-46e1-add3-7ebaf35d5bbc"
+  },
+  {
+    "RouteId": "530bed53-d663-4c12-95c7-ea6a34a17532",
+    "RouteLabel": "Khashuri (ხაშური) - Borjomi (ბორჯომი)",
+    "SourceUrl": "https://marshrutka.info/line/530bed53-d663-4c12-95c7-ea6a34a17532"
+  },
+  {
+    "RouteId": "54df8cfd-47c8-40db-a789-60a8a8d51f77",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/54df8cfd-47c8-40db-a789-60a8a8d51f77"
+  },
+  {
+    "RouteId": "56d93dcc-3960-40bb-9d0a-5380a4678e08",
+    "RouteLabel": "Tbilisi (თბილისი) - Tsemi (ცემი)",
+    "SourceUrl": "https://marshrutka.info/line/56d93dcc-3960-40bb-9d0a-5380a4678e08"
+  },
+  {
+    "RouteId": "571729e7-2ffa-45cd-a658-8d209729b8ca",
+    "RouteLabel": "Tbilisi (თბილისი) - Khashuri (ხაშური)",
+    "SourceUrl": "https://marshrutka.info/line/571729e7-2ffa-45cd-a658-8d209729b8ca"
+  },
+  {
+    "RouteId": "5a20362e-3d1f-4f18-99ba-edff9e973cd7",
+    "RouteLabel": "Mestia (მესტია) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/5a20362e-3d1f-4f18-99ba-edff9e973cd7"
+  },
+  {
+    "RouteId": "5aa97a15-387c-446b-9f7a-406f30d678c8",
+    "RouteLabel": "Borjomi (ბორჯომი) - Gori (გორი)",
+    "SourceUrl": "https://marshrutka.info/line/5aa97a15-387c-446b-9f7a-406f30d678c8"
+  },
+  {
+    "RouteId": "5e4642fd-88ff-413e-bd9b-6f0a7b5147f8",
+    "RouteLabel": "Batumi (ბათუმი) - Khulo (ხულო)",
+    "SourceUrl": "https://marshrutka.info/line/5e4642fd-88ff-413e-bd9b-6f0a7b5147f8"
+  },
+  {
+    "RouteId": "5eb74301-d7a2-4b8c-8c33-60e31809d1ff",
+    "RouteLabel": "Lagodekhi (ლაგოდეხი) - Kvareli (ყვარელი)",
+    "SourceUrl": "https://marshrutka.info/line/5eb74301-d7a2-4b8c-8c33-60e31809d1ff"
+  },
+  {
+    "RouteId": "5ef32fb8-d6d7-4b16-9bce-3ef62f351b09",
+    "RouteLabel": "Batumi (ბათუმი) - Khulo (ხულო) - Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/line/5ef32fb8-d6d7-4b16-9bce-3ef62f351b09"
+  },
+  {
+    "RouteId": "5f31afa4-efe7-404b-84ec-b1e9b97d1abf",
+    "RouteLabel": "Kutaisi (ქუთაისი) (Red Bridge) - Zestaponi (ზესტაფონი)",
+    "SourceUrl": "https://marshrutka.info/line/5f31afa4-efe7-404b-84ec-b1e9b97d1abf"
+  },
+  {
+    "RouteId": "5f3e91af-a917-4a3e-b3b9-0c4a708df444",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Adigeni (ადიგენი)",
+    "SourceUrl": "https://marshrutka.info/line/5f3e91af-a917-4a3e-b3b9-0c4a708df444"
+  },
+  {
+    "RouteId": "626aa383-f0f1-4d16-b456-cbbdd4955cff",
+    "RouteLabel": "Sighnaghi (სიღნაღი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/626aa383-f0f1-4d16-b456-cbbdd4955cff"
+  },
+  {
+    "RouteId": "648b0d54-f132-441b-914a-8880ca2c12ab",
+    "RouteLabel": "Tbilisi (თბილისი) - Stepantsminda/Kazbegi (სტეფანწმინდა)",
+    "SourceUrl": "https://marshrutka.info/line/648b0d54-f132-441b-914a-8880ca2c12ab"
+  },
+  {
+    "RouteId": "655ef027-0173-44ef-967b-b0922a70a2fb",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Jvari (ჯვარი)",
+    "SourceUrl": "https://marshrutka.info/line/655ef027-0173-44ef-967b-b0922a70a2fb"
+  },
+  {
+    "RouteId": "660bb93b-9172-43bc-b48a-1b0aabdae4b3",
+    "RouteLabel": "Tbilisi (თბილისი) (Samgori) - Kvemo Alvani (ქვემო ალვანი)",
+    "SourceUrl": "https://marshrutka.info/line/660bb93b-9172-43bc-b48a-1b0aabdae4b3"
+  },
+  {
+    "RouteId": "67133c73-293c-4305-b031-00c204e4a4b1",
+    "RouteLabel": "Samtredia (სამტრედია) - Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/line/67133c73-293c-4305-b031-00c204e4a4b1"
+  },
+  {
+    "RouteId": "6764fe06-f271-4df7-8361-e1aa76d1222e",
+    "RouteLabel": "Tbilisi (თბილისი) - Kobuleti (ქობულეთი)",
+    "SourceUrl": "https://marshrutka.info/line/6764fe06-f271-4df7-8361-e1aa76d1222e"
+  },
+  {
+    "RouteId": "6aa8dae2-75d1-4242-b2db-0eebfc80a01f",
+    "RouteLabel": "Batumi (ბათუმი) - Sarpi (სარფი)",
+    "SourceUrl": "https://marshrutka.info/line/6aa8dae2-75d1-4242-b2db-0eebfc80a01f"
+  },
+  {
+    "RouteId": "6ebb4725-70f9-4753-abca-4e7b15c26648",
+    "RouteLabel": "Ozurgeti (ოზურგეთი) - Ureki (ურეკი)",
+    "SourceUrl": "https://marshrutka.info/line/6ebb4725-70f9-4753-abca-4e7b15c26648"
+  },
+  {
+    "RouteId": "73fd667c-194b-4125-ae51-283aefdcde44",
+    "RouteLabel": "Senaki (სენაკი) - Martvili (მარტვილი)",
+    "SourceUrl": "https://marshrutka.info/line/73fd667c-194b-4125-ae51-283aefdcde44"
+  },
+  {
+    "RouteId": "753d3d6a-132c-465e-bd02-2949939abaaf",
+    "RouteLabel": "Tbilisi (თბილისი) (Station Square) - Rustavi (რუსთავი)",
+    "SourceUrl": "https://marshrutka.info/line/753d3d6a-132c-465e-bd02-2949939abaaf"
+  },
+  {
+    "RouteId": "768cade4-2764-4ce2-89ff-fa1e0c5216cf",
+    "RouteLabel": "Borjomi (ბორჯომი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/768cade4-2764-4ce2-89ff-fa1e0c5216cf"
+  },
+  {
+    "RouteId": "7850cc34-b44d-4331-9203-da041eff35cd",
+    "RouteLabel": "Zugdidi (ზუგდიდი) - Jvari (ჯვარი)",
+    "SourceUrl": "https://marshrutka.info/line/7850cc34-b44d-4331-9203-da041eff35cd"
+  },
+  {
+    "RouteId": "787aac8e-3d90-4599-b744-9577bb51eb69",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Ambrolauri",
+    "SourceUrl": "https://marshrutka.info/line/787aac8e-3d90-4599-b744-9577bb51eb69"
+  },
+  {
+    "RouteId": "7d236658-c344-4611-a0c8-d1c37bb7e0a1",
+    "RouteLabel": "Tbilisi (თბილისი) - Sighnaghi (სიღნაღი)",
+    "SourceUrl": "https://marshrutka.info/line/7d236658-c344-4611-a0c8-d1c37bb7e0a1"
+  },
+  {
+    "RouteId": "809b4c38-28a3-4eaf-b27f-e169f586d5db",
+    "RouteLabel": "Tsnori (წნორი) - Sighnaghi (სიღნაღი)",
+    "SourceUrl": "https://marshrutka.info/line/809b4c38-28a3-4eaf-b27f-e169f586d5db"
+  },
+  {
+    "RouteId": "836c818e-4c75-416c-a312-0ad1e0d38e39",
+    "RouteLabel": "Sighnaghi (სიღნაღი) - Telavi (თელავი)",
+    "SourceUrl": "https://marshrutka.info/line/836c818e-4c75-416c-a312-0ad1e0d38e39"
+  },
+  {
+    "RouteId": "84b4217f-9b48-4a4a-af78-445ad01f4a7f",
+    "RouteLabel": "Tbilisi (თბილისი) - Ambrolauri",
+    "SourceUrl": "https://marshrutka.info/line/84b4217f-9b48-4a4a-af78-445ad01f4a7f"
+  },
+  {
+    "RouteId": "861b9ed2-5ab6-494d-b94a-aeed5b29c103",
+    "RouteLabel": "Kobuleti (ქობულეთი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/861b9ed2-5ab6-494d-b94a-aeed5b29c103"
+  },
+  {
+    "RouteId": "87ee5816-5a17-43d7-b593-e3fd38207398",
+    "RouteLabel": "Sighnaghi (სიღნაღი) - Rustavi (რუსთავი)",
+    "SourceUrl": "https://marshrutka.info/line/87ee5816-5a17-43d7-b593-e3fd38207398"
+  },
+  {
+    "RouteId": "87f96fab-0c2a-4748-855e-d62396c77a7a",
+    "RouteLabel": "Batumi (ბათუმი) - Mestia (მესტია)",
+    "SourceUrl": "https://marshrutka.info/line/87f96fab-0c2a-4748-855e-d62396c77a7a"
+  },
+  {
+    "RouteId": "8c7edc81-03a7-4dc7-a150-b15ed0ad1fc6",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Zestaponi (ზესტაფონი)",
+    "SourceUrl": "https://marshrutka.info/line/8c7edc81-03a7-4dc7-a150-b15ed0ad1fc6"
+  },
+  {
+    "RouteId": "901146b9-a26a-4067-9b33-73424a3f3ce6",
+    "RouteLabel": "Tbilisi (თბილისი) - Tsageri (ცაგერი)",
+    "SourceUrl": "https://marshrutka.info/line/901146b9-a26a-4067-9b33-73424a3f3ce6"
+  },
+  {
+    "RouteId": "92194700-97ff-4bb5-9c37-171a22bf6725",
+    "RouteLabel": "Bakuriani (ბაკურიანი) - Borjomi (ბორჯომი)",
+    "SourceUrl": "https://marshrutka.info/line/92194700-97ff-4bb5-9c37-171a22bf6725"
+  },
+  {
+    "RouteId": "9233de8c-02bf-4ea8-9cf4-2c9029d32e83",
+    "RouteLabel": "Tbilisi (თბილისი) - Sachkhere (საჩხერე)",
+    "SourceUrl": "https://marshrutka.info/line/9233de8c-02bf-4ea8-9cf4-2c9029d32e83"
+  },
+  {
+    "RouteId": "92db4650-2f2b-4db9-afc0-9fb6fe8f7384",
+    "RouteLabel": "Telavi (თელავი) - Dedoplis Tskaro (დედოფლისწყარო)",
+    "SourceUrl": "https://marshrutka.info/line/92db4650-2f2b-4db9-afc0-9fb6fe8f7384"
+  },
+  {
+    "RouteId": "939d07f2-39fe-49aa-a28e-822071a6cc49",
+    "RouteLabel": "Tsqaltubo (წყალტუბო) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/939d07f2-39fe-49aa-a28e-822071a6cc49"
+  },
+  {
+    "RouteId": "96809ecc-90af-4d07-8073-3571b52d23e0",
+    "RouteLabel": "Batumi (ბათუმი) - Kobuleti (ქობულეთი)",
+    "SourceUrl": "https://marshrutka.info/line/96809ecc-90af-4d07-8073-3571b52d23e0"
+  },
+  {
+    "RouteId": "9c5a5f65-6b5c-47fb-bf8b-f2e1d03927c6",
+    "RouteLabel": "Tbilisi (თბილისი) (Ortachala) - Kvemo Alvani (ქვემო ალვანი)",
+    "SourceUrl": "https://marshrutka.info/line/9c5a5f65-6b5c-47fb-bf8b-f2e1d03927c6"
+  },
+  {
+    "RouteId": "a0c2cd75-d991-4ce8-979c-d87e2cdd897d",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Akhalkalaki (ახალქალაქი)",
+    "SourceUrl": "https://marshrutka.info/line/a0c2cd75-d991-4ce8-979c-d87e2cdd897d"
+  },
+  {
+    "RouteId": "a21459ca-0cdd-438d-ac74-a94bc31139f9",
+    "RouteLabel": "Khulo (ხულო) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/a21459ca-0cdd-438d-ac74-a94bc31139f9"
+  },
+  {
+    "RouteId": "a280411b-aea4-4eed-9c5b-6968a08040e1",
+    "RouteLabel": "Borjomi (ბორჯომი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/a280411b-aea4-4eed-9c5b-6968a08040e1"
+  },
+  {
+    "RouteId": "a5d81fba-c266-478e-be8d-aa92dc620776",
+    "RouteLabel": "Tbilisi (თბილისი) (Ortachala) - Telavi (თელავი)",
+    "SourceUrl": "https://marshrutka.info/line/a5d81fba-c266-478e-be8d-aa92dc620776"
+  },
+  {
+    "RouteId": "a67907d2-d3d5-4f98-9c66-45313c3b8fbe",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Vani (ვანი)",
+    "SourceUrl": "https://marshrutka.info/line/a67907d2-d3d5-4f98-9c66-45313c3b8fbe"
+  },
+  {
+    "RouteId": "aa16183f-bf9b-48c9-95a9-5b15874ff05e",
+    "RouteLabel": "Tbilisi (თბილისი) - Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/line/aa16183f-bf9b-48c9-95a9-5b15874ff05e"
+  },
+  {
+    "RouteId": "ae54e0d2-23bc-4161-8f22-f0a6eed0fb7c",
+    "RouteLabel": "Sighnaghi (სიღნაღი) - Tsnori (წნორი)",
+    "SourceUrl": "https://marshrutka.info/line/ae54e0d2-23bc-4161-8f22-f0a6eed0fb7c"
+  },
+  {
+    "RouteId": "aec2b825-a68a-4531-8150-dbcb235a3abf",
+    "RouteLabel": "Batumi (ბათუმი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/aec2b825-a68a-4531-8150-dbcb235a3abf"
+  },
+  {
+    "RouteId": "aec5ac7d-e62b-4c06-924a-04e32d6ad2db",
+    "RouteLabel": "Samtredia (სამტრედია) - Martvili (მარტვილი)",
+    "SourceUrl": "https://marshrutka.info/line/aec5ac7d-e62b-4c06-924a-04e32d6ad2db"
+  },
+  {
+    "RouteId": "b826295c-1d25-4a42-a0be-3a3c4ea6b3f7",
+    "RouteLabel": "Tbilisi (თბილისი) - Tianeti (თიანეთი)",
+    "SourceUrl": "https://marshrutka.info/line/b826295c-1d25-4a42-a0be-3a3c4ea6b3f7"
+  },
+  {
+    "RouteId": "b9183848-e2c9-4d33-b626-b66e37c757b8",
+    "RouteLabel": "Mestia (მესტია) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/b9183848-e2c9-4d33-b626-b66e37c757b8"
+  },
+  {
+    "RouteId": "b9a84543-a1ad-4e40-ac00-0d66d2d844fe",
+    "RouteLabel": "Chiatura (ჭიათურა) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/b9a84543-a1ad-4e40-ac00-0d66d2d844fe"
+  },
+  {
+    "RouteId": "ba1c0154-8603-48b2-befb-591f5ce84478",
+    "RouteLabel": "Tbilisi (თბილისი) - Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/line/ba1c0154-8603-48b2-befb-591f5ce84478"
+  },
+  {
+    "RouteId": "bce8e0a3-4d0c-4a92-83e2-36b9cab21ebd",
+    "RouteLabel": "Gudauri (გუდაური) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/bce8e0a3-4d0c-4a92-83e2-36b9cab21ebd"
+  },
+  {
+    "RouteId": "c4b64e0d-fe74-4a62-ba41-0ef508dd0064",
+    "RouteLabel": "Gori (გორი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/c4b64e0d-fe74-4a62-ba41-0ef508dd0064"
+  },
+  {
+    "RouteId": "c4bf8bba-707f-4e3f-838d-bb375fd61ce2",
+    "RouteLabel": "Stepantsminda/Kazbegi (სტეფანწმინდა) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/c4bf8bba-707f-4e3f-838d-bb375fd61ce2"
+  },
+  {
+    "RouteId": "c57cf912-5df1-4900-b79a-532eac0ce8cd",
+    "RouteLabel": "Vani (ვანი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/c57cf912-5df1-4900-b79a-532eac0ce8cd"
+  },
+  {
+    "RouteId": "c6aa05aa-796e-4339-bf18-5247d4d9c2df",
+    "RouteLabel": "Tbilisi (თბილისი) - Zestaponi (ზესტაფონი)",
+    "SourceUrl": "https://marshrutka.info/line/c6aa05aa-796e-4339-bf18-5247d4d9c2df"
+  },
+  {
+    "RouteId": "c73ee072-204d-4a8f-9099-f31e9a12e589",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Ninotsminda (ნინოწმინდა)",
+    "SourceUrl": "https://marshrutka.info/line/c73ee072-204d-4a8f-9099-f31e9a12e589"
+  },
+  {
+    "RouteId": "c87adb26-a027-490b-be3f-9fdddd4faa03",
+    "RouteLabel": "Tbilisi (თბილისი) - Rustavi (რუსთავი)",
+    "SourceUrl": "https://marshrutka.info/line/c87adb26-a027-490b-be3f-9fdddd4faa03"
+  },
+  {
+    "RouteId": "ce8c47e8-cfc3-45cc-bcb2-974ab0162bab",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/line/ce8c47e8-cfc3-45cc-bcb2-974ab0162bab"
+  },
+  {
+    "RouteId": "cfaa3f4d-de59-42a9-ae16-f5d5eaf81c12",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Martvili (მარტვილი)",
+    "SourceUrl": "https://marshrutka.info/line/cfaa3f4d-de59-42a9-ae16-f5d5eaf81c12"
+  },
+  {
+    "RouteId": "d0c469bb-7e0b-4694-a485-26f8b5e78120",
+    "RouteLabel": "Tbilisi (თბილისი) (Samgori) - Telavi (თელავი)",
+    "SourceUrl": "https://marshrutka.info/line/d0c469bb-7e0b-4694-a485-26f8b5e78120"
+  },
+  {
+    "RouteId": "d1425af2-f99a-4699-a852-b0d1511451c0",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Borjomi (ბორჯომი)",
+    "SourceUrl": "https://marshrutka.info/line/d1425af2-f99a-4699-a852-b0d1511451c0"
+  },
+  {
+    "RouteId": "d5a3aec5-92d3-4bd2-952e-f03f24d79cd1",
+    "RouteLabel": "Dedoplis Tskaro (დედოფლისწყარო) - Telavi (თელავი)",
+    "SourceUrl": "https://marshrutka.info/line/d5a3aec5-92d3-4bd2-952e-f03f24d79cd1"
+  },
+  {
+    "RouteId": "d6aaad15-e7d0-42bb-8735-d96f664c1c27",
+    "RouteLabel": "Tbilisi (თბილისი) - Oni (ონი)",
+    "SourceUrl": "https://marshrutka.info/line/d6aaad15-e7d0-42bb-8735-d96f664c1c27"
+  },
+  {
+    "RouteId": "da89b4db-e0be-4c64-b414-19606f11e65d",
+    "RouteLabel": "Zugdidi (ზუგდიდი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/da89b4db-e0be-4c64-b414-19606f11e65d"
+  },
+  {
+    "RouteId": "dc13bd5a-01d6-4db6-8d83-41b3a92b7fa9",
+    "RouteLabel": "Tbilisi (თბილისი) - Bakuriani (ბაკურიანი)",
+    "SourceUrl": "https://marshrutka.info/line/dc13bd5a-01d6-4db6-8d83-41b3a92b7fa9"
+  },
+  {
+    "RouteId": "dd9da3be-765a-4281-9221-59f169d11569",
+    "RouteLabel": "Tbilisi (თბილისი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/dd9da3be-765a-4281-9221-59f169d11569"
+  },
+  {
+    "RouteId": "e2977c6c-15c8-4ed1-ade7-f7c83d895fa0",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Gori (გორი)",
+    "SourceUrl": "https://marshrutka.info/line/e2977c6c-15c8-4ed1-ade7-f7c83d895fa0"
+  },
+  {
+    "RouteId": "e3c58f18-028c-40c2-8f1e-9b9ec8c5381d",
+    "RouteLabel": "Jvari (ჯვარი) - Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/line/e3c58f18-028c-40c2-8f1e-9b9ec8c5381d"
+  },
+  {
+    "RouteId": "e6ab50ff-e19a-4530-9fec-827edb50b8c1",
+    "RouteLabel": "Adigeni (ადიგენი) - Khulo (ხულო)",
+    "SourceUrl": "https://marshrutka.info/line/e6ab50ff-e19a-4530-9fec-827edb50b8c1"
+  },
+  {
+    "RouteId": "e834653e-5aa3-4133-93be-41420d84d6a5",
+    "RouteLabel": "Mtskheta (მცხეთა) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/e834653e-5aa3-4133-93be-41420d84d6a5"
+  },
+  {
+    "RouteId": "eb1b26d7-0b41-4193-b851-2055741ab365",
+    "RouteLabel": "Dusheti (დუშეთი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/eb1b26d7-0b41-4193-b851-2055741ab365"
+  },
+  {
+    "RouteId": "eff15677-8d78-4da8-9218-edd1b12a9d4c",
+    "RouteLabel": "Zugdidi (ზუგდიდი) - Mestia (მესტია)",
+    "SourceUrl": "https://marshrutka.info/line/eff15677-8d78-4da8-9218-edd1b12a9d4c"
+  },
+  {
+    "RouteId": "f0ef5564-ac99-40e8-8039-df12e10868fa",
+    "RouteLabel": "Tbilisi (თბილისი) - Vardzia (ვარძია)",
+    "SourceUrl": "https://marshrutka.info/line/f0ef5564-ac99-40e8-8039-df12e10868fa"
+  },
+  {
+    "RouteId": "f2121598-8c22-48bd-89fd-8a070ca89983",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Chiatura (ჭიათურა)",
+    "SourceUrl": "https://marshrutka.info/line/f2121598-8c22-48bd-89fd-8a070ca89983"
+  },
+  {
+    "RouteId": "f33a89dc-bb85-494c-aacb-2b58df3451b1",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Borjomi (ბორჯომი)",
+    "SourceUrl": "https://marshrutka.info/line/f33a89dc-bb85-494c-aacb-2b58df3451b1"
+  },
+  {
+    "RouteId": "f4a3e1df-6372-4145-842f-d897c968c72e",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Tsqaltubo (წყალტუბო)",
+    "SourceUrl": "https://marshrutka.info/line/f4a3e1df-6372-4145-842f-d897c968c72e"
+  },
+  {
+    "RouteId": "f4d0a00b-5bc7-4459-b4d8-7a1169edb09a",
+    "RouteLabel": "Tbilisi (თბილისი) - Gori (გორი)",
+    "SourceUrl": "https://marshrutka.info/line/f4d0a00b-5bc7-4459-b4d8-7a1169edb09a"
+  },
+  {
+    "RouteId": "f71f4196-9031-4e5a-91b6-67184b1e2397",
+    "RouteLabel": "Rustavi (რუსთავი) - Sighnaghi (სიღნაღი)",
+    "SourceUrl": "https://marshrutka.info/line/f71f4196-9031-4e5a-91b6-67184b1e2397"
+  },
+  {
+    "RouteId": "f85cb3e3-3857-4477-86b6-33b249f2e988",
+    "RouteLabel": "Tbilisi (თბილისი) (Ortachala) - Kvemo Alvani (ქვემო ალვანი)",
+    "SourceUrl": "https://marshrutka.info/line/f85cb3e3-3857-4477-86b6-33b249f2e988"
+  },
+  {
+    "RouteId": "fd08047c-d082-41ce-9184-39a996dffb05",
+    "RouteLabel": "Batumi (ბათუმი) - Borjomi (ბორჯომი)",
+    "SourceUrl": "https://marshrutka.info/line/fd08047c-d082-41ce-9184-39a996dffb05"
+  },
+  {
+    "RouteId": "ffa6aea7-d558-4a57-bf31-0b8185811b7c",
+    "RouteLabel": "Tianeti (თიანეთი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/ffa6aea7-d558-4a57-bf31-0b8185811b7c"
+  },
+  {
+    "RouteId": "7f2c8143-fe6b-4b71-a947-9ebe4d8d6f7d",
+    "RouteLabel": "Mestia (მესტია) - Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/line/7f2c8143-fe6b-4b71-a947-9ebe4d8d6f7d"
+  },
+  {
+    "RouteId": "bc32dd0b-070e-4bd1-957c-7402376e8e74",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Senaki (სენაკი) - Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/line/bc32dd0b-070e-4bd1-957c-7402376e8e74"
+  },
+  {
+    "RouteId": "8b92a305-1931-4c5b-bb49-13d2688745d0",
+    "RouteLabel": "Ambrolauri - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/8b92a305-1931-4c5b-bb49-13d2688745d0"
+  },
+  {
+    "RouteId": "002d863b-e992-487c-bec0-75034edea06b",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Oni (ონი)",
+    "SourceUrl": "https://marshrutka.info/line/002d863b-e992-487c-bec0-75034edea06b"
+  },
+  {
+    "RouteId": "4f2b032e-d2a6-49e3-8a6d-2781217ee512",
+    "RouteLabel": "Oni (ონი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/4f2b032e-d2a6-49e3-8a6d-2781217ee512"
+  },
+  {
+    "RouteId": "6a45112a-c252-41cd-95c8-a52f97524cc4",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Abastumani (აბასთუმანი)",
+    "SourceUrl": "https://marshrutka.info/line/6a45112a-c252-41cd-95c8-a52f97524cc4"
+  },
+  {
+    "RouteId": "1d63d119-e8a1-4c61-9ae3-cba9885aa238",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Sachkhere (საჩხერე)",
+    "SourceUrl": "https://marshrutka.info/line/1d63d119-e8a1-4c61-9ae3-cba9885aa238"
+  },
+  {
+    "RouteId": "0092d5e7-98c3-4cd3-84a5-e382cbc60e04",
+    "RouteLabel": "Sachkhere (საჩხერე) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/0092d5e7-98c3-4cd3-84a5-e382cbc60e04"
+  },
+  {
+    "RouteId": "4865dbb0-2727-455e-80eb-190123cc1d60",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Kharagauli (ხარაგაული)",
+    "SourceUrl": "https://marshrutka.info/line/4865dbb0-2727-455e-80eb-190123cc1d60"
+  },
+  {
+    "RouteId": "73aacacd-6433-4788-92b5-10f5cbdc7eb7",
+    "RouteLabel": "Kharagauli (ხარაგაული) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/73aacacd-6433-4788-92b5-10f5cbdc7eb7"
+  },
+  {
+    "RouteId": "7e73fbde-449c-4d6f-8474-a3c072b37bb9",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Baghdati (ბაღდათი)",
+    "SourceUrl": "https://marshrutka.info/line/7e73fbde-449c-4d6f-8474-a3c072b37bb9"
+  },
+  {
+    "RouteId": "b49cd278-d7ad-426a-913f-d90a9d5c08e0",
+    "RouteLabel": "Baghdati (ბაღდათი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/b49cd278-d7ad-426a-913f-d90a9d5c08e0"
+  },
+  {
+    "RouteId": "4199fa77-bde1-43ad-8f39-2021b2c4390a",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Terjola (თერჯოლა)",
+    "SourceUrl": "https://marshrutka.info/line/4199fa77-bde1-43ad-8f39-2021b2c4390a"
+  },
+  {
+    "RouteId": "b5c6fe20-fe50-4a71-b7e6-1aca1b80fa08",
+    "RouteLabel": "Terjola (თერჯოლა) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/b5c6fe20-fe50-4a71-b7e6-1aca1b80fa08"
+  },
+  {
+    "RouteId": "1594caf1-4854-4cf3-b8de-4f4259324392",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Khoni (ხონი)",
+    "SourceUrl": "https://marshrutka.info/line/1594caf1-4854-4cf3-b8de-4f4259324392"
+  },
+  {
+    "RouteId": "d7f70e8d-339f-41d4-91ba-a8451bc712bb",
+    "RouteLabel": "Khoni (ხონი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/d7f70e8d-339f-41d4-91ba-a8451bc712bb"
+  },
+  {
+    "RouteId": "0febc720-dee5-4515-b650-d89bc1bbf650",
+    "RouteLabel": "Sighnaghi (სიღნაღი) - Magharo (მაღარო) - Sighnaghi (სიღნაღი)",
+    "SourceUrl": "https://marshrutka.info/line/0febc720-dee5-4515-b650-d89bc1bbf650"
+  },
+  {
+    "RouteId": "44b5b804-4238-4c9e-820f-1670192c7954",
+    "RouteLabel": "Sighnaghi (სიღნაღი) - Anaga (ანაგა) - Tsnori (წნორი)",
+    "SourceUrl": "https://marshrutka.info/line/44b5b804-4238-4c9e-820f-1670192c7954"
+  },
+  {
+    "RouteId": "0da7a0e5-306b-4c0e-81ee-75de394bb4b9",
+    "RouteLabel": "Tsnori (წნორი) - Anaga (ანაგა) - Sighnaghi (სიღნაღი)",
+    "SourceUrl": "https://marshrutka.info/line/0da7a0e5-306b-4c0e-81ee-75de394bb4b9"
+  },
+  {
+    "RouteId": "97f94b1b-bc06-4ea9-8183-fd991f2ad0b2",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Gelati (გელათი)",
+    "SourceUrl": "https://marshrutka.info/line/97f94b1b-bc06-4ea9-8183-fd991f2ad0b2"
+  },
+  {
+    "RouteId": "b837b848-d425-4bac-b29e-40a1af90bee7",
+    "RouteLabel": "Gelati (გელათი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/b837b848-d425-4bac-b29e-40a1af90bee7"
+  },
+  {
+    "RouteId": "d5d4a961-483f-4dc5-830d-4861c7b3e5db",
+    "RouteLabel": "Lagodekhi (ლაგოდეხი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/d5d4a961-483f-4dc5-830d-4861c7b3e5db"
+  },
+  {
+    "RouteId": "c95bef69-ea47-4130-9bff-3932011caf59",
+    "RouteLabel": "Tbilisi (თბილისი) - Lagodekhi (ლაგოდეხი)",
+    "SourceUrl": "https://marshrutka.info/line/c95bef69-ea47-4130-9bff-3932011caf59"
+  },
+  {
+    "RouteId": "58644a84-d5d9-43f0-9337-f2b57dc9d8f0",
+    "RouteLabel": "Lagodekhi (ლაგოდეხი) - Rustavi (რუსთავი)",
+    "SourceUrl": "https://marshrutka.info/line/58644a84-d5d9-43f0-9337-f2b57dc9d8f0"
+  },
+  {
+    "RouteId": "cebb2df2-e106-483a-a1b6-88097aab70e5",
+    "RouteLabel": "Rustavi (რუსთავი) - Lagodekhi (ლაგოდეხი)",
+    "SourceUrl": "https://marshrutka.info/line/cebb2df2-e106-483a-a1b6-88097aab70e5"
+  },
+  {
+    "RouteId": "d517fd8e-8de0-42b5-bac3-87ea1c7a9971",
+    "RouteLabel": "Lagodekhi (ლაგოდეხი) - Apeni (აფენი) - Telavi (თელავი)",
+    "SourceUrl": "https://marshrutka.info/line/d517fd8e-8de0-42b5-bac3-87ea1c7a9971"
+  },
+  {
+    "RouteId": "56ce9c8b-e1c1-4bd1-b720-6fb6c3436fbc",
+    "RouteLabel": "Telavi (თელავი) - Apeni (აფენი) - Lagodekhi (ლაგოდეხი)",
+    "SourceUrl": "https://marshrutka.info/line/56ce9c8b-e1c1-4bd1-b720-6fb6c3436fbc"
+  },
+  {
+    "RouteId": "bb0fe079-6433-444c-abde-43207f09e33f",
+    "RouteLabel": "Lagodekhi (ლაგოდეხი) - Kvareli (ყვარელი) - Telavi (თელავი)",
+    "SourceUrl": "https://marshrutka.info/line/bb0fe079-6433-444c-abde-43207f09e33f"
+  },
+  {
+    "RouteId": "67e6f8f2-2140-41f0-b95c-91fc284fe691",
+    "RouteLabel": "Telavi (თელავი) - Kvareli (ყვარელი) - Lagodekhi (ლაგოდეხი)",
+    "SourceUrl": "https://marshrutka.info/line/67e6f8f2-2140-41f0-b95c-91fc284fe691"
+  },
+  {
+    "RouteId": "e7297f54-57a2-4f2b-91ca-bd6c57d6c678",
+    "RouteLabel": "Tbilisi (თბილისი) - Tetritsqaro (თეთრი წყარო)",
+    "SourceUrl": "https://marshrutka.info/line/e7297f54-57a2-4f2b-91ca-bd6c57d6c678"
+  },
+  {
+    "RouteId": "fb13952a-211d-447d-a23e-494b8e5017c4",
+    "RouteLabel": "Tetritsqaro (თეთრი წყარო) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/fb13952a-211d-447d-a23e-494b8e5017c4"
+  },
+  {
+    "RouteId": "a7141a6d-61d4-445c-bea6-c994454f3645",
+    "RouteLabel": "Tbilisi (თბილისი) - Manglisi (მანგლისი)",
+    "SourceUrl": "https://marshrutka.info/line/a7141a6d-61d4-445c-bea6-c994454f3645"
+  },
+  {
+    "RouteId": "c535d2c3-d92f-40ff-b358-18a85fcc842c",
+    "RouteLabel": "Manglisi (მანგლისი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/c535d2c3-d92f-40ff-b358-18a85fcc842c"
+  },
+  {
+    "RouteId": "0ddefc76-4483-4660-96f1-79fc7e6b6434",
+    "RouteLabel": "Tbilisi (თბილისი) - Dedoplis Tskaro (დედოფლისწყარო)",
+    "SourceUrl": "https://marshrutka.info/line/0ddefc76-4483-4660-96f1-79fc7e6b6434"
+  },
+  {
+    "RouteId": "d882c51e-c4b8-423e-89b1-0d4cfd89f7df",
+    "RouteLabel": "Tbilisi (თბილისი) - Marneuli (მარნეული)",
+    "SourceUrl": "https://marshrutka.info/line/d882c51e-c4b8-423e-89b1-0d4cfd89f7df"
+  },
+  {
+    "RouteId": "82286e7e-fe73-4446-b156-390c4a5f6f7e",
+    "RouteLabel": "Tbilisi (თბილისი) - Bakuriani (ბაკურიანი) Nikoloz",
+    "SourceUrl": "https://marshrutka.info/line/82286e7e-fe73-4446-b156-390c4a5f6f7e"
+  },
+  {
+    "RouteId": "e8e668e3-3f85-4727-9cc6-4159e6c20f83",
+    "RouteLabel": "Bakuriani (ბაკურიანი) - Tbilisi (თბილისი) Nikoloz",
+    "SourceUrl": "https://marshrutka.info/line/e8e668e3-3f85-4727-9cc6-4159e6c20f83"
+  },
+  {
+    "RouteId": "9b3073fd-99e1-4ed8-b55f-941ead115478",
+    "RouteLabel": "Tbilisi (თბილისი) (Station Square) - Mestia (მესტია)",
+    "SourceUrl": "https://marshrutka.info/line/9b3073fd-99e1-4ed8-b55f-941ead115478"
+  },
+  {
+    "RouteId": "c444a36a-d0f8-4581-87c5-661de8ee02a3",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Abastumani (აბასთუმანი)",
+    "SourceUrl": "https://marshrutka.info/line/c444a36a-d0f8-4581-87c5-661de8ee02a3"
+  },
+  {
+    "RouteId": "18db8fa3-14ee-47f4-9fe3-8ae2e86ec456",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Vardzia (ვარძია)",
+    "SourceUrl": "https://marshrutka.info/line/18db8fa3-14ee-47f4-9fe3-8ae2e86ec456"
+  },
+  {
+    "RouteId": "7d519a84-e387-48dd-a613-6b7bed5cdc8a",
+    "RouteLabel": "Vardzia (ვარძია) - Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/line/7d519a84-e387-48dd-a613-6b7bed5cdc8a"
+  },
+  {
+    "RouteId": "a54cf661-30cf-4208-b3ba-7c5f7b673024",
+    "RouteLabel": "Chiatura (ჭიათურა) - Samtredia (სამტრედია)",
+    "SourceUrl": "https://marshrutka.info/line/a54cf661-30cf-4208-b3ba-7c5f7b673024"
+  },
+  {
+    "RouteId": "3a24b361-ef64-4b66-8ac6-5b56f1c77c88",
+    "RouteLabel": "Tbilisi (თბილისი) - Nigozeti (ნიგოზეთი)",
+    "SourceUrl": "https://marshrutka.info/line/3a24b361-ef64-4b66-8ac6-5b56f1c77c88"
+  },
+  {
+    "RouteId": "319f3c1b-7c41-4907-b17f-0ec80f696c93",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/319f3c1b-7c41-4907-b17f-0ec80f696c93"
+  },
+  {
+    "RouteId": "aa19b5a1-4a1c-43be-827f-24af1cba3467",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/aa19b5a1-4a1c-43be-827f-24af1cba3467"
+  },
+  {
+    "RouteId": "2fbfae3c-aca9-4549-a221-3365b1359475",
+    "RouteLabel": "Sachkhere (საჩხერე) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/2fbfae3c-aca9-4549-a221-3365b1359475"
+  },
+  {
+    "RouteId": "9514a6f4-6330-4d1b-8702-d11e42033e73",
+    "RouteLabel": "Sachkhere (საჩხერე) - Rustavi (რუსთავი)",
+    "SourceUrl": "https://marshrutka.info/line/9514a6f4-6330-4d1b-8702-d11e42033e73"
+  },
+  {
+    "RouteId": "106da147-a514-42b1-9082-2908fb6eae8d",
+    "RouteLabel": "Sachkhere (საჩხერე) - Sairkhe (საირხე)",
+    "SourceUrl": "https://marshrutka.info/line/106da147-a514-42b1-9082-2908fb6eae8d"
+  },
+  {
+    "RouteId": "1794e73e-fdae-42b2-9b0d-fe156d80bcf6",
+    "RouteLabel": "Sachkhere (საჩხერე) - Chorvila (ჭორვილა)",
+    "SourceUrl": "https://marshrutka.info/line/1794e73e-fdae-42b2-9b0d-fe156d80bcf6"
+  },
+  {
+    "RouteId": "ef04c45b-fa4e-4e50-926f-e6499a4eca1d",
+    "RouteLabel": "Sachkhere (საჩხერე) - Khashuri (ხაშური)",
+    "SourceUrl": "https://marshrutka.info/line/ef04c45b-fa4e-4e50-926f-e6499a4eca1d"
+  },
+  {
+    "RouteId": "c05a48b1-9f48-408a-8ba5-49128e61613c",
+    "RouteLabel": "Sachkhere (საჩხერე) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/c05a48b1-9f48-408a-8ba5-49128e61613c"
+  },
+  {
+    "RouteId": "2f32a1c6-7f10-4357-b99b-b63d386bb6d0",
+    "RouteLabel": "Sachkhere (საჩხერე) - Samtredia (სამტრედია)",
+    "SourceUrl": "https://marshrutka.info/line/2f32a1c6-7f10-4357-b99b-b63d386bb6d0"
+  },
+  {
+    "RouteId": "bbbb4691-7153-4504-90e4-7bd50ce9746e",
+    "RouteLabel": "Sachkhere (საჩხერე) - Jalaurta (ჯალაურთა)",
+    "SourceUrl": "https://marshrutka.info/line/bbbb4691-7153-4504-90e4-7bd50ce9746e"
+  },
+  {
+    "RouteId": "994d73e7-e62d-4a15-9b82-51faa51825b4",
+    "RouteLabel": "Sachkhere (საჩხერე) - Modzvi (მოძვი)",
+    "SourceUrl": "https://marshrutka.info/line/994d73e7-e62d-4a15-9b82-51faa51825b4"
+  },
+  {
+    "RouteId": "d4c9366c-b45e-4504-801c-c2c7416f7393",
+    "RouteLabel": "Sachkhere (საჩხერე) - Khvani (ხვანი)",
+    "SourceUrl": "https://marshrutka.info/line/d4c9366c-b45e-4504-801c-c2c7416f7393"
+  },
+  {
+    "RouteId": "7bf54788-9dd3-492d-8f6e-a547b209ec6c",
+    "RouteLabel": "Sachkhere (საჩხერე) - Bajiti (ბაჯითი)/Sareki (სარეკი)/Mokhva (მოხვა)/Tskhomareti (ცხომარეთი)",
+    "SourceUrl": "https://marshrutka.info/line/7bf54788-9dd3-492d-8f6e-a547b209ec6c"
+  },
+  {
+    "RouteId": "c2873076-c5ce-4bfa-adf5-fd0718db3061",
+    "RouteLabel": "Chiatura (ჭიათურა) - Poti (ფოთი)",
+    "SourceUrl": "https://marshrutka.info/line/c2873076-c5ce-4bfa-adf5-fd0718db3061"
+  },
+  {
+    "RouteId": "204d1395-08b5-409d-a391-69ce68a8cc04",
+    "RouteLabel": "Chiatura (ჭიათურა) - Khashuri (ხაშური)",
+    "SourceUrl": "https://marshrutka.info/line/204d1395-08b5-409d-a391-69ce68a8cc04"
+  },
+  {
+    "RouteId": "da689e3f-c73e-400d-9b30-224c176f37b0",
+    "RouteLabel": "Chiatura (ჭიათურა) - Rustavi (რუსთავი)",
+    "SourceUrl": "https://marshrutka.info/line/da689e3f-c73e-400d-9b30-224c176f37b0"
+  },
+  {
+    "RouteId": "a6f04a0a-d444-4607-b90c-9b0b9cee5f45",
+    "RouteLabel": "Chiatura (ჭიათურა) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/a6f04a0a-d444-4607-b90c-9b0b9cee5f45"
+  },
+  {
+    "RouteId": "c2eeb8f8-eca4-4e9d-8d97-f259a4b2dcd0",
+    "RouteLabel": "Sachkhere (საჩხერე) - Perevi (პერევი)",
+    "SourceUrl": "https://marshrutka.info/line/c2eeb8f8-eca4-4e9d-8d97-f259a4b2dcd0"
+  },
+  {
+    "RouteId": "7b8b7b9b-2558-4f04-b66d-0e025824caef",
+    "RouteLabel": "Sachkhere (საჩხერე) - Chiatura (ჭიათურა)",
+    "SourceUrl": "https://marshrutka.info/line/7b8b7b9b-2558-4f04-b66d-0e025824caef"
+  },
+  {
+    "RouteId": "143e58e5-d0d8-4b57-af78-29b332944810",
+    "RouteLabel": "Chiatura (ჭიათურა) - Sachkhere (საჩხერე)",
+    "SourceUrl": "https://marshrutka.info/line/143e58e5-d0d8-4b57-af78-29b332944810"
+  },
+  {
+    "RouteId": "7601442b-f956-4093-bec9-7c25812d5580",
+    "RouteLabel": "Sachkhere (საჩხერე) - Zeda Chalovani (ზედა ჭალოვანი)",
+    "SourceUrl": "https://marshrutka.info/line/7601442b-f956-4093-bec9-7c25812d5580"
+  },
+  {
+    "RouteId": "a1c8548d-966c-434e-abe6-d3704f316607",
+    "RouteLabel": "Sachkhere (საჩხერე) - Savane (სავანე)",
+    "SourceUrl": "https://marshrutka.info/line/a1c8548d-966c-434e-abe6-d3704f316607"
+  },
+  {
+    "RouteId": "e6d3358b-d902-451d-83af-8dda5dd42aee",
+    "RouteLabel": "Sachkhere (საჩხერე) - Gorisa (გორისა)",
+    "SourceUrl": "https://marshrutka.info/line/e6d3358b-d902-451d-83af-8dda5dd42aee"
+  },
+  {
+    "RouteId": "bde1abfd-ab42-433a-8e4d-1725920b0b3e",
+    "RouteLabel": "Sachkhere (საჩხერე) - Itkhvisi (ითხვისი)",
+    "SourceUrl": "https://marshrutka.info/line/bde1abfd-ab42-433a-8e4d-1725920b0b3e"
+  },
+  {
+    "RouteId": "2d6111ef-9c42-4370-8fa3-94f8f5f4e20e",
+    "RouteLabel": "Chiatura (ჭიათურა) - Tuzi (თუზი)",
+    "SourceUrl": "https://marshrutka.info/line/2d6111ef-9c42-4370-8fa3-94f8f5f4e20e"
+  },
+  {
+    "RouteId": "2f6f7581-20aa-4924-b2af-ca25254d0597",
+    "RouteLabel": "Chiatura (ჭიათურა) - Bigha (ბიღა)",
+    "SourceUrl": "https://marshrutka.info/line/2f6f7581-20aa-4924-b2af-ca25254d0597"
+  },
+  {
+    "RouteId": "443229b1-1ab2-4de2-a592-932ca4bb3041",
+    "RouteLabel": "Chiatura (ჭიათურა) - Rtskhilati (რცხილათი)",
+    "SourceUrl": "https://marshrutka.info/line/443229b1-1ab2-4de2-a592-932ca4bb3041"
+  },
+  {
+    "RouteId": "d8fd694d-afbe-48de-886e-037a39bfd5a8",
+    "RouteLabel": "Chiatura (ჭიათურა) - Melusheeti (მელუშეეთი)",
+    "SourceUrl": "https://marshrutka.info/line/d8fd694d-afbe-48de-886e-037a39bfd5a8"
+  },
+  {
+    "RouteId": "ada384ca-4db5-457f-b0c6-967bdcaff1f7",
+    "RouteLabel": "Chiatura (ჭიათურა) - Rgani (რგანი)",
+    "SourceUrl": "https://marshrutka.info/line/ada384ca-4db5-457f-b0c6-967bdcaff1f7"
+  },
+  {
+    "RouteId": "2915f7fb-5a8a-4bfe-967f-1567ef70ed7a",
+    "RouteLabel": "Chiatura (ჭიათურა) - Khreiti (ხრეითი)",
+    "SourceUrl": "https://marshrutka.info/line/2915f7fb-5a8a-4bfe-967f-1567ef70ed7a"
+  },
+  {
+    "RouteId": "b9d781da-c861-418e-a9ea-06a10b5d9a41",
+    "RouteLabel": "Chiatura (ჭიათურა) - Tsirkvali (წირქვალი)",
+    "SourceUrl": "https://marshrutka.info/line/b9d781da-c861-418e-a9ea-06a10b5d9a41"
+  },
+  {
+    "RouteId": "171a14e3-e8c7-445d-b4b3-928bbd1b90a3",
+    "RouteLabel": "Chiatura (ჭიათურა) - Tabagrebi (თაბაგრები)",
+    "SourceUrl": "https://marshrutka.info/line/171a14e3-e8c7-445d-b4b3-928bbd1b90a3"
+  },
+  {
+    "RouteId": "beb7da8f-d3c4-4d0f-a82e-71090f3d7df9",
+    "RouteLabel": "Akhalkalaki (ახალქალაქი) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/beb7da8f-d3c4-4d0f-a82e-71090f3d7df9"
+  },
+  {
+    "RouteId": "5ceb5886-daca-4968-943c-241008c42534",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Vale, Georgia (ვალე)",
+    "SourceUrl": "https://marshrutka.info/line/5ceb5886-daca-4968-943c-241008c42534"
+  },
+  {
+    "RouteId": "ff12692f-b402-4688-a633-1691b35da540",
+    "RouteLabel": "Vale, Georgia (ვალე) - Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/line/ff12692f-b402-4688-a633-1691b35da540"
+  },
+  {
+    "RouteId": "499b5d60-b84a-4e09-a879-30b3e7491da3",
+    "RouteLabel": "Khashuri (ხაშური) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/499b5d60-b84a-4e09-a879-30b3e7491da3"
+  },
+  {
+    "RouteId": "aa5b34fe-b50d-4ee3-95d5-41ff978b1ea6",
+    "RouteLabel": "Khashuri (ხაშური) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/aa5b34fe-b50d-4ee3-95d5-41ff978b1ea6"
+  },
+  {
+    "RouteId": "e8119e95-062f-4e1d-ac4a-3d464c1ac31e",
+    "RouteLabel": "Khashuri (ხაშური) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/e8119e95-062f-4e1d-ac4a-3d464c1ac31e"
+  },
+  {
+    "RouteId": "31732757-17ea-4988-ab5e-094eb2488640",
+    "RouteLabel": "Khashuri (ხაშური) - Gori (გორი)",
+    "SourceUrl": "https://marshrutka.info/line/31732757-17ea-4988-ab5e-094eb2488640"
+  },
+  {
+    "RouteId": "2289dbd8-de1e-4df2-927b-42af5478078c",
+    "RouteLabel": "Tsalka (წალკა) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/2289dbd8-de1e-4df2-927b-42af5478078c"
+  },
+  {
+    "RouteId": "45fe939d-df4d-468a-b1d7-1cae09062933",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Muskhi (მუსხი) - Andriatsminda (ანდრიაწმინდა)",
+    "SourceUrl": "https://marshrutka.info/line/45fe939d-df4d-468a-b1d7-1cae09062933"
+  },
+  {
+    "RouteId": "1a8b86c8-fb08-49db-8518-072373a6d18f",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Ivlita (ივლიტა) - Tskruti (წყრუთი) - Mikeltsminda (მიქელწმინდა) -  Tsira (წირა)",
+    "SourceUrl": "https://marshrutka.info/line/1a8b86c8-fb08-49db-8518-072373a6d18f"
+  },
+  {
+    "RouteId": "3518d815-6042-4183-9cf0-c280047076f2",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Klde (კლდე)",
+    "SourceUrl": "https://marshrutka.info/line/3518d815-6042-4183-9cf0-c280047076f2"
+  },
+  {
+    "RouteId": "7cce3c09-adef-4598-b9cb-dbd85a4e84ed",
+    "RouteLabel": "Klde (კლდე) - Akhaltsikhe (ახალციხე)",
+    "SourceUrl": "https://marshrutka.info/line/7cce3c09-adef-4598-b9cb-dbd85a4e84ed"
+  },
+  {
+    "RouteId": "921f5b7c-0a85-4a55-bdd1-73bf57276f3c",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Chvinta (ჭვინთა) - Eliatsminda (ელიაწმინდა)",
+    "SourceUrl": "https://marshrutka.info/line/921f5b7c-0a85-4a55-bdd1-73bf57276f3c"
+  },
+  {
+    "RouteId": "ffe3cc5d-4614-4a1d-9e7d-4578eeaaf570",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Ani (ანი)",
+    "SourceUrl": "https://marshrutka.info/line/ffe3cc5d-4614-4a1d-9e7d-4578eeaaf570"
+  },
+  {
+    "RouteId": "78687984-220c-41d0-b528-1979231679f6",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Persa (ფერსა) - Agara (აგარა) - Gurkeli (გურკელი)",
+    "SourceUrl": "https://marshrutka.info/line/78687984-220c-41d0-b528-1979231679f6"
+  },
+  {
+    "RouteId": "b54a66ad-a332-45cb-a21a-1be1efebf33d",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Tbilisi (თბილისი)",
+    "SourceUrl": "https://marshrutka.info/line/b54a66ad-a332-45cb-a21a-1be1efebf33d"
+  },
+  {
+    "RouteId": "0aeab33b-232a-4d71-9a15-ba1796a90211",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/0aeab33b-232a-4d71-9a15-ba1796a90211"
+  },
+  {
+    "RouteId": "568eb0ac-dc2d-44ab-abd5-9ecb82dcc3d5",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Zugdidi (ზუგდიდი)",
+    "SourceUrl": "https://marshrutka.info/line/568eb0ac-dc2d-44ab-abd5-9ecb82dcc3d5"
+  },
+  {
+    "RouteId": "7dedd0ce-cf06-4faf-8ed4-b608317142dd",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Batumi (ბათუმი)",
+    "SourceUrl": "https://marshrutka.info/line/7dedd0ce-cf06-4faf-8ed4-b608317142dd"
+  },
+  {
+    "RouteId": "43f472cf-2005-4b29-8378-c3fdd7d035ef",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Poti (ფოთი)",
+    "SourceUrl": "https://marshrutka.info/line/43f472cf-2005-4b29-8378-c3fdd7d035ef"
+  },
+  {
+    "RouteId": "f8d6b529-2cc6-470e-bcf2-426cfaae1280",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Chiatura (ჭიათურა)",
+    "SourceUrl": "https://marshrutka.info/line/f8d6b529-2cc6-470e-bcf2-426cfaae1280"
+  },
+  {
+    "RouteId": "8668fd43-13b4-4af7-a078-43a8136ccdfc",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Tkibuli (ტყიბული)",
+    "SourceUrl": "https://marshrutka.info/line/8668fd43-13b4-4af7-a078-43a8136ccdfc"
+  },
+  {
+    "RouteId": "263a7364-d991-4038-918d-3e5ebdcccce8",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Baghdati (ბაღდათი)",
+    "SourceUrl": "https://marshrutka.info/line/263a7364-d991-4038-918d-3e5ebdcccce8"
+  },
+  {
+    "RouteId": "a00497cf-c407-49ba-b6ce-fe45a20265f1",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Tuzi (თუზი)",
+    "SourceUrl": "https://marshrutka.info/line/a00497cf-c407-49ba-b6ce-fe45a20265f1"
+  },
+  {
+    "RouteId": "9a06c0b6-56d2-498e-aade-fa95ea0ea1da",
+    "RouteLabel": "Zestaponi/Zestafoni (ზესტაფონი) - Zeda-Sazano (ზედა საზანო)",
+    "SourceUrl": "https://marshrutka.info/line/9a06c0b6-56d2-498e-aade-fa95ea0ea1da"
+  },
+  {
+    "RouteId": "30750731-ac4f-494a-97fd-8b800dd28983",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Navenakhevi (ნავენახევი)",
+    "SourceUrl": "https://marshrutka.info/line/30750731-ac4f-494a-97fd-8b800dd28983"
+  },
+  {
+    "RouteId": "fe61180e-02e5-45e0-8a41-f7337bec961c",
+    "RouteLabel": "N30 Tsqaltubo/Tskaltubo (წყალტუბო) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/fe61180e-02e5-45e0-8a41-f7337bec961c"
+  },
+  {
+    "RouteId": "d80b4e3e-75c4-440b-868f-dfd908772436",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Tsageri (ცაგერი)",
+    "SourceUrl": "https://marshrutka.info/line/d80b4e3e-75c4-440b-868f-dfd908772436"
+  },
+  {
+    "RouteId": "1dad2a69-a597-4580-9fa0-a1f35736a023",
+    "RouteLabel": "Tsageri (ცაგერი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/1dad2a69-a597-4580-9fa0-a1f35736a023"
+  },
+  {
+    "RouteId": "75e69795-3315-4277-822d-5200232c0fc5",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Lentekhi (ლენტეხი)",
+    "SourceUrl": "https://marshrutka.info/line/75e69795-3315-4277-822d-5200232c0fc5"
+  },
+  {
+    "RouteId": "c4b9855f-846d-4083-ba24-6500dc6fad9b",
+    "RouteLabel": "Lentekhi (ლენტეხი) - Kutaisi (ქუთაისი)",
+    "SourceUrl": "https://marshrutka.info/line/c4b9855f-846d-4083-ba24-6500dc6fad9b"
+  },
+  {
+    "RouteId": "75d98e70-aa9e-483e-a6db-de1bb8d8a36b",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Rustavi (რუსთავი)",
+    "SourceUrl": "https://marshrutka.info/line/75d98e70-aa9e-483e-a6db-de1bb8d8a36b"
+  },
+  {
+    "RouteId": "28fafffb-f26b-4766-bc00-3c8cb7bb3a0c",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Khashuri (ხაშური)",
+    "SourceUrl": "https://marshrutka.info/line/28fafffb-f26b-4766-bc00-3c8cb7bb3a0c"
+  },
+  {
+    "RouteId": "22c248aa-5b31-466d-b896-a943cb71505c",
+    "RouteLabel": "Kutaisi (ქუთაისი) - Chikhori (ჩიხორი)",
+    "SourceUrl": "https://marshrutka.info/line/22c248aa-5b31-466d-b896-a943cb71505c"
+  },
+  {
+    "RouteId": "ab0c5f58-4b48-47de-b8c2-d456877758d5",
+    "RouteLabel": "Chiatura (ჭიათურა) - Gori (გორი)",
+    "SourceUrl": "https://marshrutka.info/line/ab0c5f58-4b48-47de-b8c2-d456877758d5"
+  },
+  {
+    "RouteId": "947e75eb-f197-4460-9369-34951f9d0748",
+    "RouteLabel": "Chiatura (ჭიათურა) - Etseri, Chiatura Municipality (ეწერი)",
+    "SourceUrl": "https://marshrutka.info/line/947e75eb-f197-4460-9369-34951f9d0748"
+  },
+  {
+    "RouteId": "e7dee471-c50b-427d-a16e-0375427d4f36",
+    "RouteLabel": "Chiatura (ჭიათურა) - Terjola (თერჯოლა)",
+    "SourceUrl": "https://marshrutka.info/line/e7dee471-c50b-427d-a16e-0375427d4f36"
+  },
+  {
+    "RouteId": "10cbaad3-8665-49ce-982f-17598cd88307",
+    "RouteLabel": "Chiatura (ჭიათურა) - Kareli, Georgia (ქარელი)",
+    "SourceUrl": "https://marshrutka.info/line/10cbaad3-8665-49ce-982f-17598cd88307"
+  },
+  {
+    "RouteId": "4a9447c7-e0f1-466d-91af-4b6a3bce724a",
+    "RouteLabel": "Chiatura (ჭიათურა) - Dilikauri (დილიკაური)",
+    "SourceUrl": "https://marshrutka.info/line/4a9447c7-e0f1-466d-91af-4b6a3bce724a"
+  },
+  {
+    "RouteId": "56b46b7b-42e3-4bf0-a3e8-c3e6d594f761",
+    "RouteLabel": "Sachkhere (საჩხერე) - Makhatauri (მახათაური)",
+    "SourceUrl": "https://marshrutka.info/line/56b46b7b-42e3-4bf0-a3e8-c3e6d594f761"
+  },
+  {
+    "RouteId": "b9ddb564-94c6-42e5-8f6d-576f63003c91",
+    "RouteLabel": "Sachkhere (საჩხერე) - Korbouli (კორბოული)",
+    "SourceUrl": "https://marshrutka.info/line/b9ddb564-94c6-42e5-8f6d-576f63003c91"
+  },
+  {
+    "RouteId": "5ed1eb48-2417-4207-a9d8-87931ff8ad10",
+    "RouteLabel": "Sachkhere (საჩხერე) - Skhvitori (სხვიტორი)",
+    "SourceUrl": "https://marshrutka.info/line/5ed1eb48-2417-4207-a9d8-87931ff8ad10"
+  },
+  {
+    "RouteId": "1c3d0168-d984-44b1-9722-d6116a063f17",
+    "RouteLabel": "Sachkhere (საჩხერე) - Irtavaza (ირტავაზა)",
+    "SourceUrl": "https://marshrutka.info/line/1c3d0168-d984-44b1-9722-d6116a063f17"
+  },
+  {
+    "RouteId": "4ccd9b40-f380-4fae-b8c7-22ce3d7d682c",
+    "RouteLabel": "Sachkhere (საჩხერე) - Gori (გორი)",
+    "SourceUrl": "https://marshrutka.info/line/4ccd9b40-f380-4fae-b8c7-22ce3d7d682c"
+  },
+  {
+    "RouteId": "c96ff975-454c-48b2-ba26-7ba2cb783093",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Sviri (სვირი)",
+    "SourceUrl": "https://marshrutka.info/line/c96ff975-454c-48b2-ba26-7ba2cb783093"
+  },
+  {
+    "RouteId": "f5660fae-4d65-4d97-b716-b93c82ec8a05",
+    "RouteLabel": "Akhaltsikhe (ახალციხე) - Khashuri (ხაშური)",
+    "SourceUrl": "https://marshrutka.info/line/f5660fae-4d65-4d97-b716-b93c82ec8a05"
+  },
+  {
+    "RouteId": "48aa0451-9e06-4ef0-8bc3-4b0f7de4ed58",
+    "RouteLabel": "Tbilisi (თბილისი) - Bolnisi (ბოლნისი)",
+    "SourceUrl": "https://marshrutka.info/line/48aa0451-9e06-4ef0-8bc3-4b0f7de4ed58"
+  },
+  {
+    "RouteId": "dbb7afdf-8f1f-4507-91c7-006e16b85c5c",
+    "RouteLabel": "Tabatskuri (ტაბაწყური) - Akhalkalaki (ახალქალაქი)",
+    "SourceUrl": "https://marshrutka.info/line/dbb7afdf-8f1f-4507-91c7-006e16b85c5c"
+  },
+  {
+    "RouteId": "1abc48da-206d-4741-8845-3d69acb7d9db",
+    "RouteLabel": "Tbilisi (თბილისი) - Kvareli (ყვარელი)",
+    "SourceUrl": "https://marshrutka.info/line/1abc48da-206d-4741-8845-3d69acb7d9db"
+  }
+]
