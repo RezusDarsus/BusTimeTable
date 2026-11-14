@@ -146,10 +146,19 @@ namespace GeorgiaTransitIntelligence
                 UseSystemPasswordChar = true,
                 Bounds = new Rectangle(16, 47, 353, 26)
             };
-            var connect = new Button { Text = "Connect", DialogResult = DialogResult.OK, Enabled = false,
-                Bounds = new Rectangle(193, 94, 84, 30) };
-            var cancel = new Button { Text = "Cancel", DialogResult = DialogResult.Cancel,
-                Bounds = new Rectangle(285, 94, 84, 30) };
+            var connect = new Button
+            {
+                Text = "Connect",
+                DialogResult = DialogResult.OK,
+                Enabled = false,
+                Bounds = new Rectangle(193, 94, 84, 30)
+            };
+            var cancel = new Button
+            {
+                Text = "Cancel",
+                DialogResult = DialogResult.Cancel,
+                Bounds = new Rectangle(285, 94, 84, 30)
+            };
             keyInput.TextChanged += (_, _) => connect.Enabled = !string.IsNullOrWhiteSpace(keyInput.Text);
             dialog.Controls.AddRange([label, keyInput, connect, cancel]);
             dialog.AcceptButton = connect;

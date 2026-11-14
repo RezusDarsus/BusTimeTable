@@ -90,7 +90,7 @@ namespace GeorgiaTransitIntelligence
             // Custom domain rule: Origin and Destination must not be identical
             if (string.Equals(txtOrigin.Text.Trim(), txtDestination.Text.Trim(), StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show("Origin and destination cannot be identical for an intercity or municipal route.", 
+                MessageBox.Show("Origin and destination cannot be identical for an intercity or municipal route.",
                     "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDestination.Focus();
                 return; // Dialog remains open

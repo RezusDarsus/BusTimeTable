@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="GeorgiaTransitIntelligence.Tests/GeorgiaTransitIntelligence.Tests.csproj" />
   <Project Path="GeorgiaTransitIntelligence/GeorgiaTransitIntelligence.csproj" />
+  <Project Path="GeorgiaTransitIntelligence.Tests/GeorgiaTransitIntelligence.Tests.csproj" />
 </Solution>
