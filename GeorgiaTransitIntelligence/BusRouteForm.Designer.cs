@@ -146,9 +146,8 @@ namespace GeorgiaTransitIntelligence
             // 
             // dtpDepartureTime
             // 
-            dtpDepartureTime.CustomFormat = "HH:mm";
             dtpDepartureTime.Font = new Font("Segoe UI", 10F);
-            dtpDepartureTime.Format = DateTimePickerFormat.Custom;
+            dtpDepartureTime.Format = DateTimePickerFormat.Time;
             dtpDepartureTime.Location = new Point(150, 199);
             dtpDepartureTime.Name = "dtpDepartureTime";
             dtpDepartureTime.ShowUpDown = true;

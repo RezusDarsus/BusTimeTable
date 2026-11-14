@@ -55,6 +55,6 @@ BEGIN
         (N'GEO-115', N'Kutaisi Airport (KUT)', N'Tbilisi (Pushkin Sq)',   '16:00:00', 240, 25.00, 1),
         (N'GEO-116', N'Kutaisi Airport (KUT)', N'Batumi (Radisson)',      '16:30:00', 130, 20.00, 1),
         (N'GEO-117', N'Tbilisi (Didube)',      N'Borjomi (Park Station)', '17:15:00', 150, 15.00, 0),
-        (N'GEO-118', N'Kutaisi (Chavchavadze)',N'Mestia (Seti Square)',   '07:30:00', 310, 35.00, 0);
+        (N'GEO-118', N'Zugdidi (Bus Station)',N'Mestia (Seti Square / სეტის მოედანი)',   '07:30:00', 210, 30.00, 0);
 END
 GO

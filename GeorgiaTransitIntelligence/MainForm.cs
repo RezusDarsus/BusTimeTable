@@ -1,5 +1,4 @@
-using System.ComponentModel;
-using System.Data;
+using System.Data.Common;
 using GeorgiaTransitIntelligence.Data;
 using GeorgiaTransitIntelligence.Models;
 using GeorgiaTransitIntelligence.Services;
@@ -8,8 +7,6 @@ namespace GeorgiaTransitIntelligence
 {
     /// <summary>
     /// Main window for Georgia Transit Intelligence application.
-    /// Fulfills all 11 university requirements for 25/25 points, bonus CSV export,
-    /// and advanced nationwide transit intelligence.
     /// </summary>
     public partial class MainForm : Form
     {
@@ -21,10 +18,12 @@ namespace GeorgiaTransitIntelligence
 
         private List<BusRoute> currentDisplayedRoutes = new();
         private List<JourneyItinerary> currentItineraries = new();
+        private DateTime lastDepartureBoardMinute;
 
         public MainForm()
         {
             InitializeComponent();
+            StyleSimulationWorkspace();
 
             // Initialize data layer and services
             repository = new BusRouteRepository();
@@ -38,7 +37,144 @@ namespace GeorgiaTransitIntelligence
             geoMapControl.StopSelected += GeoMapControl_StopSelected;
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private static readonly Color SimulationAccent = Color.FromArgb(20, 77, 151);
+
+        private void StyleSimulationWorkspace()
+        {
+            Color ink = Color.FromArgb(24, 48, 54);
+            Color surface = Color.FromArgb(248, 250, 253);
+            pnlSimControls.BackColor = surface;
+            lblSimSpeed.ForeColor = ink;
+            lblSimClock.ForeColor = SimulationAccent;
+            lblSimClock.AutoSize = false;
+            lblSimClock.SetBounds(944, 10, 214, 28);
+            lblSimClock.TextAlign = ContentAlignment.MiddleRight;
+
+            foreach (Button button in new[] { btnSimReset, btnZoomIn, btnZoomOut, btnZoomGeorgia, btnZoomKutaisi })
+            {
+                button.BackColor = Color.FromArgb(232, 239, 248);
+                button.ForeColor = ink;
+            }
+            btnSimPlayPause.BackColor = SimulationAccent;
+
+            var mapStyle = new ComboBox
+            {
+                Name = "cmbSimulationBasemap",
+                AccessibleName = "Map background",
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Bounds = new Rectangle(btnZoomKutaisi.Right + 8, 12, 126, 26)
+            };
+            mapStyle.Items.AddRange(["Schematic", "OpenStreetMap", "Yandex Maps"]);
+            mapStyle.SelectedIndex = 0;
+            int previousMap = 0;
+            string? yandexKey = Environment.GetEnvironmentVariable("GTI_YANDEX_TILES_API_KEY")?.Trim();
+            mapStyle.SelectedIndexChanged += (_, _) =>
+            {
+                int selectedMap = mapStyle.SelectedIndex;
+                if (selectedMap == previousMap) return;
+                if (geoMapControl.YandexKeyRejected) yandexKey = null;
+                if (selectedMap == 2 && string.IsNullOrWhiteSpace(yandexKey))
+                {
+                    yandexKey = PromptForYandexTilesKey();
+                    if (yandexKey is null)
+                    {
+                        mapStyle.SelectedIndex = previousMap;
+                        return;
+                    }
+                }
+                previousMap = selectedMap;
+                geoMapControl.SelectBasemap(selectedMap != 0, selectedMap == 2 ? yandexKey : null);
+            };
+            pnlSimControls.Controls.Add(mapStyle);
+            pnlSimControls.Resize += (_, _) =>
+                lblSimClock.SetBounds(mapStyle.Right + 8, 10,
+                    Math.Max(0, pnlSimControls.ClientSize.Width - mapStyle.Right - 24), 28);
+
+            pnlVehicleInspector.Controls.Clear();
+            pnlVehicleInspector.BackColor = surface;
+            pnlVehicleInspector.Dock = DockStyle.None;
+            pnlVehicleInspector.Size = new Size(260, 128);
+            tabSimulation.Resize += (_, _) => PlaceSimulationInspector();
+            PlaceSimulationInspector();
+            pnlVehicleInspector.Padding = new Padding(16);
+            pnlVehicleInspector.BorderStyle = BorderStyle.FixedSingle;
+            pnlVehicleInspector.BringToFront();
+            var inspector = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                AutoScroll = true
+            };
+            foreach (Label label in new[] { lblInspectorHeader, lblInspectorOperator, lblInspectorRoute,
+                     lblInspectorDeparture, lblInspectorArrival, lblInspectorNextStop, lblInspectorStatus })
+            {
+                label.ForeColor = ink;
+                label.MaximumSize = new Size(204, 0);
+                label.Margin = new Padding(0, 0, 0, 9);
+                inspector.Controls.Add(label);
+            }
+            lblInspectorHeader.Font = new Font("Segoe UI Semibold", 13F);
+            lblInspectorOperator.ForeColor = Color.FromArgb(75, 101, 105);
+            lblInspectorStatus.ForeColor = SimulationAccent;
+            lblInspectorOperator.Text = "Select a vehicle to inspect its route.";
+            pnlVehicleInspector.Controls.Add(inspector);
+            SetInspectorDetailsVisible(false);
+        }
+
+        private string? PromptForYandexTilesKey()
+        {
+            using var dialog = new Form
+            {
+                Text = "Connect Yandex Maps",
+                ClientSize = new Size(385, 145),
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent,
+                MaximizeBox = false,
+                MinimizeBox = false
+            };
+            var label = new Label
+            {
+                Text = "Enter a Yandex Tiles API key for this device.",
+                AutoSize = true,
+                Location = new Point(16, 16)
+            };
+            var keyInput = new TextBox
+            {
+                Name = "txtYandexTilesKey",
+                AccessibleName = "Yandex Tiles API key",
+                UseSystemPasswordChar = true,
+                Bounds = new Rectangle(16, 47, 353, 26)
+            };
+            var connect = new Button { Text = "Connect", DialogResult = DialogResult.OK, Enabled = false,
+                Bounds = new Rectangle(193, 94, 84, 30) };
+            var cancel = new Button { Text = "Cancel", DialogResult = DialogResult.Cancel,
+                Bounds = new Rectangle(285, 94, 84, 30) };
+            keyInput.TextChanged += (_, _) => connect.Enabled = !string.IsNullOrWhiteSpace(keyInput.Text);
+            dialog.Controls.AddRange([label, keyInput, connect, cancel]);
+            dialog.AcceptButton = connect;
+            dialog.CancelButton = cancel;
+            return dialog.ShowDialog(this) == DialogResult.OK ? keyInput.Text.Trim() : null;
+        }
+
+        private void PlaceSimulationInspector()
+        {
+            pnlVehicleInspector.Location = new Point(
+                tabSimulation.ClientSize.Width - pnlVehicleInspector.Width - 18,
+                pnlSimControls.Bottom + 18);
+        }
+
+        private void SetInspectorDetailsVisible(bool visible)
+        {
+            pnlVehicleInspector.Height = visible ? Math.Min(360, tabSimulation.ClientSize.Height - 84) : 128;
+            lblInspectorRoute.Visible = visible;
+            lblInspectorDeparture.Visible = visible;
+            lblInspectorArrival.Visible = visible;
+            lblInspectorNextStop.Visible = visible;
+            lblInspectorStatus.Visible = visible;
+        }
+
+        private async void MainForm_Load(object sender, EventArgs e)
         {
             ConfigureDataGridView();
 
@@ -62,10 +198,15 @@ namespace GeorgiaTransitIntelligence
             simTimer.Start();
 
             // Background load heavy municipal timetable without freezing UI
-            Task.Run(async () =>
+            try
             {
                 await municipalLoader.LoadTimetableAsync();
-            });
+                UpdateDepartureBoard();
+            }
+            catch (IOException)
+            {
+                lblDepartureBoardStatus.Text = "Timetable could not be read.";
+            }
         }
 
         #region Priority A — University Graded CRUD & Search
@@ -157,18 +298,34 @@ namespace GeorgiaTransitIntelligence
             });
         }
 
-        private void LoadRoutes()
+        private void LoadRoutes(string? statusMessage = null)
         {
             string searchText = txtSearch.Text;
             string filter = cmbFilter.SelectedItem?.ToString() ?? "All";
 
-            currentDisplayedRoutes = repository.Search(searchText, filter);
-            dgvBusRoutes.DataSource = currentDisplayedRoutes;
-
-            int total = repository.CountAll();
+            int total;
+            try
+            {
+                var routes = repository.Search(searchText, filter);
+                total = repository.CountAll();
+                currentDisplayedRoutes = routes;
+                dgvBusRoutes.DataSource = routes;
+            }
+            catch (DbException)
+            {
+                lblDbStatus.Text = "LocalDB query failed";
+                lblStatus.Text = statusMessage is null
+                    ? "Could not load routes from LocalDB. Click Refresh to try again."
+                    : $"{statusMessage} Grid refresh failed. Click Refresh to try again.";
+                return;
+            }
             int shown = currentDisplayedRoutes.Count;
 
-            if (shown == 0)
+            if (statusMessage is not null)
+            {
+                lblStatus.Text = statusMessage;
+            }
+            else if (shown == 0)
             {
                 lblStatus.Text = "No bus routes match your search criteria.";
             }
@@ -177,9 +334,11 @@ namespace GeorgiaTransitIntelligence
                 lblStatus.Text = $"Showing {shown} of {total} bus routes.";
             }
 
-            lblDbStatus.Text = repository.IsLocalDbAvailable
-                ? "Database: (localdb)\\MSSQLLocalDB [Live Connected]"
-                : "Database: Standalone Seed Mode [LocalDB Unavailable]";
+            bool usingLocalDb = repository.IsLocalDbAvailable;
+            lblDbStatus.ForeColor = usingLocalDb ? Color.DarkGreen : Color.SaddleBrown;
+            lblDbStatus.Text = usingLocalDb
+                ? "LocalDB [Live Connected]"
+                : "Demo mode · Changes last until exit";
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -197,7 +356,6 @@ namespace GeorgiaTransitIntelligence
             txtSearch.Clear();
             cmbFilter.SelectedIndex = 0; // "All"
             LoadRoutes();
-            lblStatus.Text = "Timetable refreshed from database.";
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -206,9 +364,7 @@ namespace GeorgiaTransitIntelligence
             {
                 if (form.ShowDialog(this) == DialogResult.OK)
                 {
-                    int newId = repository.Add(form.CurrentRoute);
-                    lblStatus.Text = $"Bus route '{form.CurrentRoute.RouteNumber}' added successfully.";
-                    LoadRoutes();
+                    SaveRouteChange(() => repository.Add(form.CurrentRoute), form.CurrentRoute.RouteNumber, "added");
                 }
             }
         }
@@ -240,9 +396,7 @@ namespace GeorgiaTransitIntelligence
                 {
                     if (form.ShowDialog(this) == DialogResult.OK)
                     {
-                        repository.Update(form.CurrentRoute);
-                        lblStatus.Text = $"Bus route '{form.CurrentRoute.RouteNumber}' updated successfully.";
-                        LoadRoutes();
+                        SaveRouteChange(() => repository.Update(form.CurrentRoute), form.CurrentRoute.RouteNumber, "updated");
                     }
                 }
             }
@@ -258,18 +412,34 @@ namespace GeorgiaTransitIntelligence
 
             if (dgvBusRoutes.CurrentRow.DataBoundItem is BusRoute selected)
             {
-                var result = MessageBox.Show(
+                var result = MessageBox.Show(this,
                     $"Are you sure you want to delete route '{selected.RouteNumber}' from {selected.Origin} to {selected.Destination}?",
                     "Confirm Deletion",
                     MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button2);
 
                 if (result == DialogResult.Yes)
                 {
-                    repository.Delete(selected.Id);
-                    lblStatus.Text = $"Bus route '{selected.RouteNumber}' deleted.";
-                    LoadRoutes();
+                    SaveRouteChange(() => repository.Delete(selected.Id), selected.RouteNumber, "deleted");
                 }
+            }
+        }
+
+        private void SaveRouteChange(Func<int> save, string routeNumber, string action)
+        {
+            try
+            {
+                int affected = save();
+                string storage = repository.IsLocalDbAvailable ? string.Empty : " for this session";
+                LoadRoutes(affected > 0
+                    ? $"Bus route '{routeNumber}' {action}{storage}."
+                    : $"Bus route '{routeNumber}' is no longer available.");
+            }
+            catch (DbException ex)
+            {
+                lblStatus.Text = $"Could not confirm that route '{routeNumber}' was {action}.";
+                MessageBox.Show(this, ex.Message, "Database operation failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -470,7 +640,15 @@ namespace GeorgiaTransitIntelligence
             simulationService.Tick(0.3); // 300ms per tick
 
             DateTime clock = simulationService.CurrentSimulatedTime;
-            lblSimClock.Text = $"Sim Clock: {clock:HH:mm:ss} (UTC+4)";
+            lblSimClock.Text = $"{clock:HH:mm:ss} · Georgia time";
+
+            if (tabDepartureBoard.Visible && clock.Ticks / TimeSpan.TicksPerMinute != lastDepartureBoardMinute.Ticks / TimeSpan.TicksPerMinute)
+            {
+                lastDepartureBoardMinute = clock;
+                UpdateDepartureBoard();
+            }
+
+            if (tabControlMain.SelectedTab != tabSimulation) return;
 
             // Update active vehicles on map
             var vehicles = simulationService.GetActiveVehicles(
@@ -485,14 +663,14 @@ namespace GeorgiaTransitIntelligence
         {
             simulationService.IsPaused = !simulationService.IsPaused;
             btnSimPlayPause.Text = simulationService.IsPaused ? "▶ Play" : "⏸ Pause";
-            btnSimPlayPause.BackColor = simulationService.IsPaused ? Color.FromArgb(46, 125, 50) : Color.FromArgb(15, 108, 189);
+            btnSimPlayPause.BackColor = SimulationAccent;
         }
 
         private void btnSimReset_Click(object sender, EventArgs e)
         {
             simulationService.ResetToRealTime();
             btnSimPlayPause.Text = "⏸ Pause";
-            btnSimPlayPause.BackColor = Color.FromArgb(15, 108, 189);
+            btnSimPlayPause.BackColor = SimulationAccent;
             cmbSimSpeed.SelectedIndex = 0;
         }
 
@@ -514,6 +692,7 @@ namespace GeorgiaTransitIntelligence
 
         private void GeoMapControl_VehicleSelected(VehiclePosition vehicle)
         {
+            SetInspectorDetailsVisible(true);
             lblInspectorOperator.Text = vehicle.OperatorName;
             lblInspectorRoute.Text = $"Route: {vehicle.RouteNumber} ({vehicle.Origin} → {vehicle.Destination})";
             lblInspectorDeparture.Text = $"Scheduled Dep: {vehicle.ScheduledDeparture:hh\\:mm}";
@@ -524,6 +703,7 @@ namespace GeorgiaTransitIntelligence
 
         private void GeoMapControl_StopSelected(MunicipalStop stop)
         {
+            SetInspectorDetailsVisible(true);
             lblInspectorOperator.Text = "Kutaisi Municipal Stop";
             lblInspectorRoute.Text = $"Stop #{stop.StopCode}: {stop.StopName}";
             lblInspectorDeparture.Text = $"Stop ID: {stop.StopId}";
@@ -586,68 +766,36 @@ namespace GeorgiaTransitIntelligence
 
         private void PopulateDepartureBoardStops()
         {
-            cmbDepartureStop.Items.Clear();
-            cmbDepartureStop.Items.Add("Kutaisi - Chavchavadze Bus Terminal (Central)");
-            cmbDepartureStop.Items.Add("Kutaisi - Red Bridge (წითელი ხიდი)");
-            cmbDepartureStop.Items.Add("Kutaisi - Rustaveli Avenue #10");
-            cmbDepartureStop.Items.Add("Tbilisi - Didube Bus Terminal");
-            cmbDepartureStop.Items.Add("Tbilisi - Ortachala Central Bus Station");
-            cmbDepartureStop.Items.Add("Batumi - Central Bus Station");
-            cmbDepartureStop.SelectedIndex = 0;
+            cmbDepartureStop.DisplayMember = nameof(MunicipalStop.StopName);
+            cmbDepartureStop.DataSource = municipalLoader.UniqueStops.Values
+                .OrderBy(stop => stop.StopName)
+                .ThenBy(stop => stop.StopCode)
+                .Select(stop => new DepartureBoardStop(stop, $"{stop.StopName} ({stop.StopCode})"))
+                .ToList();
         }
 
-        private void cmbDepartureStop_SelectedIndexChanged(object sender, EventArgs e)
+        private sealed record DepartureBoardStop(MunicipalStop Stop, string StopName);
+
+        private void cmbDepartureStop_SelectedIndexChanged(object sender, EventArgs e) => UpdateDepartureBoard();
+
+        private void UpdateDepartureBoard()
         {
-            string selectedStop = cmbDepartureStop.SelectedItem?.ToString() ?? "";
-            TimeSpan now = simulationService.CurrentSimulatedTime.TimeOfDay;
+            if (cmbDepartureStop.SelectedItem is not DepartureBoardStop selected) return;
 
-            // Generate upcoming departures for this terminal / stop
-            var departures = new List<object>();
-
-            if (selectedStop.Contains("Kutaisi"))
+            DateTime clock = simulationService.CurrentSimulatedTime;
+            var departures = municipalLoader.GetNextDepartures(selected.Stop.StopId, clock.DayOfWeek.ToString(), clock.TimeOfDay, 10);
+            dgvUpcomingDepartures.DataSource = departures.Select(departure => new
             {
-                // Municipal departures
-                var stop = municipalLoader.UniqueStops.Values.FirstOrDefault(s => s.StopName.Contains("წითელი") || s.StopName.Contains("ჭავჭავაძ"));
-                if (stop != null)
-                {
-                    for (int i = 1; i <= 10; i++)
-                    {
-                        TimeSpan depTime = now.Add(TimeSpan.FromMinutes(i * 12));
-                        departures.Add(new
-                        {
-                            Route = $"Bus #{(i % 5 == 0 ? 34 : (i % 2 == 0 ? 10 : 1))}",
-                            Destination = i % 2 == 0 ? "სულხან-საბას გამზირი" : "წითელი ხიდი",
-                            Operator = "Kutaisi Municipal Transport",
-                            ScheduledTime = depTime.ToString(@"hh\:mm"),
-                            Countdown = $"{(int)(depTime - now).TotalMinutes} min",
-                            Status = "Published Timetable",
-                            Mode = "Municipal Bus"
-                        });
-                    }
-                }
-            }
-
-            // Also check intercity departures
-            var intercity = repository.Search(string.Empty, "All")
-                .Where(r => r.DepartureTime >= now)
-                .OrderBy(r => r.DepartureTime)
-                .Take(6);
-
-            foreach (var r in intercity)
-            {
-                departures.Add(new
-                {
-                    Route = r.RouteNumber,
-                    Destination = r.Destination,
-                    Operator = r.IsExpress ? "Citybus Georgia" : "Regional Coach",
-                    ScheduledTime = r.DepartureTimeString,
-                    Countdown = $"{(int)(r.DepartureTime - now).TotalMinutes} min",
-                    Status = "Verified Schedule",
-                    Mode = r.IsExpress ? "Intercity Express" : "Regular Bus"
-                });
-            }
-
-            dgvUpcomingDepartures.DataSource = departures;
+                Route = $"Bus #{departure.RouteNumber}",
+                Destination = municipalLoader.GetPattern(departure.RouteNumber, departure.DirectionId)?.EndPoint ?? string.Empty,
+                Scheduled = departure.DepartureTime.ToString(@"hh\:mm"),
+                Countdown = $"{Math.Ceiling((departure.DepartureTime - clock.TimeOfDay).TotalMinutes)} min"
+            }).ToList();
+            lblDepartureBoardStatus.Text = !municipalLoader.IsTimetableLoaded
+                ? "Published timetable unavailable or loading"
+                : departures.Count == 0
+                    ? "No more published departures today"
+                    : $"Published times · Simulation clock {clock:ddd HH:mm}";
         }
 
         private void PopulateCoverageReport()
@@ -695,6 +843,7 @@ GEORGIA TRANSIT INTELLIGENCE — DATASET PROVENANCE & QUALITY SPECIFICATION
             {
                 geoMapControl.Invalidate();
             }
+            if (tabDepartureBoard.Visible) UpdateDepartureBoard();
         }
 
         #endregion

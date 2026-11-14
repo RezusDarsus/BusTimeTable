@@ -15,9 +15,59 @@ namespace GeorgiaTransitIntelligence.Mapping
         private double centerLat = 42.15;
         private double centerLon = 43.30;
         private double zoom = 8.0; // 7.0 = National, 11.0 = Regional, 14.0 = Kutaisi City
+        private bool fitCountryOnResize = true;
 
         // Mouse interaction state
         private bool isPanning = false;
+        private StreetMapTiles? streetTiles;
+        private PictureBox? yandexLogo;
+        private bool usingYandex;
+        internal bool YandexKeyRejected => usingYandex && streetTiles?.KeyRejected == true;
+
+        internal void SelectBasemap(bool useStreetMap, string? yandexKey = null)
+        {
+            streetTiles?.Dispose();
+            usingYandex = useStreetMap && yandexKey is not null;
+            streetTiles = useStreetMap ? new StreetMapTiles(Invalidate, yandexKey) : null;
+            if (yandexLogo is not null) yandexLogo.Visible = false;
+            if (usingYandex && yandexLogo is null)
+            {
+                using var stream = typeof(GeoMapControl).Assembly.GetManifestResourceStream(
+                    "GeorgiaTransitIntelligence.Mapping.YandexLogo.png")!;
+                using var logo = Image.FromStream(stream);
+                yandexLogo = new PictureBox
+                {
+                    Name = "picYandexLogo",
+                    Image = new Bitmap(logo),
+                    Size = logo.Size,
+                    Location = new Point(Width - logo.Width, Height - logo.Height),
+                    Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+                    Cursor = Cursors.Hand,
+                    AccessibleName = "Open Yandex Maps",
+                    Visible = false
+                };
+                yandexLogo.Click += (_, _) => System.Diagnostics.Process.Start(
+                    new System.Diagnostics.ProcessStartInfo("https://yandex.com/maps/") { UseShellExecute = true });
+                Controls.Add(yandexLogo);
+            }
+            Invalidate();
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            if (!Visible) streetTiles?.Hide();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                streetTiles?.Dispose();
+                yandexLogo?.Image?.Dispose();
+            }
+            base.Dispose(disposing);
+        }
         private Point panStartPoint;
         private double panStartLat;
         private double panStartLon;
@@ -35,16 +85,16 @@ namespace GeorgiaTransitIntelligence.Mapping
         public static readonly (double Lat, double Lon) KutaisiCenter = (42.2662, 42.7180);
 
         // Styling brushes and pens
-        private readonly Brush bgBrush = new SolidBrush(Color.FromArgb(242, 244, 248));
-        private readonly Brush landBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
-        private readonly Pen borderPen = new Pen(Color.FromArgb(215, 220, 230), 1.5f);
-        private readonly Pen highwayPen = new Pen(Color.FromArgb(254, 211, 149), 4f);
-        private readonly Pen highwayBorderPen = new Pen(Color.FromArgb(220, 160, 90), 5.5f);
-        private readonly Pen secondaryRoadPen = new Pen(Color.FromArgb(230, 232, 238), 2f);
+        private readonly Brush bgBrush = new SolidBrush(Color.FromArgb(222, 237, 239));
+        private readonly Brush landBrush = new SolidBrush(Color.FromArgb(247, 249, 242));
+        private readonly Pen borderPen = new Pen(Color.FromArgb(203, 219, 213), 1.5f);
+        private readonly Pen highwayPen = new Pen(Color.FromArgb(116, 169, 153), 4f);
+        private readonly Pen highwayBorderPen = new Pen(Color.FromArgb(91, 143, 133), 5.5f);
+        private readonly Pen secondaryRoadPen = new Pen(Color.FromArgb(217, 226, 221), 2f);
         private readonly Pen highlightedPen = new Pen(Color.FromArgb(15, 108, 189), 4.5f);
         private readonly Font cityFont = new Font("Segoe UI", 9F, FontStyle.Bold);
         private readonly Font stopFont = new Font("Segoe UI", 7.5F, FontStyle.Regular);
-        private readonly Font badgeFont = new Font("Segoe UI", 8F, FontStyle.Bold);
+        private readonly Font badgeFont = new Font("Segoe UI", 7F, FontStyle.Bold);
 
         public event Action<VehiclePosition>? VehicleSelected;
         public event Action<MunicipalStop>? StopSelected;
@@ -71,7 +121,12 @@ namespace GeorgiaTransitIntelligence.Mapping
         public double ZoomLevel
         {
             get => zoom;
-            set { zoom = Math.Clamp(value, 6.0, 16.5); Invalidate(); }
+            set
+            {
+                fitCountryOnResize = false;
+                zoom = Math.Clamp(value, 6.0, 16.5);
+                Invalidate();
+            }
         }
 
         private string operatorFilter = "ALL";
@@ -95,7 +150,7 @@ namespace GeorgiaTransitIntelligence.Mapping
                      ControlStyles.OptimizedDoubleBuffer |
                      ControlStyles.ResizeRedraw, true);
 
-            BackColor = Color.FromArgb(242, 244, 248);
+            BackColor = Color.FromArgb(222, 237, 239);
             Cursor = Cursors.Hand;
         }
 
@@ -120,15 +175,19 @@ namespace GeorgiaTransitIntelligence.Mapping
 
         public void ZoomToGeorgia()
         {
-            centerLat = 42.00;
-            centerLon = 43.50;
-            zoom = 7.8;
-            ViewportChanged?.Invoke(centerLat, centerLon, zoom);
-            Invalidate();
+            FitBounds(41.05, 43.50, 40.20, 46.70);
+            fitCountryOnResize = true;
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            if (fitCountryOnResize && Width > 96 && Height > 96) ZoomToGeorgia();
         }
 
         public void ZoomToKutaisi()
         {
+            fitCountryOnResize = false;
             centerLat = 42.2662;
             centerLon = 42.7180;
             zoom = 13.8;
@@ -144,24 +203,34 @@ namespace GeorgiaTransitIntelligence.Mapping
 
         public void ZoomOut()
         {
+            double countryZoom = GetFitZoom(41.05, 43.50, 40.20, 46.70);
+            if (zoom - 0.8 <= countryZoom)
+            {
+                ZoomToGeorgia();
+                return;
+            }
             ZoomLevel -= 0.8;
             ViewportChanged?.Invoke(centerLat, centerLon, zoom);
         }
 
         public void FitBounds(double minLat, double maxLat, double minLon, double maxLon)
         {
-            centerLat = (minLat + maxLat) / 2.0;
+            centerLat = StreetMapTiles.YLatitude(
+                (StreetMapTiles.LatitudeY(minLat) + StreetMapTiles.LatitudeY(maxLat)) / 2);
             centerLon = (minLon + maxLon) / 2.0;
-
-            double latSpan = Math.Max(0.02, maxLat - minLat);
-            double lonSpan = Math.Max(0.02, maxLon - minLon);
-
-            double zoomLat = Math.Log2(180.0 / latSpan);
-            double zoomLon = Math.Log2(360.0 / lonSpan);
-            ZoomLevel = Math.Min(zoomLat, zoomLon) + 1.2;
+            ZoomLevel = GetFitZoom(minLat, maxLat, minLon, maxLon);
 
             ViewportChanged?.Invoke(centerLat, centerLon, zoom);
-            Invalidate();
+        }
+
+        private double GetFitZoom(double minLat, double maxLat, double minLon, double maxLon)
+        {
+            double lonSpan = Math.Max(0.02, maxLon - minLon);
+            double mapHeight = Math.Max(0.02 / 360,
+                StreetMapTiles.LatitudeY(minLat) - StreetMapTiles.LatitudeY(maxLat));
+            double zoomLat = Math.Log2(Math.Max(1, Height - 96) / (256 * mapHeight));
+            double zoomLon = Math.Log2(Math.Max(1, Width - 96) / (256 * lonSpan / 360));
+            return Math.Min(zoomLat, zoomLon);
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -170,6 +239,12 @@ namespace GeorgiaTransitIntelligence.Mapping
             if (e.Button == MouseButtons.Left)
             {
                 // Check if user clicked on a vehicle marker
+                PointF hub = GeoToScreen(KutaisiCenter.Lat, KutaisiCenter.Lon);
+                if (activeVehicles.Any(IsGrouped) && Math.Pow(e.X - hub.X, 2) + Math.Pow(e.Y - hub.Y, 2) <= 256)
+                {
+                    ZoomToKutaisi();
+                    return;
+                }
                 var clickedVehicle = HitTestVehicle(e.Location);
                 if (clickedVehicle != null)
                 {
@@ -205,14 +280,15 @@ namespace GeorgiaTransitIntelligence.Mapping
             base.OnMouseMove(e);
             if (isPanning)
             {
+                fitCountryOnResize = false;
                 int dx = e.X - panStartPoint.X;
                 int dy = e.Y - panStartPoint.Y;
 
                 double scale = Math.Pow(2.0, zoom);
                 double dLon = -dx * (360.0 / (256.0 * scale));
-                double dLat = dy * (180.0 / (256.0 * scale));
+                double nextLat = StreetMapTiles.YLatitude(StreetMapTiles.LatitudeY(panStartLat) - dy / (256.0 * scale));
 
-                centerLat = Math.Clamp(panStartLat + dLat, 40.5, 44.5);
+                centerLat = Math.Clamp(nextLat, 40.5, 44.5);
                 centerLon = Math.Clamp(panStartLon + dLon, 39.0, 48.0);
 
                 ViewportChanged?.Invoke(centerLat, centerLon, zoom);
@@ -248,11 +324,12 @@ namespace GeorgiaTransitIntelligence.Mapping
             // 1. Draw Background Water / Canvas
             g.FillRectangle(bgBrush, ClientRectangle);
 
-            // 2. Draw Georgia Country Landmass & Shading
             DrawLandmass(g);
-
-            // 3. Draw Highway Corridors & Road Network
-            DrawRoadNetwork(g);
+            bool hasStreetTiles = Visible &&
+                streetTiles?.Draw(g, ClientRectangle, centerLat, centerLon, zoom) == true;
+            if (yandexLogo is not null)
+                yandexLogo.Visible = usingYandex && hasStreetTiles;
+            if (!hasStreetTiles) DrawRoadNetwork(g);
 
             // 4. Draw Municipal Stops (if in Kutaisi and zoom >= 12)
             if (zoom >= 12.0)
@@ -267,13 +344,28 @@ namespace GeorgiaTransitIntelligence.Mapping
             }
 
             // 6. Draw City Labels & Transport Terminals
-            DrawCities(g);
+            if (!hasStreetTiles) DrawCities(g);
 
             // 7. Draw Active Vehicles (Animated Simulators)
             DrawVehicles(g);
 
             // 8. Draw HUD / Map Legend & Scale
             DrawHudOverlay(g);
+            if (usingYandex && streetTiles?.Failure is { } failure)
+            {
+                var status = new Rectangle(16, 72, Math.Max(1, Math.Min(Width - 32, 400)), 42);
+                g.FillRectangle(Brushes.White, status);
+                TextRenderer.DrawText(g, failure, stopFont, status, Color.DarkRed,
+                    TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter);
+            }
+            if (hasStreetTiles && !usingYandex)
+            {
+                const string credit = "© OpenStreetMap contributors";
+                Size size = TextRenderer.MeasureText(credit, stopFont);
+                var creditBounds = new Rectangle(Width - size.Width - 8, Height - size.Height - 8, size.Width + 4, size.Height);
+                g.FillRectangle(Brushes.White, creditBounds);
+                TextRenderer.DrawText(g, credit, stopFont, creditBounds, Color.FromArgb(24, 48, 54));
+            }
         }
 
         private void DrawLandmass(Graphics g)
@@ -383,10 +475,27 @@ namespace GeorgiaTransitIntelligence.Mapping
             }
         }
 
+        private bool IsGrouped(VehiclePosition vehicle) =>
+            zoom < 10 && vehicle.Category == TransportCategory.MunicipalBus &&
+            string.Equals(operatorFilter, "ALL", StringComparison.OrdinalIgnoreCase);
+
         private void DrawVehicles(Graphics g)
         {
+            int grouped = activeVehicles.Count(IsGrouped);
+            if (grouped > 0)
+            {
+                PointF hub = GeoToScreen(KutaisiCenter.Lat, KutaisiCenter.Lon);
+                using var clusterBrush = new SolidBrush(VehicleColor(TransportCategory.MunicipalBus));
+                using var whiteBorder = new Pen(Color.White, 2f);
+                g.FillEllipse(clusterBrush, hub.X - 16, hub.Y - 16, 32, 32);
+                g.DrawEllipse(whiteBorder, hub.X - 16, hub.Y - 16, 32, 32);
+                using var center = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+                g.DrawString(grouped.ToString(), cityFont, Brushes.White, new RectangleF(hub.X - 16, hub.Y - 16, 32, 32), center);
+            }
+
             foreach (var v in activeVehicles)
             {
+                if (IsGrouped(v)) continue;
                 if (!string.Equals(operatorFilter, "ALL", StringComparison.OrdinalIgnoreCase) &&
                     !v.OperatorName.Contains(operatorFilter, StringComparison.OrdinalIgnoreCase))
                 {
@@ -405,55 +514,19 @@ namespace GeorgiaTransitIntelligence.Mapping
         {
             bool isSelected = selectedVehicle != null && selectedVehicle.VehicleId == v.VehicleId;
 
-            // Distinguish each operator with their official brand identity
-            Color mainColor;
-            Color borderColor = isSelected ? Color.Yellow : Color.White;
-            string badgeText;
-
-            if (v.OperatorName.Contains("Omnibus", StringComparison.OrdinalIgnoreCase))
+            Color mainColor = VehicleColor(v.Category);
+            Color borderColor = isSelected ? Color.Gold : Color.White;
+            string badgeText = v.Category switch
             {
-                mainColor = Color.FromArgb(30, 58, 138); // Deep Royal Navy
-                borderColor = isSelected ? Color.Yellow : Color.FromArgb(245, 158, 11); // Gold accent
-                badgeText = "OMNI";
-            }
-            else if (v.OperatorName.Contains("Georgian Bus", StringComparison.OrdinalIgnoreCase))
-            {
-                mainColor = Color.FromArgb(8, 145, 178); // Cyan / Teal
-                badgeText = "GBUS";
-            }
-            else if (v.OperatorName.Contains("Metro", StringComparison.OrdinalIgnoreCase))
-            {
-                mainColor = Color.FromArgb(220, 38, 38); // Crimson Red
-                badgeText = "MET";
-            }
-            else if (v.OperatorName.Contains("Citybus", StringComparison.OrdinalIgnoreCase))
-            {
-                mainColor = Color.FromArgb(142, 36, 170); // Royal Purple
-                badgeText = "CITY";
-            }
-            else if (v.OperatorName.Contains("Marshrutka", StringComparison.OrdinalIgnoreCase) ||
-                     v.OperatorName.Contains("Okriba", StringComparison.OrdinalIgnoreCase) ||
-                     v.OperatorName.Contains("Imertrans", StringComparison.OrdinalIgnoreCase) ||
-                     v.OperatorName.Contains("Sprinter", StringComparison.OrdinalIgnoreCase) ||
-                     v.OperatorName.Contains("Taxi", StringComparison.OrdinalIgnoreCase) ||
-                     v.Category == TransportCategory.Marshrutka)
-            {
-                mainColor = Color.FromArgb(234, 88, 12); // Amber Orange for Marshrutka / Route Taxi
-                badgeText = "MRSH";
-            }
-            else // Kutaisi Municipal Bus
-            {
-                mainColor = Color.FromArgb(2, 132, 199); // Sky Blue
-                badgeText = string.IsNullOrEmpty(v.RouteNumber) ? "BUS" : $"#{v.RouteNumber}";
-            }
+                TransportCategory.MunicipalBus => $"#{v.RouteNumber}",
+                TransportCategory.Marshrutka => "MR",
+                _ => v.OperatorName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "Bus"
+            };
 
             using var brush = new SolidBrush(mainColor);
             using var borderPen = new Pen(borderColor, isSelected ? 2.8f : 1.6f);
 
             float radius = isSelected ? 13f : 10.5f;
-
-            // Draw shadow
-            g.FillEllipse(new SolidBrush(Color.FromArgb(60, 0, 0, 0)), pt.X - radius + 2, pt.Y - radius + 3, radius * 2, radius * 2);
 
             // Draw vehicle body circle
             g.FillEllipse(brush, pt.X - radius, pt.Y - radius, radius * 2, radius * 2);
@@ -487,40 +560,48 @@ namespace GeorgiaTransitIntelligence.Mapping
             var size = g.MeasureString(badgeText, badgeFont);
             g.DrawString(badgeText, badgeFont, Brushes.White, pt.X - size.Width / 2f, pt.Y - size.Height / 2f);
 
-            // If selected, draw tooltip card with details
-            if (isSelected)
-            {
-                string info = $"{v.OperatorName}\nRoute: {v.RouteNumber} ({v.Origin} → {v.Destination})\nHeading: {v.HeadingDegrees:F0}° | Speed: Simulated 80 km/h\nScheduled: {v.ScheduledDeparture:hh\\:mm} | Est. Arrival: {v.EstimatedArrival:hh\\:mm}\nNext: {v.NextStopName}\n[SIMULATED TIMETABLE ESTIMATE]";
-                DrawTooltip(g, info, pt.X + 15, pt.Y - 30);
-            }
         }
 
-        private void DrawTooltip(Graphics g, string text, float x, float y)
+        private static Color VehicleColor(TransportCategory category) => category switch
         {
-            var font = new Font("Segoe UI", 8F);
-            var size = g.MeasureString(text, font);
-            var rect = new RectangleF(x, y, size.Width + 12, size.Height + 8);
-
-            using var bg = new SolidBrush(Color.FromArgb(245, 24, 38, 68));
-            using var pen = new Pen(Color.FromArgb(100, 200, 255), 1.2f);
-            g.FillRectangle(bg, rect);
-            g.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
-            g.DrawString(text, font, Brushes.White, x + 6, y + 4);
-        }
+            TransportCategory.MunicipalBus => Color.FromArgb(3, 105, 161),
+            TransportCategory.Marshrutka => Color.FromArgb(194, 65, 12),
+            _ => Color.FromArgb(109, 40, 167)
+        };
 
         private void DrawHudOverlay(Graphics g)
         {
             // Draw scale / mode pill in top right
-            string modePill = "TIMETABLE SIMULATION — ESTIMATED VEHICLE POSITIONS";
+            string modePill = "Estimated vehicle positions";
             var size = g.MeasureString(modePill, cityFont);
-            var rect = new RectangleF(Width - size.Width - 24, 12, size.Width + 14, 26);
+            var rect = new RectangleF(16, 16, size.Width + 14, 26);
 
-            using var bg = new SolidBrush(Color.FromArgb(220, 24, 38, 68));
+            using var bg = new SolidBrush(Color.FromArgb(245, 255, 255, 255));
             g.FillRectangle(bg, rect);
-            g.DrawString(modePill, cityFont, Brushes.Gold, rect.X + 7, rect.Y + 5);
+            g.DrawString(modePill, cityFont, Brushes.DarkSlateGray, rect.X + 7, rect.Y + 5);
+
+            if (Width >= 540)
+            {
+                (string Label, TransportCategory Category)[] legend =
+                [
+                    ("Municipal bus", TransportCategory.MunicipalBus),
+                    ("Intercity coach", TransportCategory.IntercityCoach),
+                    ("Marshrutka", TransportCategory.Marshrutka)
+                ];
+                float legendWidth = legend.Sum(entry => g.MeasureString(entry.Label, stopFont).Width + 24) + 8;
+                g.FillRectangle(bg, new RectangleF(16, 42, legendWidth, 25));
+                float x = 24;
+                foreach (var entry in legend)
+                {
+                    using var dot = new SolidBrush(VehicleColor(entry.Category));
+                    g.FillEllipse(dot, x, 50, 8, 8);
+                    g.DrawString(entry.Label, stopFont, Brushes.DarkSlateGray, x + 12, 47);
+                    x += g.MeasureString(entry.Label, stopFont).Width + 24;
+                }
+            }
 
             // Draw zoom level & vehicle count pill in bottom left
-            string status = $"Zoom: {zoom:F1}x | Active Vehicles: {activeVehicles.Count} | Municipal Stops: {displayedStops.Count}";
+            string status = $"{activeVehicles.Count} vehicles · {displayedStops.Count} stops · {zoom:F1}× zoom";
             var statSize = g.MeasureString(status, cityFont);
             var statRect = new RectangleF(12, Height - 36, statSize.Width + 14, 24);
             using var statBg = new SolidBrush(Color.FromArgb(210, 255, 255, 255));
@@ -535,6 +616,8 @@ namespace GeorgiaTransitIntelligence.Mapping
             for (int i = activeVehicles.Count - 1; i >= 0; i--)
             {
                 var v = activeVehicles[i];
+                if (IsGrouped(v) || !v.OperatorName.Contains(operatorFilter, StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals(operatorFilter, "ALL", StringComparison.OrdinalIgnoreCase)) continue;
                 var screenPt = GeoToScreen(v.CurrentLatitude, v.CurrentLongitude);
                 float distSq = (pt.X - screenPt.X) * (pt.X - screenPt.X) + (pt.Y - screenPt.Y) * (pt.Y - screenPt.Y);
                 if (distSq <= 169) // 13px radius
@@ -563,7 +646,8 @@ namespace GeorgiaTransitIntelligence.Mapping
         {
             double scale = Math.Pow(2.0, zoom);
             float x = (float)(Width / 2.0 + (lon - centerLon) * (256.0 * scale / 360.0));
-            float y = (float)(Height / 2.0 - (lat - centerLat) * (256.0 * scale / 180.0));
+            float y = (float)(Height / 2.0 +
+                (StreetMapTiles.LatitudeY(lat) - StreetMapTiles.LatitudeY(centerLat)) * 256.0 * scale);
             return new PointF(x, y);
         }
 
@@ -571,7 +655,8 @@ namespace GeorgiaTransitIntelligence.Mapping
         {
             double scale = Math.Pow(2.0, zoom);
             double lon = centerLon + (pt.X - Width / 2.0) * (360.0 / (256.0 * scale));
-            double lat = centerLat - (pt.Y - Height / 2.0) * (180.0 / (256.0 * scale));
+            double lat = StreetMapTiles.YLatitude(StreetMapTiles.LatitudeY(centerLat) +
+                (pt.Y - Height / 2.0) / (256.0 * scale));
             return (lat, lon);
         }
     }

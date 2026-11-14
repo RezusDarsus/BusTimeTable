@@ -35,10 +35,10 @@
     .download-btn:hover { background: #0b5a0b; }
 
     /* Navigation Tabs */
-    nav.tabs { background: white; border-bottom: 1px solid var(--border); display: flex; padding: 0 20px; }
-    nav.tabs button { background: none; border: none; padding: 12px 18px; font-size: 0.92rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
-    nav.tabs button.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
-    nav.tabs button:hover { color: var(--navy); }
+    nav.tabs { background: #1b2b48; border-bottom: 1px solid #324462; display: flex; padding: 0 20px; }
+    nav.tabs button { background: none; border: none; padding: 12px 18px; font-size: 0.92rem; font-weight: 600; color: #cfdbec; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+    nav.tabs button.active { color: white; background: #263d61; border-bottom-color: #78bbff; }
+    nav.tabs button:hover { color: white; background: #263d61; }
 
     /* Main Container */
     main { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
@@ -75,15 +75,21 @@
     .status-bar { padding: 8px 12px; font-size: 0.82rem; color: var(--text-muted); background: white; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; display: flex; justify-content: space-between; }
 
     /* Map Tab */
-    #tab-simulation { padding: 0; position: relative; }
-    .sim-bar { background: var(--navy); color: white; padding: 8px 18px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; flex-wrap: wrap; gap: 10px; }
-    .sim-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-    .sim-controls select, .sim-controls button { padding: 5px 11px; border-radius: 4px; border: none; font-size: 0.84rem; font-weight: 600; cursor: pointer; }
-    .clock-display { color: #facc15; font-size: 0.95rem; font-weight: 700; font-family: monospace; display: flex; align-items: center; gap: 8px; }
-    .fleet-counter { background: #1e2e54; color: #93c5fd; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+    #tab-simulation { padding: 16px 24px 24px; gap: 12px; min-height: 0; background: #f3f6fa; }
+    .simulation-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #183036; }
+    .simulation-heading h2 { font-size: clamp(1.28rem, 2.3vw, 1.8rem); font-weight: 650; letter-spacing: -.035em; }
+    .clock-display { color: #144d97; font-size: .86rem; font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .sim-bar { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+    .sim-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .sim-controls button, .sim-controls select { min-height: 34px; padding: 5px 10px; border-radius: 6px; font-size: .82rem; font-weight: 600; cursor: pointer; }
+    .sim-controls select { border: 1px solid #d7e1ed; background: white; color: #183036; max-width: 100%; }
+    .sim-controls label { font-size: .8rem; color: #435b60; }
+    #btnYandex[aria-pressed="true"], #btnBasemap[aria-pressed="true"] { background: #144d97; color: #fff; }
+    #tab-simulation button:active { translate: 0 1px; }
+    #tab-simulation :focus-visible { outline: 2px solid #144d97; outline-offset: 2px; }
 
     /* Operator Filter Strip */
-    .operator-filter-strip { background: #1a284a; color: white; padding: 6px 18px; display: flex; gap: 8px; align-items: center; z-index: 999; border-top: 1px solid #28395e; overflow-x: auto; flex-wrap: wrap; }
+    .operator-filter-strip { background: #f3f6fa; color: #183036; padding: 8px 16px; display: flex; gap: 8px; align-items: center; z-index: 999; border-top: 1px solid #d7e1ed; overflow-x: auto; flex-wrap: wrap; }
     .operator-filter-strip span { font-size: 0.8rem; color: #94a3b8; font-weight: 600; margin-right: 4px; }
     .op-pill { border: none; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s; opacity: 0.75; display: inline-flex; align-items: center; gap: 6px; }
     .op-pill:hover, .op-pill.active { opacity: 1; transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
@@ -95,11 +101,50 @@
     .op-pill-geobus { background: #0891b2; color: white; }
     .op-pill-metro { background: #dc2626; color: white; }
 
-    .map-wrapper { flex: 1; position: relative; width: 100%; height: 100%; }
-    #map { width: 100%; height: 100%; }
+    .map-wrapper { flex: 1; min-height: 260px; position: relative; display: flex; overflow: hidden; border: 1px solid #d7e1ed; border-radius: 14px; }
+    .map-canvas { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+    #map { position: absolute; inset: 0; background: #deedef; }
+    #yandex-map { position: absolute; inset: 0; }
+    .map-canvas.yandex-active #map { background: transparent; clip-path: inset(0 0 26px 0); }
+    #yandex-config { margin: auto; max-width: min(440px, 94vw); padding: 24px; border: 1px solid #d7e1ed; border-radius: 12px; color: #183036; }
+    #yandex-config::backdrop { background: #14203c80; }
+    #yandex-config form { display: grid; gap: 12px; }
+    #yandex-config input { width: 100%; padding: 8px; border: 1px solid #d7e1ed; border-radius: 6px; }
+    #yandex-config .action-group { justify-content: flex-end; }
+    #yandex-status:not(:empty) { padding: 6px 10px; color: #8b310c; font-size: .85rem; }
+    .map-estimate, .map-status { position: absolute; z-index: 500; pointer-events: none; padding: 4px 8px; font-size: .82rem; font-weight: 700; }
+    .map-estimate { top: 16px; left: 16px; background: white; color: #244944; border-radius: 5px; }
+    .map-legend { position: absolute; z-index: 500; top: 44px; left: 16px; display: flex; flex-wrap: wrap; gap: 5px 12px; max-width: 55%; background: white; border-radius: 5px; padding: 5px 8px; color: #253955; font-size: .72rem; pointer-events: none; }
+    .map-legend span { display: inline-flex; gap: 4px; align-items: center; }
+    .map-legend span::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--marker); }
+    .map-status { bottom: 22px; left: 12px; background: white; border: 1px solid #c8c8c8; }
+    .map-city { display: flex; align-items: center; gap: 5px; color: #171f32; white-space: nowrap; font-weight: 700; }
+    .map-city::before { content: ''; flex: 0 0 8px; height: 8px; border-radius: 50%; background: #172440; }
+    .inspector-card { position: absolute; top: 16px; right: 16px; z-index: 550; width: min(300px, 42%); max-height: calc(100% - 58px); border: 1px solid #d9e2dd; border-radius: 12px; background: #fff; padding: 16px; overflow: auto; overflow-wrap: anywhere; font-size: .88rem; box-shadow: 0 6px 18px #18303620; }
+    .inspector-title { color: #111827; font-size: 1.08rem; margin-bottom: 14px; }
 
-    /* Vehicle Inspector Overlay Card */
-    .inspector-card { position: absolute; right: 18px; top: 18px; width: 350px; background: rgba(255,255,255,0.97); backdrop-filter: blur(8px); border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,0.22); border: 1px solid var(--border); padding: 16px; z-index: 1000; font-size: 0.85rem; max-height: 90%; overflow-y: auto; }
+    .sim-bar .btn-primary { background: #144d97; }
+    .vehicle-cluster { display: grid; place-items: center; background: #144d97; color: white; border: 2px solid white; border-radius: 50%; font-weight: 700; }
+    #map.grouped .municipal-vehicle { visibility: hidden; }
+    .inspector-card.is-empty .vehicle-details { display: none; }
+    .inspector-card:not(.is-empty) .inspector-empty { display: none; }
+    .sim-controls .btn-secondary { background: #e6efec; color: #183036; }
+    .sim-controls .btn-secondary:hover { background: #d5e5df; }
+    .sim-filters { background: #fff; color: #183036; border: 1px solid #d7e1ed; border-radius: 8px; }
+    .sim-filters summary { cursor: pointer; padding: 7px 12px; font-size: .8rem; font-weight: 600; }
+    .sim-filter-controls { padding: 6px 18px; }
+    @media (max-width: 720px) {
+      #tab-simulation { padding: 12px; gap: 8px; }
+      .simulation-heading { flex-wrap: wrap; }
+      .map-wrapper { display: grid; grid-template-rows: minmax(175px, 1fr) auto; }
+      .inspector-card { position: static; width: 100%; max-height: 180px; border-radius: 0; padding: 10px 14px; }
+      header { flex-wrap: wrap; gap: 8px; padding: 10px 14px; }
+      .header-badges { flex-wrap: wrap; }
+      .student-badge { display: none; }
+      nav.tabs { overflow-x: auto; padding: 0; }
+      nav.tabs button { flex: 0 0 auto; }
+      .map-estimate { font-size: .64rem; }
+    }
     .inspector-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #edf2f7; }
     .inspector-header h4 { font-size: 1.02rem; color: var(--navy); display: flex; align-items: center; gap: 6px; }
     .op-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
@@ -112,11 +157,68 @@
     .features-tag-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
     .feat-tag { background: #e0f2fe; color: #0369a1; font-size: 0.72rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
 
-    /* Custom Leaflet Vehicle Markers */
+    /* Custom Leaflet Vehicle Markers - Hardware Accelerated & Zero Lag */
+    .leaflet-marker-icon.vehicle-marker-icon {
+      transition: transform 0.05s linear !important;
+      will-change: transform;
+      pointer-events: auto;
+    }
+    .leaflet-marker-icon.traveler-icon {
+      transition: transform 0.06s linear !important;
+      will-change: transform;
+      pointer-events: auto;
+    }
+    #map .bus-marker-badge { width: 24px; height: 24px; min-width: 0; padding: 0; justify-content: center; border-radius: 50%; font-size: 9px; border: 1.5px solid white; }
+    #map .bus-marker-badge .heading-arrow { display: none; }
     .vehicle-marker-icon { display: flex; align-items: center; justify-content: center; }
-    .bus-marker-badge { border-radius: 14px; padding: 2px 7px; color: white; font-weight: 800; font-size: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.35); border: 1.5px solid white; display: flex; align-items: center; gap: 4px; white-space: nowrap; transition: transform 0.2s; cursor: pointer; }
-    .bus-marker-badge:hover { transform: scale(1.22); z-index: 9999 !important; }
-    .heading-arrow { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 7px solid white; display: inline-block; }
+    .bus-marker-badge {
+      border-radius: 14px;
+      padding: 2px 7px;
+      color: white;
+      font-weight: 800;
+      font-size: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+      border: 1.5px solid white;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      transition: filter 0.15s, box-shadow 0.15s;
+    }
+    .bus-marker-badge:hover {
+      filter: brightness(1.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.55);
+      z-index: 9999 !important;
+    }
+    .heading-arrow {
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 7px solid currentColor;
+      display: inline-block;
+      transition: transform 0.12s ease-out;
+      transform-origin: 50% 60%;
+    }
+
+    /* High-Definition Transit Line & Dashed Intersection Styling */
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -32; }
+    }
+    .dashed-intersection-line {
+      stroke-dasharray: 8, 8 !important;
+      animation: dash-flow 2s linear infinite;
+    }
+    .dashed-transfer-link {
+      stroke-dasharray: 5, 5 !important;
+      animation: dash-flow 1.2s linear infinite;
+    }
+    .intersection-halo-ring {
+      stroke-dasharray: 4, 4 !important;
+      animation: dash-flow 3s linear infinite;
+    }
 
     /* Journey Planner */
     .planner-layout { display: grid; grid-template-columns: 340px 1fr; gap: 20px; height: 100%; }
@@ -154,21 +256,21 @@
   <header>
     <div class="brand">
       <h1>GEORGIA TRANSIT INTELLIGENCE</h1>
-      <p>National Bus Network, Full Kutaisi Municipal Network & Marshrutka (Route Taxi) Center</p>
+      <p>National Bus Network &amp; Timetable Control Center</p>
     </div>
     <div class="header-badges">
       <span class="student-badge">Student: Rezo Darsavelidze</span>
       <span class="student-badge">Topic 13: BusRoutes</span>
-      <a href="/Midterm_Darsavelidze_Rezo.zip" class="download-btn" download>📥 Download Midterm ZIP</a>
+      <a href="./Midterm_Darsavelidze_Rezo.zip" class="download-btn" download>📥 Download Midterm ZIP</a>
     </div>
   </header>
 
   <!-- Navigation Tabs -->
   <nav class="tabs">
-    <button class="active" onclick="switchTab('tab-crud')">Timetable Manager (CRUD)</button>
+    <button class="active" onclick="switchTab('tab-crud')">Timetable Manager</button>
     <button onclick="switchTab('tab-planner')">Georgia Journey Planner</button>
-    <button onclick="switchTab('tab-simulation')">National Live Simulation Map</button>
-    <button onclick="switchTab('tab-explorer')">Kutaisi Municipal & Network Explorer</button>
+    <button onclick="switchTab('tab-simulation')">National Live Simulation</button>
+    <button onclick="switchTab('tab-explorer')">Network Explorer</button>
     <button onclick="switchTab('tab-marshrutka')">Marshrutka (Route Taxi) Directory</button>
   </nav>
 
@@ -307,21 +409,36 @@
 
     <!-- TAB 3: Map Simulation -->
     <section id="tab-simulation" class="tab-content">
+      <div class="simulation-heading">
+        <h2>Vehicle simulation</h2>
+        <div class="clock-display" id="simClockText">Georgia time</div>
+      </div>
       <div class="sim-bar">
-        <div class="sim-controls">
+        <div class="sim-controls" aria-label="Playback">
           <button id="btnPlayPause" class="btn btn-primary" onclick="toggleSim()">⏸ Pause</button>
           <button class="btn btn-secondary" onclick="resetSim()">Reset Time</button>
-          <span style="font-size:0.85rem; color:#b4cde6;">Speed:</span>
+          <label for="simSpeedSelect">Speed</label>
           <select id="simSpeedSelect" onchange="changeSpeed()">
-            <option value="1">1x Real-time</option>
-            <option value="5" selected>5x Fast</option>
+            <option value="1" selected>1x Real-time</option>
+            <option value="5">5x Fast</option>
             <option value="15">15x Rapid</option>
             <option value="60">60x Warp</option>
           </select>
+        </div>
+        <div class="sim-controls" aria-label="Map view">
+          <button class="btn btn-secondary" onclick="map.zoomIn()" aria-label="Zoom in">+</button>
+          <button class="btn btn-secondary" onclick="map.zoomOut()" aria-label="Zoom out">−</button>
           <button class="btn btn-secondary" onclick="zoomGeorgia()">Georgia View</button>
-          <button class="btn btn-primary" onclick="zoomKutaisi()">Kutaisi City View</button>
-          <button class="btn btn-secondary" onclick="zoomRikoti()">Rikoti Pass View</button>
+          <button class="btn btn-primary" onclick="zoomKutaisi()">Kutaisi City</button>
+          <button id="btnYandex" class="btn btn-secondary" aria-pressed="false" onclick="selectYandex()">Yandex Maps</button>
+          <button id="btnBasemap" class="btn btn-secondary" aria-pressed="false" onclick="toggleStreetMap()">Street map</button>
 
+        </div>
+      </div>
+      <details class="sim-filters">
+        <summary>Map filters</summary>
+        <div class="sim-controls sim-filter-controls">
+          <button class="btn btn-secondary" onclick="zoomRikoti()">Rikoti Pass View</button>
           <!-- Marshrutka / Route Taxi Quick Filter -->
           <span style="font-size:0.85rem; color:#f97316; margin-left:6px;"><b>Route Taxi:</b></span>
           <select id="marshrutkaFilterSelect" style="max-width:210px; padding:5px 8px; font-weight:600; background:#fff7ed; border:1px solid #fdba74;" onchange="handleMarshrutkaFilter()">
@@ -335,33 +452,57 @@
             <option value="ALL">All 22 Kutaisi Municipal Lines</option>
             <!-- Generated dynamically via JS -->
           </select>
-        </div>
-        <div style="display:flex; gap:12px; align-items:center;">
-          <span class="fleet-counter" id="activeFleetPill">Active Fleet: 85 Vehicles</span>
-          <div class="clock-display" id="simClockText">Sim Clock: 12:00:00 (UTC+4)</div>
-        </div>
-      </div>
 
+          <!-- Intersections Dashed Toggle Button -->
+          <button id="btnDashedIntersections" class="btn btn-secondary" onclick="toggleDashedIntersections()" style="background:#0f172a; border:1px solid #facc15; color:#facc15; font-weight:700; padding:5px 10px; margin-left:4px;">
+            Show Intersections
+          </button>
+        </div>
       <!-- Operator Filter Strip -->
       <div class="operator-filter-strip">
-        <span>FILTER OPERATOR:</span>
-        <button class="op-pill op-pill-all active" onclick="filterOperator('ALL')">All Transit (85)</button>
-        <button class="op-pill op-pill-marsh" onclick="filterOperator('Route Taxi')">🟠 Marshrutka / Route Taxi (25)</button>
-        <button class="op-pill op-pill-muni" onclick="filterOperator('Kutaisi Municipal')">🔷 Kutaisi City Bus (42)</button>
-        <button class="op-pill op-pill-citybus" onclick="filterOperator('Citybus Georgia')">🟣 Citybus (7)</button>
-        <button class="op-pill op-pill-omnibus" onclick="filterOperator('Omnibus Express')">🔵 Omnibus (6)</button>
-        <button class="op-pill op-pill-geobus" onclick="filterOperator('Georgian Bus')">💠 Georgian Bus (5)</button>
-        <button class="op-pill op-pill-metro" onclick="filterOperator('Metro Georgia')">🔴 Metro (6)</button>
+        <button class="op-pill op-pill-all active" onclick="filterOperator('ALL')">All Transit</button>
+        <button class="op-pill op-pill-marsh" onclick="filterOperator('Route Taxi')">Marshrutka / Route Taxi</button>
+        <button class="op-pill op-pill-muni" onclick="filterOperator('Kutaisi Municipal')">Kutaisi City Bus</button>
+        <button class="op-pill op-pill-citybus" onclick="filterOperator('Citybus Georgia')">Citybus</button>
+        <button class="op-pill op-pill-omnibus" onclick="filterOperator('Omnibus Express')">Omnibus</button>
+        <button class="op-pill op-pill-geobus" onclick="filterOperator('Georgian Bus')">Georgian Bus</button>
+        <button class="op-pill op-pill-metro" onclick="filterOperator('Metro Georgia')">Metro</button>
       </div>
 
+      </details>
+      <p id="yandex-status" role="status"></p>
+      <dialog id="yandex-config" aria-labelledby="yandex-title">
+        <form id="yandex-form">
+          <h3 id="yandex-title">Connect Yandex Maps</h3>
+          <p>Use a <a href="https://developer.tech.yandex.com/" target="_blank" rel="noopener">Yandex Maps JavaScript API key</a> that allows this localhost hostname.</p>
+          <label for="yandex-key">API key</label>
+          <input id="yandex-key" type="password" required autocomplete="off">
+          <div class="action-group">
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('yandex-config').close()">Cancel</button>
+            <button class="btn btn-primary">Connect</button>
+          </div>
+        </form>
+      </dialog>
       <div class="map-wrapper">
-        <div id="map"></div>
+        <div class="map-canvas">
+          <div id="yandex-map" hidden></div>
+          <div id="map" aria-label="Georgia transit simulation map"></div>
+          <div class="map-estimate">Estimated vehicle positions</div>
+          <div class="map-legend" aria-label="Vehicle types">
+            <span style="--marker:#0369a1">Municipal bus</span>
+            <span style="--marker:#6d28a7">Intercity coach</span>
+            <span style="--marker:#c2410c">Marshrutka</span>
+          </div>
+          <div class="map-status" id="activeFleetPill"></div>
+        </div>
 
         <!-- Vehicle Inspector Card -->
-        <div class="inspector-card" id="vehicleInspector">
+        <aside class="inspector-card is-empty" id="vehicleInspector">
+          <h3 class="inspector-title">Vehicle Inspector</h3>
+          <p class="inspector-empty">Select a vehicle to see its route and estimated schedule.</p>
+          <div class="vehicle-details">
           <div class="inspector-header">
             <h4><span id="inspBadge" class="op-badge" style="background:#ea580c; color:white;">ROUTE TAXI</span> <span id="inspId">MR-OK-01</span></h4>
-            <span style="color:#16a34a; font-weight:700; font-size:0.75rem;">● SIMULATED LIVE</span>
           </div>
           <p id="inspOperator" style="font-weight:700; color:var(--navy); margin-bottom:2px;">Marshrutka (Route Taxi / სამარშრუტო ტაქსი)</p>
           <p id="inspModel" style="color:var(--text-muted); font-size:0.8rem; margin-bottom:6px;">Mercedes-Benz Sprinter 519 CDI Minibus (18-seater)</p>
@@ -394,17 +535,8 @@
 
           <p id="inspNextStop" style="font-size:0.82rem; color:#0f6cbd; font-weight:600; margin-top:4px;">Next Landmark: Surami Pass Entrance (~12 min)</p>
 
-          <div class="features-tag-list" id="inspFeatures">
-            <span class="feat-tag">Frequent Departures</span>
-            <span class="feat-tag">High Flexibility</span>
-            <span class="feat-tag">Direct Hub Express</span>
-            <span class="feat-tag">Luggage Hold</span>
           </div>
-
-          <p style="font-size:0.7rem; color:#94a3b8; margin-top:10px; border-top:1px dashed #cbd5e1; padding-top:6px;">
-            ℹ️ Fixed-Route Taxicab / Marshrutka (სამარშრუტო ტაქსი) timetable simulation from regional dispatch logs.
-          </p>
-        </div>
+        </aside>
       </div>
     </section>
 
@@ -761,10 +893,16 @@
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('nav.tabs button').forEach(el => el.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
-      event.target.classList.add('active');
+      document.querySelector(`nav.tabs button[onclick="switchTab('${tabId}')"]`)?.classList.add('active');
 
       if (tabId === 'tab-simulation') {
-        setTimeout(() => map.invalidateSize(), 200);
+        setTimeout(() => {
+          map.invalidateSize();
+          if (!streetMapInitialized && /^https?:$/.test(location.protocol)) {
+            streetMapInitialized = true;
+            toggleStreetMap();
+          }
+        }, 200);
       }
       if (tabId === 'tab-explorer') {
         renderKutaisiDirectoryTable();
@@ -780,7 +918,136 @@
     // ==========================================
     let map;
     let simRunning = true;
-    let simSpeed = 5;
+    let simSpeed = 1;
+    let municipalCluster;
+    let streetMapInitialized = false;
+    let yandexMap;
+    let yandexReady;
+    let yandexKey = '';
+    let yandexActive = false;
+
+    function syncYandexView() {
+      if (!yandexActive) return;
+      const {lat, lng} = map.getCenter();
+      yandexMap.setLocation({center: [lng, lat], zoom: map.getZoom(), duration: 0});
+    }
+
+    function leaveYandex() {
+      if (!yandexActive) return;
+      yandexActive = false;
+      yandexMap.destroy();
+      yandexMap = undefined;
+      document.querySelector('.map-canvas').classList.remove('yandex-active');
+      document.getElementById('yandex-map').hidden = true;
+      document.getElementById('btnYandex').setAttribute('aria-pressed', 'false');
+      schematicBase.addTo(map);
+    }
+
+    function loadYandex(key) {
+      if (yandexReady && key === yandexKey) return yandexReady;
+      const script = document.createElement('script');
+      script.src = 'https://api-maps.yandex.ru/v3/?' + new URLSearchParams({apikey: key, lang: 'en_US'});
+      const ready = new Promise((resolve, reject) => {
+        script.onload = async () => {
+          try {
+            const api = window.ymaps3;
+            await api.ready;
+
+
+            resolve(api);
+          } catch (error) {
+            reject(error);
+          }
+        };
+        script.onerror = () => reject(new Error("SDK request failed"));
+      });
+      yandexKey = key;
+      yandexReady = new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => reject(new Error("SDK initialization timed out")), 15000);
+        ready.then(resolve, reject).finally(() => clearTimeout(timeout));
+      }).catch(error => {
+        script.remove();
+        yandexReady = undefined;
+        yandexKey = '';
+        throw error;
+      });
+      script.referrerPolicy = 'strict-origin-when-cross-origin';
+      document.head.append(script);
+      return yandexReady;
+    }
+
+    async function selectYandex(key) {
+      const button = document.getElementById('btnYandex');
+      const status = document.getElementById('yandex-status');
+      if (yandexActive) {
+        leaveYandex();
+        return;
+      }
+      if (!/^https?:$/.test(location.protocol)) {
+        status.textContent = 'Open the preview through localhost to connect Yandex Maps.';
+        return;
+      }
+      key ||= yandexKey;
+      if (!key) {
+        document.getElementById('yandex-config').showModal();
+        return;
+      }
+      button.disabled = true;
+      status.textContent = 'Connecting to Yandex Maps…';
+      const container = document.getElementById('yandex-map');
+      try {
+        const api = await loadYandex(key);
+        if (!document.getElementById('tab-simulation').classList.contains('active')) return;
+        const {YMap, YMapDefaultSchemeLayer} = api;
+        const {lat, lng} = map.getCenter();
+        container.hidden = false;
+        yandexMap = new YMap(container, {
+          location: {center: [lng, lat], zoom: map.getZoom()},
+          behaviors: [], projection: api.projections.sphericalMercator
+        });
+        yandexMap.addChild(new YMapDefaultSchemeLayer());
+        yandexActive = true;
+        streetTiles.remove();
+        schematicBase.remove();
+        document.querySelector('.map-canvas').classList.add('yandex-active');
+        document.getElementById('btnBasemap').setAttribute('aria-pressed', 'false');
+        button.setAttribute('aria-pressed', 'true');
+        status.textContent = '';
+      } catch (error) {
+        yandexMap?.destroy();
+        yandexMap = undefined;
+        container.hidden = true;
+        yandexReady = undefined;
+        yandexKey = '';
+        status.textContent = 'Yandex Maps could not load (' + (['SDK request failed', 'SDK initialization timed out'].includes(error?.message) ? error.message : error?.name ?? 'SDK error') + '). Check your key and localhost restriction.';
+      } finally {
+        button.disabled = false;
+        if (status.textContent === 'Connecting to Yandex Maps…') status.textContent = '';
+      }
+    }
+
+    document.getElementById('yandex-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const input = document.getElementById('yandex-key');
+      const key = input.value.trim();
+      if (!key) return;
+      input.value = '';
+      document.getElementById('yandex-config').close();
+      selectYandex(key);
+    });
+
+    function toggleStreetMap() {
+      leaveYandex();
+      document.getElementById('yandex-status').textContent = '';
+      const button = document.getElementById('btnBasemap');
+      const showStreets = !map.hasLayer(streetTiles);
+      if (showStreets) streetTiles.addTo(map);
+      else {
+        streetTiles.remove();
+        schematicBase.addTo(map);
+      }
+      button.setAttribute('aria-pressed', String(showStreets));
+    }
     let simTime = new Date();
     let currentOperatorFilter = 'ALL';
     let currentKutaisiLineFilter = 'ALL';
@@ -966,48 +1233,63 @@
       return (brng + 360) % 360;
     }
 
-    function interpolateAlongPolyline(pts, fraction) {
-      if (!pts || pts.length === 0) return { lat: 42.26, lng: 42.70, heading: 0, nextStop: '', totalKm: 0, currentKm: 0 };
-      if (pts.length === 1) return { lat: pts[0][0], lng: pts[0][1], heading: 0, nextStop: pts[0][2] || '', totalKm: 1, currentKm: 0 };
-
+    // Precompute segment distances, cumulative distances, and bearings once for zero-overhead fast runtime interpolation
+    function preparePolyline(pts) {
+      if (!pts || pts.length === 0) return { pts: [], dists: [], cumDists: [0], totalDist: 0, bearings: [] };
       let dists = [];
+      let cumDists = [0];
+      let bearings = [];
       let totalDist = 0;
       for (let i = 0; i < pts.length - 1; i++) {
-        let d = getDistanceKm(pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1]);
+        let p1 = pts[i];
+        let p2 = pts[i + 1];
+        let d = getDistanceKm(p1[0], p1[1], p2[0], p2[1]);
         dists.push(d);
         totalDist += d;
+        cumDists.push(totalDist);
+        bearings.push(calculateBearing(p1[0], p1[1], p2[0], p2[1]));
+      }
+      return { pts: pts, dists: dists, cumDists: cumDists, totalDist: totalDist, bearings: bearings };
+    }
+
+    function interpolateAlongPrepared(prep, fraction) {
+      if (!prep || !prep.pts || prep.pts.length === 0) {
+        return { lat: 42.26, lng: 42.70, heading: 0, nextStop: '', totalKm: 0, currentKm: 0 };
+      }
+      if (prep.pts.length === 1 || prep.totalDist === 0) {
+        return { lat: prep.pts[0][0], lng: prep.pts[0][1], heading: 0, nextStop: prep.pts[0][2] || '', totalKm: 1, currentKm: 0 };
       }
 
-      if (totalDist === 0) return { lat: pts[0][0], lng: pts[0][1], heading: 0, nextStop: pts[0][2] || '', totalKm: 1, currentKm: 0 };
-
-      let targetDist = fraction * totalDist;
-      let accumulated = 0;
-
-      for (let i = 0; i < dists.length; i++) {
-        if (accumulated + dists[i] >= targetDist || i === dists.length - 1) {
-          let segDist = dists[i];
-          let segFrac = segDist > 0 ? (targetDist - accumulated) / segDist : 0;
-          segFrac = Math.max(0, Math.min(1, segFrac));
-
-          let lat = pts[i][0] + segFrac * (pts[i+1][0] - pts[i][0]);
-          let lng = pts[i][1] + segFrac * (pts[i+1][1] - pts[i][1]);
-          let heading = calculateBearing(pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1]);
-          let nextStopName = pts[i+1][2] || ('Landmark #' + (i + 1));
-
-          return {
-            lat: lat,
-            lng: lng,
-            heading: heading,
-            nextStop: nextStopName,
-            totalKm: totalDist,
-            currentKm: targetDist
-          };
-        }
-        accumulated += dists[i];
+      let targetDist = Math.max(0, Math.min(1, fraction)) * prep.totalDist;
+      let cum = prep.cumDists;
+      let i = 0;
+      while (i < cum.length - 2 && cum[i + 1] < targetDist) {
+        i++;
       }
+      let segDist = prep.dists[i];
+      let segFrac = segDist > 0 ? (targetDist - cum[i]) / segDist : 0;
+      segFrac = Math.max(0, Math.min(1, segFrac));
 
-      let last = pts.length - 1;
-      return { lat: pts[last][0], lng: pts[last][1], heading: 0, nextStop: pts[last][2] || '', totalKm: totalDist, currentKm: totalDist };
+      let p1 = prep.pts[i];
+      let p2 = prep.pts[i + 1];
+      let lat = p1[0] + segFrac * (p2[0] - p1[0]);
+      let lng = p1[1] + segFrac * (p2[1] - p1[1]);
+      let heading = prep.bearings[i] || 0;
+      let nextStopName = p2[2] || ('Landmark #' + (i + 1));
+
+      return {
+        lat: lat,
+        lng: lng,
+        heading: heading,
+        nextStop: nextStopName,
+        totalKm: prep.totalDist,
+        currentKm: targetDist
+      };
+    }
+
+    function interpolateAlongPolyline(pts, fraction) {
+      let prep = preparePolyline(pts);
+      return interpolateAlongPrepared(prep, fraction);
     }
 
     function sliceCorridor(fullPath, fromIdx, toIdx) {
@@ -1184,37 +1466,83 @@
 
     // Initialize Map
     function initMap() {
-      map = L.map('map').setView([42.2600, 42.6950], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
+      const geography = {"outline": [[41.5, 41.55], [41.65, 41.64], [41.8, 41.77], [42.15, 41.67], [42.38, 41.58], [42.8, 41.1], [43.25, 40.2], [43.5, 40.35], [43.4, 41.1], [43.2, 42.45], [43.05, 42.75], [42.8, 43.6], [42.65, 44.6], [42.45, 45.4], [42.1, 46.1], [41.9, 46.5], [41.6, 46.7], [41.25, 46.4], [41.05, 45.3], [41.2, 44.4], [41.35, 43.4], [41.5, 42.5], [41.4, 41.8]], "highway": [[41.675, 44.835], [41.721, 44.799], [41.7508, 44.7788], [41.802, 44.755], [41.841, 44.715], [41.918, 44.717], [41.945, 44.57], [41.995, 44.405], [42.012, 44.255], [41.9842, 44.1158], [42.025, 43.955], [42.02, 43.89], [42.035, 43.82], [41.9942, 43.5999], [42.025, 43.55], [42.042, 43.515], [42.055, 43.485], [42.072, 43.375], [42.095, 43.235], [42.105, 43.085], [42.11, 43.0333], [42.155, 42.92], [42.195, 42.855], [42.225, 42.75], [42.2578, 42.6678], [42.18, 42.482], [42.1626, 42.3417], [42.105, 42.205], [42.088, 42.035], [42.062, 41.875], [42.045, 41.745], [41.9917, 41.7761], [41.925, 41.77], [41.885, 41.785], [41.8111, 41.775], [41.758, 41.75], [41.722, 41.728], [41.692, 41.705], [41.672, 41.692], [41.658, 41.677], [41.6434, 41.6399]], "branches": [[[42.2578, 42.6678], [42.5088, 41.8709], [43.044, 42.7297]], [[41.6938, 44.8015], [41.9198, 45.4731]], [[41.9942, 43.5999], [41.8398, 43.385], [41.639, 42.9826]]], "cities": [[41.6938, 44.8015, "Tbilisi"], [41.675, 44.835, "Tbilisi (Ortachala)"], [41.7508, 44.7788, "Tbilisi (Didube)"], [41.6975, 44.8008, "Tbilisi (Pushkin Sq)"], [42.2662, 42.718, "Kutaisi"], [42.2578, 42.6678, "Kutaisi (Chavchavadze)"], [42.2712, 42.6996, "Kutaisi (Red Bridge)"], [42.18, 42.482, "Kutaisi Airport (KUT)"], [42.2748, 42.6845, "Tabukashvili Street 217"], [42.2748, 42.6845, "Tabukashvili"], [42.2382, 42.748, "Kutaisi International University (KIU)"], [42.2382, 42.748, "KIU"], [42.2772, 42.7042, "Bagrati Cathedral"], [42.2964, 42.7683, "Gelati Monastery"], [42.242, 42.691, "Nikea"], [42.269, 42.701, "White Bridge"], [42.266, 42.708, "Tsereteli University"], [42.2578, 42.6678, "Omnibus Terminal"], [41.6434, 41.6399, "Batumi"], [41.658, 41.677, "Batumi (Central)"], [41.661, 41.681, "Batumi (New Station)"], [41.652, 41.638, "Batumi (Radisson)"], [42.5088, 41.8709, "Zugdidi"], [42.512, 41.874, "Zugdidi (Bus Station)"], [42.1462, 41.672, "Poti"], [42.149, 41.675, "Poti (Bus Station)"], [41.9842, 44.1158, "Gori"], [41.981, 44.112, "Gori (Comfort Bus)"], [41.9942, 43.5999, "Khashuri"], [42.11, 43.0333, "Zestafoni"], [42.1626, 42.3417, "Samtredia"], [41.639, 42.9826, "Akhaltsikhe"], [41.641, 42.985, "Akhaltsikhe (Central)"], [41.9198, 45.4731, "Telavi"], [41.921, 45.475, "Telavi (Central)"], [41.8398, 43.385, "Borjomi"], [41.841, 43.387, "Borjomi (Park Station)"], [43.044, 42.7297, "Mestia"], [43.045, 42.731, "Mestia (Seti Square)"], [42.6567, 44.6433, "Kazbegi"], [42.657, 44.644, "Kazbegi (Stepantsminda)"], [41.9917, 41.7761, "Ureki"], [41.8111, 41.775, "Kobuleti"]], "stops": [[42.271179, 42.699622, "წითელი ხიდი"], [42.269795, 42.698001, "შ.რუსთაველის გამზირი N10"], [42.26741, 42.695415, "ნ. დუმბაძის ქუჩა N2"], [42.262238, 42.692997, "\"ნინოშვილის ბაღი\""], [42.261752, 42.692533, "აღმაშენებელის გამზირი N58 \"ა\""], [42.261841, 42.686667, "აღმაშენებლის გამზირი N82"], [42.261864, 42.684345, "აღმაშენებლის გამზირი N93"], [42.261867, 42.681681, "აღმაშენებლის გამზირი N118"], [42.261947, 42.679497, "აღმაშენებლის გამზირი N132"], [42.262012, 42.675552, "აღმაშენებლის გამზირი N144"], [42.261453, 42.672982, "ზ. გამსახურდიას გამზირი N28"], [42.26046, 42.671381, "ზ.გამსახურდიას გამზირი N32"], [42.258788, 42.668539, "ზ.გამსახურდიას  გამზირი N44"], [42.257891, 42.667855, "ი.ჭავჭავაძის  გამზირი N63"], [42.256507, 42.671751, "\"ცენტრალური ავტოსადგური\""], [42.254532, 42.676384, "ი. ჭავჭავაძის  გამზირი N51"], [42.251704, 42.682094, "ს. გუგუნავას ქუჩა N2"], [42.250784, 42.675734, "ს. გუგუნავას ქუჩა N10"], [42.249584, 42.671904, "სულხან საბას გამზირი N2"], [42.247966, 42.670475, "სულხან საბა გამზირი N8"], [42.24606, 42.668898, "სულხან საბა გამზირი N8 \"დ\""], [42.244392, 42.667524, "სულხან საბა გამზირი N10"], [42.24192, 42.665464, "\"მომსახურების სააგენტო\""], [42.2405, 42.66434, "სულხან საბას გამზირი N12/21"], [42.238884, 42.663007, "სულხან საბას გამზირი მე-2 შესახვევი"], [42.237244, 42.661653, "სულხან საბას გამზირი  N71ა"], [42.235303, 42.660149, "სულხან-საბას გამზირი N71 \"ა\""], [42.235226, 42.660432, "სულხან საბას გამზირი N71"], [42.237148, 42.66194, "სულხან-საბას გამზირი N69"], [42.238784, 42.663248, "სულხან-საბას  გამზირი  N43"], [42.240395, 42.664582, "სულხან-საბას  გამზირი N21"], [42.241789, 42.665826, "სულხან-საბას გამზირი N19"], [42.244364, 42.667803, "სულხან საბა გამზირი N9 \"ა\""], [42.246104, 42.669225, "სულხან საბა გამზირი N10"], [42.247867, 42.670689, "სულხან საბა გამზირი N7"], [42.249543, 42.672108, "სულხან-საბას გამზირი  N1"], [42.250926, 42.67813, "ს. გუგუნავას ქუჩა N1"], [42.252205, 42.682146, "\"შენგელია არენა\""], [42.254359, 42.677322, "ი.ჭავჭავაძის  გამზირი N42"], [42.25671, 42.67195, "ცენტრალური ავტოსადგური"], [42.258531, 42.668653, "ზ.გამსახურდიას  გამზირი N27"], [42.260651, 42.672084, "ზ.გამსახურდიას  გამზირი N19"], [42.261725, 42.675415, "აღმაშენებლის გამზირი N129"], [42.261623, 42.682004, "აღმაშენებლის გამზირი N103"], [42.261589, 42.684548, "აღმაშენებლის გამზირი N91"], [42.261489, 42.690472, "აღმაშენებლის გამზირი N63"], [42.261492, 42.693244, "აღმაშენებლის გამზირი N47"], [42.261752, 42.69896, "აღმაშენებლის  გამზირი N40"], [42.26382, 42.698799, "გ.ტაბიძის ქუჩა N67"], [42.267119, 42.698229, "გ.ტაბიძის ქუჩა N33"], [42.27061, 42.700053, "პირველი სკოლა"], [42.271422, 42.704973, "დავით აღმაშენებლის მოედანი"], [42.277791, 42.689526, "ა. კოღუაშვილის ქუჩა N5"], [42.27677, 42.68907, "მ.გორკის ქუჩა N67"], [42.275908, 42.69039, "მ.გორკის ქუჩა N49"], [42.273713, 42.691044, "ბ.ძნელაძის ქუჩა N19"], [42.271786, 42.691411, "ვაჟა ფშაველას ქუჩა N17"], [42.272009, 42.694278, "ვაჟა-ფშაველას ქუჩა 11"], [42.27091, 42.699605, "წითელი ხიდი"], [42.272105, 42.694277, "ვაჟა-ფშაველას ქუჩა N34"], [42.271881, 42.693059, "ვაჟა-ფშაველას ქუჩა N46"], [42.271858, 42.691601, "ვაჟა-ფშაველას ქუჩა N64"], [42.271673, 42.69063, "ვაჟა-ფშაველას ქუჩა N90"], [42.271831, 42.688566, "ვაჟა ფშაველას ქუჩა N27"], [42.27147, 42.685042, "ვაჟა-ფშაველას ქუჩა N116"], [42.271557, 42.683723, "ვაჟა-ფშაველას ქუჩა N126"], [42.271646, 42.682439, "ვაჟა-ფშაველას ქუჩა N140"], [42.271468, 42.679122, "ვაჟა-ფშაველას ქუჩა N172"], [42.270462, 42.676699, "ნ.ნიკოლაძის ქუჩა N65"], [42.270242, 42.681112, "ნ.ნიკოლაძის ქუჩა N27"], [42.270276, 42.684149, "ი.პეტრიწის ქუჩა N38"], [42.27148, 42.684049, "ვაჟა-ფშაველას ქუჩა N73"], [42.273093, 42.684977, "წყალტუბოს 1 შესახვევი N17"], [42.273343, 42.685608, "წყალტუბოს 1 შესახვევი N11"], [42.27308, 42.6876, "ვაჟა ფშაველას მე6 შესახვევი N2"], [42.275176, 42.688402, "წყალტუბოს 3 შესახვევი N 29"], [42.283247, 42.692202, "პ. ჩანჩიბაძის ქუჩა N74"], [42.281279, 42.693836, "პ.ჩანჩიბაძის ქუჩა N91"], [42.280405, 42.696518, "პ.ჩანჩიბაძის ქუჩა N65"], [42.279936, 42.698844, "პ.ჩანჩიბაძის ქუჩა N47"], [42.279157, 42.699576, "პ.ჩანჩიბაძის ქუჩა N41"], [42.277948, 42.70028, "პ.ჩანჩიბაძის ქუჩა N19"], [42.276109, 42.700909, "ა.ყაზბეგის ქუჩა N43"], [42.274912, 42.699533, "ა. ყაზბეგის ქუჩა N35"], [42.274957, 42.69966, "ა.ყაზბეგის ქუჩა N14"], [42.276059, 42.700994, "ა.ყაზბეგის ქუჩა N36"], [42.277712, 42.704495, "ბაგრატის ტაძარი"], [42.276968, 42.703012, "ბაგრატის ქუჩა N23"], [42.2765, 42.70095, "პ. ჩანჩიბაძის ქუჩა N2"], [42.27793, 42.70041, "პ. ჩანჩიბაძის ქუჩა N12"], [42.27865, 42.70043, "პ. ჩანჩიბაძის ქუჩა N16"], [42.279491, 42.699761, "პ.ჩანჩიბაძის ქუჩა N22"], [42.279997, 42.698879, "პ.ჩანჩიბაძის ქუჩა N30"], [42.280466, 42.696357, "პორფირე ჩანჩიბაძის ქუჩა N50"], [42.281397, 42.69384, "პ.ჩანჩიბაძის ქუჩა N64"], [42.278756, 42.685676, "მ. გორკის ქუჩა N83"], [42.275047, 42.696141, "მ.გორკის ქუჩა N7"], [42.274512, 42.696573, "მ. გორკი ქუჩა N1"], [42.274514, 42.698885, "ცაცხვების ქუჩა N42"], [42.274848, 42.699448, "ა.ყაზბეგის ქუჩა N14"], [42.274562, 42.698735, "ცაცხვები ქუჩა N49"], [42.275326, 42.695846, "მ.გორკის ქუჩა N16"], [42.276777, 42.696996, "პ.ჭაბუკიანის მე 2 შესახვევი N15"], [42.27671, 42.69466, "პ. ჭაბუკიანის ქუჩა N14"], [42.277964, 42.692716, "პ.ჭაბუკიანის ქუჩა N34"], [42.279641, 42.690189, "წყაროს ქუჩა N6"], [42.28206, 42.689751, "წყაროს ქუჩა N23"], [42.278881, 42.690623, "ა.კოღუაშვილი ქუჩა N9"], [42.277016, 42.688868, "ა.კოღუაშვილი N1"], [42.288181, 42.708007, "რუას ქუჩა N53"], [42.284885, 42.707136, "რუას ქუჩა N33"], [42.283967, 42.707396, "რუას ქუჩა N2"], [42.280676, 42.707406, "რუას 1 ჩიხი N2"], [42.279901, 42.708349, "დავით და კონსტანტინეს ქუჩა N58"], [42.273089, 42.702732, "ფ. ვარლამიშვილის ქუჩა N1"], [42.278927, 42.707384, "დავით და კონსტანტინეს ქუჩა N34"], [42.280077, 42.707052, "დავით და კონსტანტინეს ქუჩა N48"], [42.280927, 42.70474, "მ.ასლანიკაშვილის ქუჩა N32"], [42.281479, 42.702608, "მ. ასლანიკაშვილის ქუჩა N44"], [42.281537, 42.701677, "მ.ასლანიკაშვილის ქუჩა N52"], [42.281792, 42.700341, "მ.ასლანიკაშვილის მე-2 შესახვევი N1"], [42.282453, 42.70084, "მ.ასლანიკაშვილის მე-2 შესახვევი N8"], [42.283258, 42.700856, "ქეთევან წამებულის ქუჩა N 10"], [42.283776, 42.701103, "ქეთევან წამებულის მე3 შესახვევი N20"], [42.283255, 42.702713, "ქეთევან წამებულის მე2 შესახვევი N2"], [42.282978, 42.704566, "ქეთევან წამებულის მე2 შესახვევი N12"], [42.284221, 42.706263, "ქეთევან წამებულის მე2 შესახვევი N23"], [42.285139, 42.707194, "რუას ქუჩა N8"], [42.287165, 42.707484, "რუას ქუჩა N32"], [42.24961, 42.686788, "კ. გამსახურდიას ქუჩა N2"], [42.247007, 42.685353, "კ. განსახურდიას ქუჩა N14"], [42.239714, 42.680957, "კ. გამსახურდიას ქუჩა N50"], [42.223538, 42.670271, "კ. გამსახურდიას ქუჩა N209"], [42.226248, 42.672333, "კ. გამსახურდიას ქუჩა N187"], [42.23393, 42.662012, "სულხან საბას გამზირი N95"], [42.235173, 42.66427, "სულხან საბას გამზირი N65"], [42.238533, 42.665153, "სულხან საბას გამზირი N47 \"ა"], [42.23959, 42.66759, "სულხან საბას გამზირი N27"], [42.240576, 42.668206, "სულხან საბას გამზირი N9 \"ბ\""], [42.250305, 42.672325, "ს. გუგუნავას ქუჩა N5"], [42.254102, 42.663867, "ს. გუგუნავას ქუჩა N22"], [42.255611, 42.663752, "ზ. გამსახურდიას გამზირი N45"], [42.251619, 42.682936, "მოსწავლე ახალგაზრდობის პარკი"], [42.249658, 42.687941, "ი.ჭავჭავაძის  გამზირი N23"], [42.249263, 42.691019, "ი. ჭავჭავაძის გამზირი N9"], [42.249331, 42.694518, "ლ.ასათიანის  ქუჩა N147"], [42.253067, 42.695902, "ლ.ასათიანის  ქუჩა N119"], [42.254822, 42.696573, "ლ. ასათიანის ქუჩა N105"], [42.257434, 42.697482, "ლ. ასათიანის ქუჩა N65"], [42.25473, 42.69038, "ე. ნინოშვილის ქუჩა N100"], [42.250108, 42.686989, "ი. ჭავჭავაძის  გამზირი N12"], [42.262735, 42.671419, "ჟ. შარტავას ქუჩა N7"], [42.263177, 42.666312, "იუსტიციის სახლი"], [42.262627, 42.660955, "ტექნოლოგიური ჰაბი"], [42.262024, 42.654541, "ი. აბაშიძის ქუჩა N32"], [42.263303, 42.651731, "გ. შერვაშიძის ქუჩა N53"], [42.264043, 42.649776, "გ.შერვაშიძის ქუჩა N59"], [42.265365, 42.644932, "გ.შერვაშიძის ქუჩა N49"], [42.265267, 42.643189, "გ.შერვაშიძის ქუჩა N31"], [42.265161, 42.641282, "გ.შერვაშიძის ქუჩა N15"], [42.265079, 42.639571, "გ.შერვაშიძის ქუჩა N1"], [42.264775, 42.636237, "წმინდა ლუკას N15"], [42.265612, 42.635418, "წმ ლუკას ქუჩა N2"], [42.266215, 42.635318, "წმინდა ლუკას N23"], [42.267475, 42.635578, "წმინდა ლუკას N29"], [42.268501, 42.63583, "წმინდა ლუკას ქუჩა N39"], [42.269243, 42.63699, "წმინდა ლუკას ქუჩა N41"], [42.269757, 42.640503, "წმინდა ლუკას ქუჩის N64"], [42.269304, 42.636931, "წმინდა ლუკას ქუჩა N50"], [42.268494, 42.635743, "წმინდა ლუკას ქუჩა N40"], [42.267578, 42.635544, "წმინდა ლუკას ქუჩა N38"], [42.266248, 42.635244, "წმინდა ლუკას ქუჩა N32"], [42.265483, 42.635237, "წმინდა ლუკას ქუჩა N28"], [42.264765, 42.636754, "წმინდა ლუკას ქუჩა N18"], [42.265062, 42.639986, "გ.შერვაშიძის ქუჩა N2"], [42.265118, 42.641306, "გ.შერვაშიძის ქუჩა N14"], [42.265224, 42.64303, "გ.შერვაშიძის ქუცა N30"], [42.26532, 42.644941, "გ.შერვაშიძის ქუჩა N48"], [42.26484, 42.647526, "გ.შერვაშიძის ქუჩა N56"], [42.263308, 42.651043, "გ. შერვაშიძის ქუჩა N68"], [42.262429, 42.66102, "ი. აბაშიძის ქუჩა N13"], [42.262991, 42.666819, "იუსტიციის სახლი"], [42.262874, 42.671209, "ჟ. შარტავას ქუჩა N2"], [42.273167, 42.705003, "მარი ბროსეს ქუჩა N1"], [42.272713, 42.706792, "გელათის ქუჩა N4"], [42.272324, 42.711833, "გელათის ქუჩა N52"], [42.272763, 42.714041, "\"მე-8  საჯარო სკოლა\""], [42.274664, 42.716061, "გელათის ქუჩა N100"], [42.274441, 42.719406, "გელათის ქუჩის N125"], [42.276734, 42.728203, "გელათის ქუჩა მე-6 ჩიხი N1"], [42.279065, 42.732561, "გელათის ქუჩა \"შოთას წყარო\""], [42.281235, 42.735353, "ქუთაისის სატელევიოზიო ანძა"], [42.295466, 42.724953, "მწვანეყვავილას ქუჩა N168"], [42.290573, 42.727991, "მწვანეყვავილას ქუჩა N91"], [42.286928, 42.728707, "მწვანეყვავილას ქუჩა N73"], [42.285343, 42.728312, "მწვანეყვავილას ქუჩა N63"], [42.282871, 42.727133, "მწვანეყვავილას ქუჩა N39"], [42.277148, 42.721111, "მწვანეყვავილას ქუჩა N33"], [42.276732, 42.718667, "მწვანეყვავილას ქუჩა N13"], [42.274734, 42.712547, "ბორის გაპონოვის ქუჩა N27"], [42.274719, 42.711211, "ბორის გაპონოვის ქუჩა N13"], [42.274288, 42.708615, "ნიუპორტის სკვერი"], [42.274203, 42.708553, "ბორის გაპონოვის N2"], [42.274623, 42.711185, "ბორის გაპონოვის N32"], [42.274601, 42.712776, "ბორის გაპონოვის N48"], [42.275157, 42.71442, "ბორის გაპონოვის N70"], [42.275876, 42.714326, "მწვანეყვავილას ქუჩა N1"], [42.276611, 42.718632, "მწვანე ყვავილას N34"], [42.277057, 42.721193, "მწვანეყვავილას  ქუჩა N60"], [42.282665, 42.726968, "მწვანეყვავილას ქუჩა N80"], [42.285054, 42.728491, "მწვანეყვავილას ქუჩა N114"], [42.287066, 42.728856, "მწვანეყვავილას ქუჩა N134"], [42.290739, 42.727959, "მწვანეყვავილას ქუჩა N192ა"], [42.275784, 42.732793, "დ. კლდიაშვილის ქუჩა N195"], [42.274169, 42.73208, "დ.კლდიაშვილის ქუჩა N136"], [42.272555, 42.728486, "ტყიბულის ქუჩა N189"], [42.272186, 42.728025, "დ.კლდიაშვილის ქუჩა N185"], [42.272106, 42.726796, "ტყიბულის ქუჩა მე3 შესახვევი N2"], [42.271102, 42.725243, "ტყიბულის ქუჩა მე3 შესახვევი N18"], [42.270714, 42.72673, "ტყიბულის ქუჩა მე8 შესახვევი N20"], [42.27003, 42.727305, "ტყიბულის ქუჩა N32"], [42.268937, 42.72679, "ტყიბულის ქუჩა N159"], [42.26854, 42.724587, "ტყიბულის ქუჩა N123"], [42.268802, 42.722336, "დ. კლდიაშვილის ქუჩა N49"], [42.267221, 42.721171, "დ.კლდიაშვილის ქუჩა N29"], [42.266259, 42.718284, "საფიჩხიის ცენტრი"], [42.268106, 42.716477, "26 მაისი ქუჩა N69"], [42.269261, 42.71481, "26  მაისის ქუჩა  N45"], [42.270806, 42.710235, "მ. კოსტავას ქუჩა N41"], [42.269191, 42.713818, "მ.კოსტავას ქუჩა N78"], [42.267866, 42.716466, "26 მაისის ქუჩა N72"], [42.266361, 42.717748, "საფიჩხიის ცენტრი"], [42.26616, 42.71908, "დ.კლდიაშვილის ქუჩა N2"], [42.267237, 42.72132, "დ.კლდიაშვილის ქუჩა N24"], [42.268925, 42.72234, "ტყიბულის ქუჩა N89"], [42.27026, 42.718534, "ტყიბულის ქუჩა N79"], [42.272011, 42.722309, "\"28 საჯარო სკოლა\""], [42.271361, 42.723577, "დ.კლდიაშვილის ქუჩა N76"], [42.27377, 42.724292, "დ.კლდიაშვილის ქუჩა N110"], [42.274272, 42.730159, "დ.კლდიაშვილის ქუჩა N134"], [42.265861, 42.730184, "1-ლი ქუჩა N2"], [42.261186, 42.698632, "ლ. ასათიანის ქუჩა N2"], [42.257309, 42.697286, "ლ. ასათიანის  ქუჩა N50"], [42.254472, 42.696232, "ლ. ასათიანის  ქუჩა N90"], [42.253113, 42.695718, "ლ. ასათიანი ქუჩა N96"], [42.249353, 42.694275, "ლ. ასათიანის ქუჩა N98"], [42.248336, 42.693823, "ნიკეას ქუჩა N2"], [42.245515, 42.69301, "ნიკეას  ქუჩა N6"], [42.243015, 42.691889, "ნიკეას ქუჩა მე-2 ჩიხი N12"], [42.242971, 42.687863, "ნიკეას ქუჩა მე-2 ჩიხი N3"], [42.239151, 42.692075, "ნიკეას ქუჩა N20"], [42.236732, 42.691716, "ნიკეას ქუჩა N34"], [42.233435, 42.691303, "ნიკეას ქუჩა N42"], [42.232387, 42.691059, "ნიკეას ქუჩა N44ა"], [42.23096, 42.690922, "ნიკეას ქუჩა N58"], [42.227768, 42.690283, "ნიკეას ქუჩა N72"], [42.228386, 42.691037, "ნიკეას ქუჩა N25"], [42.230894, 42.691279, "ნიკეას ქუჩა N21"], [42.2336, 42.69163, "ნიკეას ქუჩა N19გ"], [42.234543, 42.69175, "ნიკეას ქუჩა N19ა"], [42.235677, 42.692, "ნიკეა ქუჩა N19"], [42.23777, 42.692257, "ნიკეას ქუჩა N17"], [42.239763, 42.69249, "ნიკეას ქუჩა N13"], [42.242446, 42.692742, "ნიკეას ქუჩა N9"], [42.245966, 42.693574, "ნიკეას ქუჩა N7"], [42.26985, 42.70993, "თბილისის ქუჩის N38"], [42.268965, 42.712713, "თბილისის ქუჩა N61"], [42.271577, 42.700961, "ზ. ფალიაშვილის ქუჩა N13"], [42.26727, 42.693149, "შ.რუსთაველის გამზირი N42"], [42.266702, 42.68807, "შ.რუსთაველის გამზირი  N92"], [42.266706, 42.683113, "შ.რუსთაველის გამზირი N108"], [42.264422, 42.677891, "ზ. გამსახურდიას გამზირი"], [42.262613, 42.674986, "ზ.გამსახურდიას გამზირი N12"], [42.26142, 42.700401, "ფოლკლორის ცენტრი"], [42.261403, 42.703058, "აღმაშენებლის  გამზირიN9"], [42.261325, 42.707532, "აღმაშენებლის გამზირი N7"], [42.259003, 42.708991, "12 საჯარო სკოლა"], [42.261394, 42.712499, "სადგურის მოედანი"], [42.262615, 42.711124, "თამარ მეფის  ქუჩა N95"], [42.264473, 42.708924, "ა.წ სახელმწიფო უნივერსიტეტი"], [42.268282, 42.706376, "თამარ მეფის ქუჩა N23"], [42.270156, 42.7047, "ა.წერეთლის ქუჩა N2 \"ქარვასლა\""], [42.266528, 42.704382, "ა.წერეთლის ქუჩა N30"], [42.264312, 42.705663, "ა.წერეთლის ქუჩა N66"], [42.261798, 42.707634, "ა.წერეთლის ქუჩა N98"], [42.261529, 42.703182, "\"სკოლა პროგრესი\""], [42.261591, 42.70102, "ფოლკლორის ცენტრი"], [42.249537, 42.689783, "ი.ჭავჭავაძის გამზირი 8/4"], [42.262445, 42.675104, "ზ. გამსახურდიას გამზირიN13"], [42.264366, 42.678226, "შ. რუსთაველის გამზირი N141"], [42.266387, 42.68285, "შ.რუსთაველის გამზირი N101"], [42.26681, 42.68532, "შ. რუსთაველის  გამზირი N95"], [42.266449, 42.689154, "შ.რუსთაველის გამზირი N69"], [42.267161, 42.693716, "შ.რუსთაველის გამზირი N35"], [42.267893, 42.695457, "ი. გრიშაშვილის ქუჩა N22"], [42.24804, 42.681549, "რ. თაბუკაშვილის ქუჩა"], [42.245871, 42.680163, "რ. თაბუკაშვილის ქუჩა N6"], [42.244305, 42.679149, "რ. თაბუკაშვილი ქუჩა N10"], [42.242667, 42.678097, "რ. თაბუკაშვილი ქუჩა N20"], [42.240397, 42.676617, "რ. თაბუკაშვილის ქუჩა N32"], [42.236628, 42.674025, "რ. თაბუკაშვილის ქუჩა N72"], [42.234355, 42.672521, "რ. თაბუკაშვილის ქუჩა N92"], [42.231467, 42.671027, "რ.თაბუკაშვილის ქუჩა N205"], [42.233305, 42.672214, "რ. თაბუკაშვილის ქუჩა N183"], [42.234389, 42.673052, "რ.თაბუკაშვილის ქუჩა N183"], [42.23655, 42.67431, "რ.თაბუკაშვილის ქუჩა N159"], [42.239768, 42.676468, "რ.თაბუკაშვილი ქუჩა N119"], [42.242047, 42.67799, "რ.თაბუკაშვილის ქუჩა N111"], [42.244204, 42.679449, "რ.თაბუკაშვილის ქუჩა N77"], [42.2458, 42.680428, "რ. თაბუკაშვილის ქუჩა N65"], [42.248357, 42.681995, "რ. თაბუკაშვილის ქუჩა N29"], [42.250261, 42.683156, "რ. თაბუკაშვილის ქუჩაN5"], [42.202098, 42.721522, "ახალგაზრდობის გამზ.მე-5 შესახვევი N15 \"ბ\""], [42.214444, 42.710544, "\"ქუთაისი საერთაშორისო უნივერსიტეტი\""], [42.23152, 42.712003, "ახალგაზრდობის გამზირი N21"], [42.234197, 42.712145, "ახალგაზრდობის გამზირი N19"], [42.237176, 42.712483, "ახალგაზრდობის  გამზირი N21"], [42.240353, 42.71287, "ახალგაზრდობის გამზირი N23"], [42.245579, 42.712096, "ახალგაზრდობის გამზირი N12"], [42.246939, 42.709153, "ა. წერეთლის ქუჩა N220 \"გ\""], [42.248861, 42.694689, "ი. ჭავჭავაძის გამზირი N6"], [42.258934, 42.667022, "9 აპრილის ქუჩა N2"], [42.2618, 42.660717, "9აპრილი ქუჩაN10"], [42.261229, 42.645866, "ავტომშენებლის  ქუჩა N6"], [42.260994, 42.643299, "ავტომშენებლის ქუჩა N12"], [42.260658, 42.640321, "ავტომშენებლის ქუჩა N18"], [42.26043, 42.637785, "ავტომშენებლის ქუჩა N14"], [42.2602, 42.63485, "ავტომშენებლის ქუჩა N30"], [42.259902, 42.631225, "ავტომშენებლის ქუჩა N40"], [42.259783, 42.629795, "ავტომშენებლის ქუჩა N40"], [42.259195, 42.622597, "ავტომშენებლის ქუჩა N98"], [42.258895, 42.618892, "ავტომშენებლის ქუჩა N88"], [42.258629, 42.615986, "კადეტთა ლიცეუმი"], [42.258242, 42.611536, "ავტომშენებლის ქუჩა N52"], [42.258159, 42.609901, "ავტომშენებლის ქუჩა N54"], [42.257807, 42.603001, "სპეციალური  სერვისები"], [42.258065, 42.611713, "ავტომშენებლის ქუჩა N51"], [42.258488, 42.616002, "კადეტთა  ლიცეუმი"], [42.258759, 42.618911, "ხარებავას ქუჩა N9"], [42.25882, 42.622043, "ავტომშენებლის ქუჩა N43"], [42.259564, 42.628829, "ავტომშენებლის ქუჩა N42"], [42.259751, 42.631194, "საგანგებო სიტუაციების მართვის სამსახური"], [42.259849, 42.632346, "ავტომშენებლის ქუჩა N33"], [42.260059, 42.634884, "ავტომშენებლის ქუჩა N27"], [42.260267, 42.637765, "ავტომშენებლის ქუჩა N11"], [42.260456, 42.640376, "ავტომშენებლის ქუჩა N17"], [42.260778, 42.64361, "ავტომშენებლის ქუჩა N9"], [42.260992, 42.645816, "ავტომშენებლის  გამზირი N3"], [42.261851, 42.654634, "ი. აბაშიძის ქუჩა N29"], [42.248608, 42.694606, "ი. ჭავჭავაძის  გამზირი N1"], [42.246809, 42.7092, "ა. წერეთლის ქუჩა N220"], [42.243507, 42.71229, "ახალგაზრდობის გამზირი N44"], [42.240866, 42.712674, "ახალგაზრდობის გამზირი N60"], [42.239019, 42.712451, "ახალგაზრდობის გამზირი N86 \"ა\""], [42.234195, 42.711858, "ახალგაზრდობის გამზირი N98"], [42.231294, 42.711722, "ახალგაზრდობის გამზირი N102"], [42.213556, 42.710166, "\"ქუთაისის საერთაშორისო უნივერსიტეტი\""], [42.202989, 42.709381, "ახალგაზრდობის გამზირი მე-5 შეს"], [42.201741, 42.717901, "ახალგაზრდობის გამზირი მე-5 შესახვევი N15"], [42.198272, 42.71047, "რკინიგზის სადგური \"რიონი\""], [42.197923, 42.720046, "ახალგაზრდობის გამზირი მე-8შესახვევი N1"], [42.198677, 42.711327, "ვ. მაიკოვსკის ხეივანი N2"], [42.202886, 42.709383, "ახალგაზრდობის მე-5 შესახვევი"], [42.249527, 42.709742, "ა. წერეთლის ქუჩა N192"], [42.25364, 42.709643, "ა. წერეთელის ქუჩა N163"], [42.258838, 42.708404, "ა. წერეთლის ქუჩა N162"], [42.256566, 42.709871, "ა. წერეთლის ქუჩა N159"], [42.253565, 42.709434, "ა. წერეთელის ქუჩა N186"], [42.249518, 42.709603, "ა. წერეთლის ქუჩა N192"], [42.201899, 42.717797, "ახალგაზრდობის გამზირი მე-5 შესახვევი"], [42.202937, 42.709171, "ახალგაზრდობის გამზირი მე-5  შესახვევი"], [42.198168, 42.71203, "ვ. მაიაკოვსკის ხეივანი N2"], [42.19802, 42.719821, "ვ. მაიაკოვსკის ხეივანი N112"], [42.269259, 42.667758, "ი.ჯავახიშვილის ქუჩა N85"], [42.269906, 42.674631, "\" ყინულის მოედანი\""], [42.269307, 42.676464, "ი. ჯავახიშვილის ქუჩა N91"], [42.268159, 42.6804, "ი. ჯავახიშვილის ქუჩა N15"], [42.267342, 42.683105, "ი.ჯავახიშვილის  ქუჩა N3"], [42.234976, 42.691208, "ნიკეას ქუჩა N40"], [42.234626, 42.687233, "ნიკეას ქუჩა N40 გ"], [42.230926, 42.687965, "ნიკეას ქუჩა მე-2 შესახვევი N12"], [42.229616, 42.685919, "ნიკეას ქუჩა მე-2 შესახვევი N14"], [42.228637, 42.686115, "ნიკეას ქუჩა N12"], [42.267345, 42.683703, "ი.ჯავახიშვილის ქუჩა N2"], [42.268308, 42.680493, "ი.ჯავახიშვილის ქუჩა N10"], [42.269509, 42.676504, "ი. ჯავახიშვილის ქუჩა N20"], [42.270057, 42.674729, "ყინულის მოედანი"], [42.267841, 42.674043, "მ. ბუხაიძის ქუჩაN6"], [42.265061, 42.674039, "მ. ბუხაიძის ქუჩა N23"], [42.263846, 42.673245, "ი. აბაშიძის ქუჩა N9"], [42.263378, 42.671537, "ი. აბაშიძის ქუჩა N11"], [42.265277, 42.674246, "მ.ბუხაიძის ქუჩა N17"], [42.268016, 42.674198, "მ. ბუხაიძის ქუჩა N5"], [42.269719, 42.674224, "ყინულის მოედანი"], [42.263654, 42.71319, "ვ. კუპრაძის ქუჩა N8"], [42.260141, 42.714776, "ვ. კუპრაძის ქუჩაN22"], [42.258326, 42.715415, "ვ. კუპრაძის ქუჩა  N38"], [42.25475, 42.716823, "ვ. ბაგრატიონის ქუჩა N8"], [42.251445, 42.718229, "ვ. ბაგრატიონის ქუჩა N46"], [42.249523, 42.717722, "ვ. აბაშიძის ქუჩა N23"], [42.248129, 42.713538, "გ. ლეონიძის ქუჩა N6"], [42.246239, 42.713862, "ახალგაზრდობის 1 შესახვევი N25"], [42.245971, 42.713806, "ახალგაზრდობის 1 შესახვევი N2 \"ბ\""], [42.248229, 42.713619, "გ. ლეონიძის ქუჩა N6 \"ა\""], [42.249654, 42.718734, "ვ. აბაშიძის ქუჩა N74"], [42.251516, 42.718406, "ვ. ბაგრატიონის ქუჩა N53"], [42.255137, 42.71688, "ვ. ბაგრატიონის ქუჩა N7"], [42.258371, 42.715546, "ვ. კუპრაძის ქუჩა N57"], [42.263655, 42.713352, "ვ. კუპრაძის ქუჩა N10"], [42.26154, 42.692851, "ნ. დუმბაძის ქუჩა"], [42.258563, 42.691387, "ნ. დუმბაძის ქუჩა N1"], [42.242841, 42.683344, "კ.გამსახურდიას ქუჩა N40"], [42.238976, 42.680441, "კ.გამსახურდიას ქუჩა N72"], [42.237233, 42.67937, "კ.გამსახურდიას ქუჩა N90"], [42.234698, 42.677867, "კ. გამსახურდია ქუჩა N110"], [42.232948, 42.676864, "კ.გამსახურდიას ქუჩა N120"], [42.231518, 42.675919, "კ.გამსახურდიას ქუჩა N134"], [42.229435, 42.674466, "კ.გამსახურდიას ქუჩა N148"], [42.227828, 42.673363, "კ.გამსახურდიას ქუჩა N156"], [42.225867, 42.671975, "კ.გამსახურდიას ქუჩა N176"], [42.226088, 42.672317, "კ.გამსახურდიას ქუჩა N189"], [42.227933, 42.673591, "კ.გამსახურდიას ქუჩა N175"], [42.245244, 42.682872, "ი. ოცხელის ქუჩა N1"], [42.246993, 42.685546, "კ. გამსახურდიას ქუჩა N53"], [42.279877, 42.709178, "კ. ლესელიძის ქუჩა N4"], [42.280964, 42.713442, "კ. ლესელიძის ქუჩა N6"], [42.281818, 42.717183, "კ. ლესელიძის ქუჩა N34"], [42.283875, 42.720248, "კ. ლესელიძის ქუჩა N78"], [42.285151, 42.721718, "კ. ლესელიძის ქუჩა N96"], [42.287453, 42.723153, "კ. ლესელიძის ქუჩა N130"], [42.289945, 42.723746, "კ. ლესელიძის ქუჩა N150"], [42.295267, 42.715757, "კ. ლესელიძის  ქუჩა გაჩერება 1"], [42.314879, 42.706671, "ლ. ავალიანის ქუჩა N40"], [42.321188, 42.710005, "28 საჯარო სკოლა"], [42.311997, 42.708066, "ლ. ავალიანის ქუჩა N29"], [42.306786, 42.709532, "ლ. ავალიანის ქუჩა N5"], [42.304733, 42.711542, "კ. ლესელიძის ქუჩა მე-6 \"ჩიხი\""], [42.299558, 42.7139, "კ. ლესელიძის ქუჩა გაცერება 5"], [42.297885, 42.713685, "კ. ლესელიძის  ქუჩა გაჩერება 3"], [42.295177, 42.715597, "კ. ლესელიძის  ქუჩა გაჩერება 2"], [42.289941, 42.723558, "კ. ლესელიძის ქუჩა N173"], [42.287429, 42.722968, "კ. ლესელიძის ქუჩა N149"], [42.285213, 42.721598, "კ.ლესელიძის ქუჩა N117"], [42.283633, 42.719779, "კ. ლესელიძის ქუჩა N89"], [42.281871, 42.717024, "კ. ლესელიძის ქუჩა N55"], [42.28098, 42.713216, "კ. ლესელიძის ქუჩა N3"], [42.279829, 42.708847, "კ. ლესელიძის ქუჩა N2"], [42.273068, 42.702492, "წმინდა ნინოს ქუჩა N29"], [42.253516, 42.695939, "ლ. ასათიანის ქუჩა N96"], [42.309548, 42.671077, "სათაფლიის მღვიმე"]]};
+      map = L.map('map', { zoomControl: false, zoomAnimation: false, zoomSnap: 0.5, minZoom: 6, maxZoom: 17 })
+        .setView([42.15, 43.30], 8);
+      const canvas = document.querySelector('.map-canvas');
+      new ResizeObserver(() => {
+        if (canvas.clientWidth && canvas.clientHeight) map.invalidateSize({ pan: false });
+      }).observe(canvas);
 
-      // Render glowing highway corridors
-      const e60LatLngs = e60FullCorridor.map(p => [p[0], p[1]]);
-      L.polyline(e60LatLngs, { color: '#0f6cbd', weight: 6, opacity: 0.85, lineJoin: 'round' }).addTo(map);
-      L.polyline(e60LatLngs, { color: '#facc15', weight: 2.5, opacity: 0.9, dashArray: '8, 8' }).addTo(map);
+      window.schematicBase = L.layerGroup().addTo(map);
+      map.createPane('schematicLand').style.zIndex = 250;
+      L.polygon(geography.outline, {
+        pane: 'schematicLand',
+        color: '#cbdbd5', weight: 1, fillColor: '#f7f9f2', fillOpacity: 1, interactive: false
+      }).addTo(window.schematicBase);
 
-      // Regional Branches
-      L.polyline(s1ZugdidiCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(s12PotiCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(s8AkhaltsikheCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(s3KazbegiCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(s5TelaviCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(svanetiCorridor.map(p => [p[0], p[1]]), { color: '#64748b', weight: 3.5, opacity: 0.75, dashArray: '4, 4' }).addTo(map);
+      window.transitCorridorsGroup = L.layerGroup().addTo(map);
+      window.intersectionHubsGroup = L.layerGroup();
+      window.kutaisiLinesGroup = L.layerGroup().addTo(map);
+      L.polyline(geography.highway, { color: '#5b8f85', weight: 5.5 }).addTo(window.transitCorridorsGroup);
+      L.polyline(geography.highway, { color: '#74a999', weight: 4 }).addTo(window.transitCorridorsGroup);
+      geography.branches.forEach(branch => {
+        L.polyline(branch, { color: '#d9e2dd', weight: 2 }).addTo(window.schematicBase);
+      });
 
-      // Dedicated Route Taxi (Marshrutka) Regional Branches
-      L.polyline(tskaltuboCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(tkibuliCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(chiaturaCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(martviliCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(baghdatiCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(vaniCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(sighnaghiCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
+      const majorCities = new Set(['Tbilisi', 'Kutaisi', 'Batumi', 'Zugdidi', 'Poti']);
+      const cityLabels = geography.cities.map(([lat, lon, name]) => ({
+        name,
+        marker: L.marker([lat, lon], {
+          interactive: false,
+          icon: L.divIcon({ className: 'map-city', html: name, iconSize: [8, 16], iconAnchor: [4, 8] })
+        })
+      }));
+      const municipalStops = L.layerGroup(geography.stops.map(([lat, lon, name]) =>
+        L.circleMarker([lat, lon], { radius: 4, color: '#fff', weight: 1, fillColor: '#1e88e5', fillOpacity: .75 })
+          .bindTooltip(() => {
+            const label = document.createElement('span');
+            label.textContent = name;
+            return label;
+          })
+      ));
+      function updateMapDetail() {
+        const zoom = map.getZoom();
+        cityLabels.forEach(({ name, marker }) => {
+          const show = majorCities.has(name) || (zoom >= 9.5 && (!name.includes('(') || zoom >= 11.5));
+          if (show) marker.addTo(window.schematicBase);
+          else marker.remove();
+        });
+        if (zoom >= 12) municipalStops.addTo(map);
+        else municipalStops.remove();
+        updateMapStatus();
+      }
+      municipalCluster = L.marker([42.2662, 42.7180], { title: 'Zoom to Kutaisi vehicles' }).on('click', zoomKutaisi);
+      map.on('zoomend', updateMapDetail);
+      map.on('move zoom resize', syncYandexView);
+      window.streetTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        referrerPolicy: 'strict-origin-when-cross-origin',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      });
+      streetTiles.on('load', () => {
+        if (!map.hasLayer(streetTiles)) return;
+        if (streetTiles.getContainer()?.querySelector('.leaflet-tile-loaded')) {
+          schematicBase.remove();
+        } else {
+          schematicBase.addTo(map);
+        }
+      });
+      if (location.protocol === 'file:') {
+        const button = document.getElementById('btnBasemap');
+        button.disabled = true;
+        button.title = 'Open the preview through localhost to use the street map.';
+      }
 
       // Group for stop markers and route polylines
       stopMarkersGroup = L.layerGroup().addTo(map);
 
-      // Draw all 22 Kutaisi municipal lines on the map in thin light blue vector polylines
+      // Draw all 22 Kutaisi municipal lines on the map with clear visual hierarchy
       const colorPalette = [
         '#0284c7', '#0ea5e9', '#38bdf8', '#0284c7', '#0369a1', '#2563eb',
         '#1d4ed8', '#1e40af', '#0284c7', '#0891b2', '#06b6d4', '#22d3ee',
@@ -1230,14 +1558,29 @@
           let polyColor = colorPalette[colorIdx % colorPalette.length];
           colorIdx++;
 
+          let isReturnOrCross = k.endsWith('_1');
+
+          // Subtle casing so overlapping streets do not blur together
+          L.polyline(linePts, {
+            color: '#0f172a',
+            weight: 4.5,
+            opacity: 0.45,
+            lineCap: 'round',
+            lineJoin: 'round'
+          }).addTo(window.kutaisiLinesGroup);
+
+          // Line core: Inbound/intersecting return lines are rendered DASHED
           let poly = L.polyline(linePts, {
             color: polyColor,
-            weight: 3.5,
-            opacity: 0.7,
-            dashArray: k.endsWith('_1') ? '6, 6' : null
-          }).addTo(map);
+            weight: 3,
+            opacity: isReturnOrCross ? 0.75 : 0.85,
+            dashArray: isReturnOrCross ? '6, 6' : null,
+            className: isReturnOrCross ? 'dashed-intersection-line' : '',
+            lineCap: 'round',
+            lineJoin: 'round'
+          }).addTo(window.kutaisiLinesGroup);
 
-          poly.bindTooltip(`<b>Line ${p.route}:</b> ${p.name}<br><small>${p.dir_text}</small>`, { sticky: true });
+          poly.bindTooltip(`<b>Line ${p.route}:</b> ${p.name}<br><small>${p.dir_text} ${isReturnOrCross ? '(Dashed Return Leg)' : '(Outbound)'}</small>`, { sticky: true });
           kutaisiRoutePolylines[k] = poly;
         }
       });
@@ -1288,58 +1631,108 @@
         marshSelect.appendChild(opt);
       });
 
-      // Major city landmark markers
+      // Major Transit Intersections & Interchange Hubs
       const majorHubs = [
-        { name: 'Tbilisi (Didube / Okriba)', lat: 41.7508, lon: 44.7788 },
-        { name: 'Tbilisi (Ortachala)', lat: 41.6750, lon: 44.8350 },
-        { name: 'Kutaisi (Chavchavadze Central)', lat: 42.2578, lon: 42.6678 },
-        { name: 'Kutaisi (Red Bridge - წითელი ხიდი)', lat: 42.2712, lon: 42.6996 },
-        { name: 'Tskaltubo Spa Central', lat: 42.3260, lon: 42.6000 },
-        { name: 'Batumi (Mayakovsky / Central)', lat: 41.6580, lon: 41.6770 },
-        { name: 'Kutaisi Airport (KUT)', lat: 42.1800, lon: 42.4820 },
-        { name: 'Zugdidi (Central)', lat: 42.5088, lon: 41.8709 },
-        { name: 'Poti (Central)', lat: 42.1462, lon: 41.6720 },
-        { name: 'Tkibuli Central', lat: 42.3500, lon: 42.9900 },
-        { name: 'Chiatura Cable City', lat: 42.2900, lon: 43.2800 },
-        { name: 'Gori (E60 Interchange)', lat: 41.9842, lon: 44.1158 },
-        { name: 'Khashuri (Hub)', lat: 41.9942, lon: 43.5999 },
-        { name: 'Rikoti Mountain Pass', lat: 42.0550, lon: 43.4850 },
-        { name: 'Stepantsminda (Kazbegi)', lat: 42.6567, lon: 44.6433 },
-        { name: 'Mestia (Svaneti)', lat: 43.0440, lon: 42.7297 },
-        { name: 'Borjomi (Park Station)', lat: 41.8398, lon: 43.3850 },
-        { name: 'Akhaltsikhe (Central)', lat: 41.6390, lon: 42.9826 },
-        { name: 'Telavi (Kakheti)', lat: 41.9198, lon: 45.4731 },
-        { name: 'Sighnaghi (City of Love)', lat: 41.6210, lon: 45.9220 }
+        { name: 'Tbilisi Didube Intermodal Hub', lat: 41.7508, lon: 44.7788, desc: 'Major Northern Gateway · Metro Line 1 · Okriba & Kazbegi Terminals', lines: 'Highway E60, S3, Marshrutkas, Tbilisi Metro' },
+        { name: 'Tbilisi Ortachala International Station', lat: 41.6750, lon: 44.8350, desc: 'Eastern Gateway · Kakheti & Southern Intercity Hub', lines: 'Highway E60, S5 Kakheti, Metro Georgia' },
+        { name: 'Kutaisi Chavchavadze Central Hub', lat: 42.2578, lon: 42.6678, desc: 'Central Transit Hub · Omnibus Platform · 22 Municipal Lines · Regional Route Taxis', lines: 'Highway E60, All 22 Kutaisi City Buses, 25 Marshrutkas' },
+        { name: 'Kutaisi Red Bridge (წითელი ხიდი)', lat: 42.2712, lon: 42.6996, desc: 'Rioni River Crossing · Central Historic Interchange', lines: 'Lines 1L, 1R, 4, 10, 19, 111, 114' },
+        { name: 'Samtredia Junction (E60 / S1)', lat: 42.1626, lon: 42.3417, desc: 'Major Western Highway Interchange (Zugdidi / Batumi Split)', lines: 'Highway E60, S1 Zugdidi, Samegrelo Marshrutkas' },
+        { name: 'Grigoleti Coast Junction (E60 / S12)', lat: 42.0450, lon: 41.7450, desc: 'Black Sea Highway Interchange (Poti Seaport / Adjara Coast Split)', lines: 'Highway E60, S12 Poti Corridor' },
+        { name: 'Khashuri Central Junction (E60 / S8)', lat: 41.9942, lon: 43.5999, desc: 'Shida Kartli Highway Interchange (Borjomi / Akhaltsikhe Split)', lines: 'Highway E60, S8 Samtskhe-Javakheti Corridor' },
+        { name: 'Mtskheta Junction (E60 / S3)', lat: 41.8410, lon: 44.7150, desc: 'Georgian Military Highway Interchange (Kazbegi / Stepantsminda Split)', lines: 'Highway E60, S3 Military Highway' },
+        { name: 'Zestafoni Interchange (E60 / Chiatura)', lat: 42.1080, lon: 43.0450, desc: 'Imereti Mining & Industrial Highway Interchange', lines: 'Highway E60, Chiatura / Sachkhere Road' },
+        { name: 'Rikoti Mountain Pass Interchange', lat: 42.0550, lon: 43.4850, desc: 'Continental Divide Interchange (East / West Georgia)', lines: 'Highway E60 Highway Tunnel Bypass' },
+        { name: 'Gori Highway Interchange', lat: 41.9842, lon: 44.1158, desc: 'Shida Kartli Regional Transit Interchange', lines: 'Highway E60, Shida Kartli Route Taxis' },
+        { name: 'Batumi Central Station Interchange', lat: 41.6580, lon: 41.6770, desc: 'Adjara Transit Terminal · Intercity Coaches · Black Sea Fleet', lines: 'Highway E60, Citybus, Omnibus, Metro GEO' },
+        { name: 'Kutaisi International Airport (KUT)', lat: 42.1800, lon: 42.4820, desc: 'Air-Rail-Bus Intermodal Terminal', lines: 'Highway E60, Georgian Bus, Omnibus Airport Express' },
+        { name: 'Zugdidi Central Station', lat: 42.5088, lon: 41.8709, desc: 'Samegrelo-Svaneti Transit Gateway', lines: 'S1, Svaneti Mountain Route, Regional Taxis' },
+        { name: 'Stepantsminda (Kazbegi) Terminal', lat: 42.6567, lon: 44.6433, desc: 'Greater Caucasus Mountain Hub', lines: 'S3, Kazbegi Route Taxis' }
       ];
 
       majorHubs.forEach(h => {
+        // Outer pulsing dashed orbit ring indicating transit intersection
         L.circleMarker([h.lat, h.lon], {
-          radius: 5,
-          color: '#14203c',
+          radius: 12,
+          color: '#facc15',
+          weight: 2.2,
+          dashArray: '4, 4',
+          className: 'intersection-halo-ring',
+          fillColor: '#fef08a',
+          fillOpacity: 0.22
+        }).addTo(window.intersectionHubsGroup);
+
+        // Core intersection hub dot
+        L.circleMarker([h.lat, h.lon], {
+          radius: 5.5,
+          color: '#0f172a',
+          weight: 2,
           fillColor: '#ffffff',
-          fillOpacity: 1,
-          weight: 2.5
-        }).addTo(map).bindPopup(`<b>${h.name}</b><br>Transit Hub`);
+          fillOpacity: 1
+        }).addTo(window.intersectionHubsGroup).bindPopup(`
+          <div style="font-family:sans-serif; min-width:210px;">
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+              <span style="background:#0f172a; color:#facc15; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; border:1px dashed #facc15;">🔀 INTERSECTION</span>
+              <span style="font-size:11px; color:#16a34a; font-weight:700;">● ACTIVE</span>
+            </div>
+            <b style="font-size:0.95rem; color:#0f172a;">${h.name}</b><br>
+            <span style="font-size:0.8rem; color:#475569;">${h.desc}</span>
+            <div style="margin-top:6px; font-size:0.75rem; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; padding:4px 6px;">
+              <b style="color:#0284c7;">Intersecting Lines:</b> ${h.lines}
+            </div>
+          </div>
+        `);
       });
+
+      window.dashedIntersectionsEnabled = false;
+      window.toggleDashedIntersections = function() {
+        window.dashedIntersectionsEnabled = !window.dashedIntersectionsEnabled;
+        const btn = document.getElementById('btnDashedIntersections');
+        if (btn) {
+          if (window.dashedIntersectionsEnabled) {
+            btn.innerHTML = '🔀 Intersections: Dashed ON';
+            btn.style.color = '#facc15';
+            btn.style.borderColor = '#facc15';
+            if (window.intersectionHubsGroup && !map.hasLayer(window.intersectionHubsGroup)) map.addLayer(window.intersectionHubsGroup);
+          } else {
+            btn.innerHTML = '🔀 Intersections: Dashed OFF';
+            btn.style.color = '#94a3b8';
+            btn.style.borderColor = '#475569';
+            if (window.intersectionHubsGroup && map.hasLayer(window.intersectionHubsGroup)) map.removeLayer(window.intersectionHubsGroup);
+          }
+        }
+      };
+
+      function getVehicleArrowEl(v) {
+        if (v.arrowEl && v.arrowEl.isConnected) return v.arrowEl;
+        if (!v.marker) return null;
+        let el = v.marker.getElement();
+        if (el) {
+          v.arrowEl = el.querySelector('.heading-arrow');
+          return v.arrowEl;
+        }
+        return null;
+      }
 
       // Build and register vehicles
       const fleetData = buildVehiclesFleet();
 
       fleetData.forEach(v => {
-        let pos = interpolateAlongPolyline(v.path, v.t);
+        v.preparedPath = preparePolyline(v.path);
+        let pos = interpolateAlongPrepared(v.preparedPath, v.t);
 
-        let iconLabel = v.routeNo ? `🚌 #${v.routeNo}` : (v.isMarsh ? `🚐 TAXI` : v.op.badge);
+        let iconLabel = v.routeNo ? `#${v.routeNo}` : (v.isMarsh ? "MRS" : v.op.badge.slice(0, 3));
 
         let customIcon = L.divIcon({
-          className: 'vehicle-marker-icon',
+          className: v.routeNo ? 'vehicle-marker-icon municipal-vehicle' : 'vehicle-marker-icon',
           html: `
-            <div class="bus-marker-badge" style="background:${v.op.color}; color:${v.op.textColor};">
-              <span class="heading-arrow" style="transform: rotate(${pos.heading}deg);"></span>
+            <div class="bus-marker-badge" style="background:${v.routeNo ? '#0369a1' : v.isMarsh ? '#c2410c' : '#6d28a7'}; color:white;">
+              <span class="heading-arrow" style="transform: rotate(${Math.round(pos.heading)}deg);"></span>
               <span>${iconLabel}</span>
             </div>
           `,
-          iconSize: [68, 24],
-          iconAnchor: [34, 12]
+          iconSize: [25, 25],
+          iconAnchor: [12, 12]
         });
 
         let marker = L.marker([pos.lat, pos.lng], { icon: customIcon }).addTo(map);
@@ -1350,6 +1743,7 @@
 
         v.marker = marker;
         v.currentHeading = pos.heading;
+        v.lastHeading = Math.round(pos.heading);
         v.currentLat = pos.lat;
         v.currentLng = pos.lng;
         v.nextStopName = pos.nextStop;
@@ -1358,22 +1752,42 @@
         allVehicleSims.push(v);
       });
 
-      // Default inspector selection
-      let defaultBus = allVehicleSims.find(x => x.id === 'MR-OK-01') || allVehicleSims[0];
-      if (defaultBus) showVehicleInspector(defaultBus);
+      updateMapDetail();
+      updateSimClock();
 
-      // Animation ticker loop
+      // Animation ticker and elapsed-time clock
+      let simTickCounter = 0;
+      let lastTick = performance.now();
       setInterval(() => {
+        const now = performance.now();
+        const elapsed = now - lastTick;
+        lastTick = now;
         if (!simRunning) return;
+        simTickCounter++;
 
-        simTime = new Date(simTime.getTime() + 1000 * simSpeed);
-        document.getElementById('simClockText').innerText = `Sim Clock: ${simTime.toLocaleTimeString()} (UTC+4)`;
+        simTime = new Date(simTime.getTime() + elapsed * simSpeed);
+        if (simTickCounter % 4 === 0) updateSimClock();
 
         allVehicleSims.forEach(v => {
-          v.t += v.speed * (simSpeed / 5);
+          v.t += v.speed * (simSpeed / 25);
           if (v.t > 1.0) v.t = 0.0;
 
-          let pos = interpolateAlongPolyline(v.path, v.t);
+          // Skip DOM operations completely if vehicle is filtered out
+          if (!map.hasLayer(v.marker)) {
+            if (window.inspectedVehicleId === v.id && (simTickCounter % 4 === 0)) {
+              let pos = interpolateAlongPrepared(v.preparedPath, v.t);
+              v.currentLat = pos.lat;
+              v.currentLng = pos.lng;
+              v.currentHeading = pos.heading;
+              v.nextStopName = pos.nextStop;
+              v.totalKm = pos.totalKm;
+              v.currentKm = pos.currentKm;
+              updateInspectorDynamic(v);
+            }
+            return;
+          }
+
+          let pos = interpolateAlongPrepared(v.preparedPath, v.t);
           v.currentLat = pos.lat;
           v.currentLng = pos.lng;
           v.currentHeading = pos.heading;
@@ -1381,29 +1795,28 @@
           v.totalKm = pos.totalKm;
           v.currentKm = pos.currentKm;
 
+          // Smooth GPU hardware-accelerated movement via Leaflet setLatLng & CSS transition
           v.marker.setLatLng([pos.lat, pos.lng]);
 
-          let iconLabel = v.routeNo ? `🚌 #${v.routeNo}` : (v.isMarsh ? `🚐 TAXI` : v.op.badge);
-          v.marker.setIcon(L.divIcon({
-            className: 'vehicle-marker-icon',
-            html: `
-              <div class="bus-marker-badge" style="background:${v.op.color}; color:${v.op.textColor};">
-                <span class="heading-arrow" style="transform: rotate(${pos.heading}deg);"></span>
-                <span>${iconLabel}</span>
-              </div>
-            `,
-            iconSize: [68, 24],
-            iconAnchor: [34, 12]
-          }));
+          // Update heading rotation on live element without rebuilding DOM
+          let arrow = getVehicleArrowEl(v);
+          if (arrow) {
+            let roundH = Math.round(pos.heading);
+            if (v.lastHeading !== roundH) {
+              arrow.style.transform = `rotate(${roundH}deg)`;
+              v.lastHeading = roundH;
+            }
+          }
 
-          if (window.inspectedVehicleId === v.id) {
+          if (window.inspectedVehicleId === v.id && (simTickCounter % 3 === 0)) {
             updateInspectorDynamic(v);
           }
         });
-      }, 250);
+      }, 50);
     }
 
     function showVehicleInspector(v) {
+      document.getElementById('vehicleInspector').classList.remove('is-empty');
       window.inspectedVehicleId = v.id;
       const b = document.getElementById('inspBadge');
       b.innerText = v.routeNo ? `LINE #${v.routeNo}` : (v.isMarsh ? 'ROUTE TAXI' : v.op.badge);
@@ -1417,15 +1830,6 @@
       document.getElementById('inspCorridor').innerHTML = `Corridor / Road: <b>${v.corridor}</b>`;
       document.getElementById('inspDepTime').innerText = v.depTime;
       document.getElementById('inspArrTime').innerText = v.arrTime;
-
-      const featWrap = document.getElementById('inspFeatures');
-      featWrap.innerHTML = '';
-      v.op.features.forEach(f => {
-        let span = document.createElement('span');
-        span.className = 'feat-tag';
-        span.innerText = f;
-        featWrap.appendChild(span);
-      });
 
       updateInspectorDynamic(v);
     }
@@ -1466,14 +1870,36 @@
           stopMarkersGroup.clearLayers();
 
           let latLngs = v.path.map(st => [st[0], st[1]]);
-          highlightedRouteLayer = L.polyline(latLngs, {
-            color: '#f97316',
-            weight: 6.5,
-            opacity: 0.95,
-            lineCap: 'round'
-          }).addTo(map);
+          highlightedRouteLayer = L.layerGroup().addTo(map);
 
-          map.fitBounds(highlightedRouteLayer.getBounds(), { padding: [40, 40] });
+          // Casing
+          L.polyline(latLngs, {
+            color: '#0f172a',
+            weight: 8.5,
+            opacity: 0.9,
+            lineCap: 'round',
+            lineJoin: 'round'
+          }).addTo(highlightedRouteLayer);
+
+          // Vibrant Orange Route Taxi Core
+          L.polyline(latLngs, {
+            color: '#f97316',
+            weight: 5,
+            opacity: 1,
+            lineCap: 'round',
+            lineJoin: 'round'
+          }).addTo(highlightedRouteLayer);
+
+          // Animated dashed flow along highway
+          L.polyline(latLngs, {
+            color: '#fef08a',
+            weight: 2,
+            dashArray: '6, 6',
+            className: 'dashed-intersection-line',
+            lineCap: 'round'
+          }).addTo(highlightedRouteLayer);
+
+          map.fitBounds(L.polyline(latLngs).getBounds(), { padding: [40, 40] });
           showVehicleInspector(v);
         }
       } else {
@@ -1514,25 +1940,63 @@
       if (!p || !p.stops || p.stops.length === 0) return;
 
       let latLngs = p.stops.map(st => [st[0], st[1]]);
+      highlightedRouteLayer = L.layerGroup().addTo(map);
 
-      highlightedRouteLayer = L.polyline(latLngs, {
+      // 1. Dark casing for the selected primary route
+      L.polyline(latLngs, {
+        color: '#0f172a',
+        weight: 9,
+        opacity: 0.9,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(highlightedRouteLayer);
+
+      // 2. Glowing yellow primary line
+      L.polyline(latLngs, {
         color: '#facc15',
-        weight: 6.5,
-        opacity: 0.95,
-        lineCap: 'round'
-      }).addTo(map);
+        weight: 5.5,
+        opacity: 1,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(highlightedRouteLayer);
 
+      // 3. Dynamically find all intersecting routes in Kutaisi and render them as DASHED lines!
+      let myStops = p.stops;
+      let intersectingRoutes = new Set();
+      Object.keys(KUTAISI_ALL_PATTERNS).forEach(k => {
+        if (k.startsWith(rNo + '_')) return;
+        let other = KUTAISI_ALL_PATTERNS[k];
+        if (!other.stops || other.stops.length < 2) return;
+        let crosses = other.stops.some(oSt => {
+          return myStops.some(mSt => Math.abs(oSt[0] - mSt[0]) < 0.0018 && Math.abs(oSt[1] - mSt[1]) < 0.0025);
+        });
+        if (crosses && !intersectingRoutes.has(other.route)) {
+          intersectingRoutes.add(other.route);
+          let oPts = other.stops.map(st => [st[0], st[1]]);
+          // Render intersecting route with dashed styling!
+          L.polyline(oPts, {
+            color: '#38bdf8',
+            weight: 3.2,
+            opacity: 0.7,
+            dashArray: '6, 8',
+            className: 'dashed-intersection-line',
+            lineCap: 'round'
+          }).addTo(highlightedRouteLayer).bindTooltip(`<b>🔀 Intersecting Route:</b> Line ${other.route} (${other.name})`, { sticky: true });
+        }
+      });
+
+      // 4. Render stops along the route with intersection highlights
       p.stops.forEach((st, idx) => {
         L.circleMarker([st[0], st[1]], {
-          radius: 4.5,
-          color: '#0284c7',
+          radius: 5,
+          color: '#0f172a',
           fillColor: '#ffffff',
           fillOpacity: 1,
-          weight: 2
+          weight: 2.5
         }).addTo(stopMarkersGroup).bindPopup(`<b>Stop #${idx + 1}: ${st[2]}</b><br>Kutaisi Municipal Line ${rNo}`);
       });
 
-      map.fitBounds(highlightedRouteLayer.getBounds(), { padding: [40, 40] });
+      map.fitBounds(L.polyline(latLngs).getBounds(), { padding: [40, 40] });
 
       let bus = allVehicleSims.find(x => x.routeNo === rNo);
       if (bus) showVehicleInspector(bus);
@@ -1556,7 +2020,31 @@
         }
       });
 
-      document.getElementById('activeFleetPill').innerText = `Active Fleet: ${visibleCount} Vehicles`;
+      updateMapStatus(visibleCount);
+    }
+
+    function updateMapStatus(vehicleCount = allVehicleSims.filter(vehicle => map.hasLayer(vehicle.marker)).length) {
+      const grouped = map.getZoom() < 10
+        ? allVehicleSims.filter(vehicle => vehicle.routeNo && map.hasLayer(vehicle.marker)).length
+        : 0;
+      map.getContainer().classList.toggle('grouped', grouped > 0);
+      if (grouped > 0) {
+        municipalCluster.setIcon(L.divIcon({
+          className: 'vehicle-cluster', html: String(grouped), iconSize: [34, 34], iconAnchor: [17, 17]
+        })).addTo(map);
+      } else {
+        municipalCluster.remove();
+      }
+      document.getElementById('activeFleetPill').textContent =
+        `Zoom: ${map.getZoom().toFixed(1)}x | Simulated vehicles: ${vehicleCount} | Municipal stops: ${450}`;
+    }
+
+    const georgiaClock = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Tbilisi', hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+
+    function updateSimClock() {
+      document.getElementById('simClockText').textContent = `${georgiaClock.format(simTime)} · Georgia time`;
     }
 
     function toggleSim() {
@@ -1566,6 +2054,11 @@
 
     function resetSim() {
       simTime = new Date();
+      simRunning = true;
+      document.getElementById('btnPlayPause').textContent = '⏸ Pause';
+      document.getElementById('simSpeedSelect').value = '1';
+      changeSpeed();
+      updateSimClock();
     }
 
     function changeSpeed() {
@@ -1573,11 +2066,11 @@
     }
 
     function zoomGeorgia() {
-      map.setView([42.15, 43.40], 8);
+      map.setView([42.15, 43.30], 8);
     }
 
     function zoomKutaisi() {
-      map.setView([42.2578, 42.6850], 13);
+      map.setView([42.2662, 42.7180], 13);
     }
 
     function zoomRikoti() {
@@ -2034,12 +2527,23 @@
 
       // 2. Walking Path & Bus Stop (if walking required)
       if (origInfo.walkMeters > 0) {
+        // Casing
+        L.polyline([origInfo.coords, origInfo.stopCoords], {
+          color: '#431407',
+          weight: 6,
+          opacity: 0.85,
+          lineCap: 'round'
+        }).addTo(window.journeySimLayer);
+
+        // Dashed pedestrian path
         L.polyline([origInfo.coords, origInfo.stopCoords], {
           color: '#ea580c',
-          weight: 4,
-          dashArray: '6, 8',
-          opacity: 0.95
-        }).addTo(window.journeySimLayer);
+          weight: 3.5,
+          dashArray: '6, 6',
+          className: 'dashed-intersection-line',
+          opacity: 1,
+          lineCap: 'round'
+        }).addTo(window.journeySimLayer).bindTooltip(`<b>🚶 Pedestrian Walkway:</b> ${origInfo.walkMeters}m to bus stop`, { sticky: true });
 
         const busStopIcon = L.divIcon({
           className: 'stop-pin',
@@ -2054,28 +2558,70 @@
       // 3. Municipal Bus Street Route (if applicable)
       if (origInfo.lineStops && origInfo.lineStops.length > 0) {
         const lineCoords = origInfo.lineStops.map(s => [s[0], s[1]]);
+        // Casing
+        L.polyline(lineCoords, {
+          color: '#082f49',
+          weight: 8,
+          opacity: 0.85,
+          lineCap: 'round',
+          lineJoin: 'round'
+        }).addTo(window.journeySimLayer);
+
+        // Core line
         L.polyline(lineCoords, {
           color: '#0284c7',
-          weight: 6,
-          opacity: 0.9
-        }).addTo(window.journeySimLayer);
+          weight: 5,
+          opacity: 0.95,
+          lineCap: 'round',
+          lineJoin: 'round'
+        }).addTo(window.journeySimLayer).bindTooltip(`<b>🚌 Transit Leg:</b> Kutaisi Municipal Bus #${origInfo.lineNum}`, { sticky: true });
       }
 
-      // 4. Omnibus Central Terminal Hub
+      // 4. Omnibus Central Terminal Hub & Dashed Transfer Link
       const hubIcon = L.divIcon({
         className: 'hub-pin',
-        html: '<div style="background:#1e3a8a; color:#facc15; border-radius:999px; padding:3px 9px; font-size:11px; font-weight:800; border:2px solid white; box-shadow:0 3px 8px rgba(0,0,0,0.4); white-space:nowrap;">🏢 Omnibus Central Terminal</div>',
-        iconSize: [180, 26],
-        iconAnchor: [90, 13]
+        html: '<div style="background:#1e3a8a; color:#facc15; border-radius:999px; padding:3px 9px; font-size:11px; font-weight:800; border:2px solid white; box-shadow:0 3px 8px rgba(0,0,0,0.4); white-space:nowrap;">🔀 Transfer Hub: Omnibus Terminal</div>',
+        iconSize: [210, 26],
+        iconAnchor: [105, 13]
       });
       L.marker([42.25671, 42.67195], { icon: hubIcon }).addTo(window.journeySimLayer)
-        .bindPopup('<b>🏢 Transfer Hub:</b> ცენტრალური ავტოსადგური / Chavchavadze Omnibus Terminal<br>Transfer to: <b>Omnibus Express Coach</b>');
+        .bindPopup('<b>🔀 Transfer Intersection:</b> ცენტრალური ავტოსადგური / Chavchavadze Omnibus Terminal<br>Transfer buffer: <b>' + origInfo.transferMins + ' min</b> to <b>Omnibus Express Coach</b>');
 
-      // 5. Highway E60 Corridor to Destination
+      // Transfer interchange dashed link between arriving bus stop and departure bay
+      if (origInfo.lineStops && origInfo.lineStops.length > 0) {
+        let lastStop = origInfo.lineStops[origInfo.lineStops.length - 1];
+        L.polyline([[lastStop[0], lastStop[1]], [42.25671, 42.67195]], {
+          color: '#facc15',
+          weight: 5,
+          dashArray: '5, 5',
+          className: 'dashed-transfer-link',
+          lineCap: 'round'
+        }).addTo(window.journeySimLayer).bindTooltip('<b>🔀 Platform Transfer Interchange (Dashed Link)</b>', { sticky: true });
+      }
+
+      // 5. Highway E60 Corridor to Destination with casing and dashed track
+      L.polyline(HIGHWAY_KUTAISI_TBILISI, {
+        color: '#0f172a',
+        weight: 8,
+        opacity: 0.9,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(window.journeySimLayer);
+
       L.polyline(HIGHWAY_KUTAISI_TBILISI, {
         color: idx === 1 ? '#ea580c' : '#8e24aa',
-        weight: 6,
-        opacity: 0.85
+        weight: 5,
+        opacity: 0.95,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(window.journeySimLayer).bindTooltip(idx === 1 ? '<b>🚐 Regional Route Taxi:</b> Highway E60 Express' : '<b>🚍 Omnibus Express Coach:</b> Highway E60 Express', { sticky: true });
+
+      L.polyline(HIGHWAY_KUTAISI_TBILISI, {
+        color: '#facc15',
+        weight: 2,
+        dashArray: '8, 8',
+        className: 'dashed-intersection-line',
+        lineCap: 'round'
       }).addTo(window.journeySimLayer);
 
       // 6. Destination Marker
@@ -2104,31 +2650,57 @@
       `;
       document.getElementById('tab-simulation').appendChild(hud);
 
-      // Animated traveler points
-      const simPoints = [];
+      // Animated traveler path - smoothly subdivided so movement glides without lag
+      const rawSteps = [];
       if (origInfo.walkMeters > 0) {
-        simPoints.push({ pt: origInfo.coords, mode: 'walk', label: `🚶 Step 1: Walking from ${origInfo.name}...` });
-        simPoints.push({ pt: origInfo.stopCoords, mode: 'muni', label: `🚏 Step 2: Arrived at ${origInfo.stopName}. Boarding Line ${origInfo.lineNum}...` });
+        rawSteps.push({ pt: origInfo.coords, mode: 'walk', label: `🚶 Step 1: Walking from ${origInfo.name} (${origInfo.walkMeters}m)...` });
+        rawSteps.push({ pt: origInfo.stopCoords, mode: 'muni', label: `🚏 Step 2: Arrived at ${origInfo.stopName}. Boarding Line ${origInfo.lineNum}...` });
       } else {
-        simPoints.push({ pt: origInfo.coords, mode: 'transfer', label: `🏢 Starting directly at ${origInfo.name}...` });
+        rawSteps.push({ pt: origInfo.coords, mode: 'transfer', label: `🏢 Starting directly at ${origInfo.name}...` });
       }
 
       if (origInfo.lineStops && origInfo.lineStops.length > 0) {
         origInfo.lineStops.slice(1).forEach(s => {
-          simPoints.push({ pt: [s[0], s[1]], mode: 'muni', label: `🚌 Step 2: Riding Bus #${origInfo.lineNum} past ${s[2]}...` });
+          rawSteps.push({ pt: [s[0], s[1]], mode: 'muni', label: `🚌 Step 2: Riding Bus #${origInfo.lineNum} past ${s[2]}...` });
         });
       }
 
-      simPoints.push({ pt: [42.25671, 42.67195], mode: 'transfer', label: `🔄 Step 3: Transfer buffer (${origInfo.transferMins} min) at Omnibus Terminal Platform 2...` });
+      rawSteps.push({ pt: [42.25671, 42.67195], mode: 'transfer', label: `🔄 Step 3: Transfer buffer (${origInfo.transferMins} min) at Omnibus Terminal Platform 2...` });
 
       HIGHWAY_KUTAISI_TBILISI.slice(1).forEach(pt => {
-        simPoints.push({ pt: pt, mode: 'coach', label: '🚍 Step 4: Express transit along Highway E60 to Tbilisi...' });
+        rawSteps.push({ pt: pt, mode: 'coach', label: '🚍 Step 4: Express transit along Highway E60 to Tbilisi...' });
       });
+
+      // Subdivide coarse steps into smooth continuous sub-steps (~160 points total)
+      const simPoints = [];
+      for (let i = 0; i < rawSteps.length; i++) {
+        if (i === 0) {
+          simPoints.push(rawSteps[0]);
+          continue;
+        }
+        let prev = rawSteps[i - 1];
+        let curr = rawSteps[i];
+        let p1 = prev.pt;
+        let p2 = curr.pt;
+        let dLat = p2[0] - p1[0];
+        let dLng = p2[1] - p1[1];
+        let dist = Math.hypot(dLat, dLng);
+        let maxStep = curr.mode === 'walk' ? 0.0006 : (curr.mode === 'muni' ? 0.002 : 0.012);
+        let numSub = Math.max(1, Math.ceil(dist / maxStep));
+        for (let s = 1; s <= numSub; s++) {
+          let frac = s / numSub;
+          simPoints.push({
+            pt: [p1[0] + frac * dLat, p1[1] + frac * dLng],
+            mode: curr.mode,
+            label: curr.label
+          });
+        }
+      }
 
       let sIdx = 0;
       const travelerIcon = L.divIcon({
         className: 'traveler-icon',
-        html: `<div id="travelerBadge" style="background:#ea580c; color:white; font-weight:800; font-size:11px; padding:3px 8px; border-radius:999px; border:2px solid white; box-shadow:0 3px 10px rgba(0,0,0,0.5); white-space:nowrap;">🚶 Traveler</div>`,
+        html: `<div id="travelerBadge" style="background:#ea580c; color:white; font-weight:800; font-size:11px; padding:3px 8px; border-radius:999px; border:2px solid white; box-shadow:0 3px 10px rgba(0,0,0,0.5); white-space:nowrap; transition: background 0.2s;">🚶 Traveler</div>`,
         iconSize: [110, 26],
         iconAnchor: [55, 13]
       });
@@ -2149,22 +2721,22 @@
         const step = simPoints[sIdx];
         travelerMarker.setLatLng(step.pt);
         const hudText = document.getElementById('hudStageText');
-        if (hudText) hudText.innerText = step.label;
+        if (hudText && hudText.innerText !== step.label) hudText.innerText = step.label;
 
         const badge = document.getElementById('travelerBadge');
         if (badge) {
-          if (step.mode === 'walk') {
+          if (step.mode === 'walk' && badge.innerText !== '🚶 Walking') {
             badge.style.background = '#ea580c'; badge.innerHTML = '🚶 Walking';
-          } else if (step.mode === 'muni') {
+          } else if (step.mode === 'muni' && !badge.innerText.includes('Bus')) {
             badge.style.background = '#0284c7'; badge.innerHTML = `🚌 Bus #${origInfo.lineNum}`;
-          } else if (step.mode === 'transfer') {
+          } else if (step.mode === 'transfer' && !badge.innerText.includes('Transfer')) {
             badge.style.background = '#eab308'; badge.style.color = '#1e293b'; badge.innerHTML = '🔄 Transfer Hub';
-          } else if (step.mode === 'coach') {
+          } else if (step.mode === 'coach' && !badge.innerText.includes('Express') && !badge.innerText.includes('Marshrutka')) {
             badge.style.background = idx === 1 ? '#ea580c' : '#8e24aa'; badge.style.color = 'white';
             badge.innerHTML = idx === 1 ? '🚐 Okriba Marshrutka' : '🚍 Omnibus Express';
           }
         }
-      }, 550);
+      }, 60);
     }
 
     function stopJourneySim() {

@@ -103,6 +103,7 @@ namespace GeorgiaTransitIntelligence
             pnlDepartureTop = new Panel();
             cmbDepartureStop = new ComboBox();
             lblDepartureStop = new Label();
+            lblDepartureBoardStatus = new Label();
             dgvUpcomingDepartures = new DataGridView();
             tabDataCoverage = new TabPage();
             rtbDataCoverage = new RichTextBox();
@@ -162,7 +163,7 @@ namespace GeorgiaTransitIntelligence
             lblAppSubtitle.Name = "lblAppSubtitle";
             lblAppSubtitle.Size = new Size(392, 15);
             lblAppSubtitle.TabIndex = 1;
-            lblAppSubtitle.Text = "National Bus Network, Municipal Timetable & Multimodal Journey Center";
+            lblAppSubtitle.Text = "National Bus Network && Timetable Control Center";
             // 
             // lblAppTitle
             // 
@@ -183,12 +184,13 @@ namespace GeorgiaTransitIntelligence
             tabControlMain.Controls.Add(tabExplorer);
             tabControlMain.Dock = DockStyle.Fill;
             tabControlMain.Font = new Font("Segoe UI", 9.5F);
-            tabControlMain.ItemSize = new Size(160, 32);
+            tabControlMain.ItemSize = new Size(176, 34);
             tabControlMain.Location = new Point(0, 62);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
             tabControlMain.Size = new Size(1184, 650);
-            tabControlMain.SizeMode = TabSizeMode.Fixed;
+            tabControlMain.SizeMode = TabSizeMode.Normal;
+            tabControlMain.Padding = new Point(14, 6);
             tabControlMain.TabIndex = 1;
             tabControlMain.SelectedIndexChanged += tabControlMain_SelectedIndexChanged;
             // 
@@ -1109,6 +1111,7 @@ namespace GeorgiaTransitIntelligence
             // 
             pnlDepartureTop.Controls.Add(cmbDepartureStop);
             pnlDepartureTop.Controls.Add(lblDepartureStop);
+            pnlDepartureTop.Controls.Add(lblDepartureBoardStatus);
             pnlDepartureTop.Dock = DockStyle.Top;
             pnlDepartureTop.Location = new Point(8, 8);
             pnlDepartureTop.Name = "pnlDepartureTop";
@@ -1133,7 +1136,10 @@ namespace GeorgiaTransitIntelligence
             lblDepartureStop.Name = "lblDepartureStop";
             lblDepartureStop.Size = new Size(122, 15);
             lblDepartureStop.TabIndex = 0;
-            lblDepartureStop.Text = "Select Terminal / Stop:";
+            lblDepartureStop.Text = "Kutaisi stop";
+            lblDepartureBoardStatus.AutoSize = true;
+            lblDepartureBoardStatus.Location = new Point(532, 14);
+            lblDepartureBoardStatus.Name = "lblDepartureBoardStatus";
             // 
             // dgvUpcomingDepartures
             // 
@@ -1190,7 +1196,7 @@ namespace GeorgiaTransitIntelligence
             Controls.Add(tabControlMain);
             Controls.Add(pnlTopBanner);
             Font = new Font("Segoe UI", 9.5F);
-            MinimumSize = new Size(950, 600);
+            MinimumSize = new Size(1060, 600);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Georgia Transit Intelligence — National Bus Network & Timetable Control Center";
@@ -1322,6 +1328,7 @@ namespace GeorgiaTransitIntelligence
         private TabPage tabDepartureBoard;
         private Panel pnlDepartureTop;
         private Label lblDepartureStop;
+        private Label lblDepartureBoardStatus;
         private ComboBox cmbDepartureStop;
         private DataGridView dgvUpcomingDepartures;
         private TabPage tabDataCoverage;

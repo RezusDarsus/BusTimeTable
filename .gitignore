@@ -19,3 +19,8 @@
 
 # Agent planning scratch
 /docs/superpowers/
+
+# Local-only: unpacked submission copy, test evidence, machine-specific Windows fix
+/Midterm_Darsavelidze_Rezo/
+/criteria-evidence/
+/FIX_NVME_FOR_LOCALDB.reg

@@ -1,64 +1,64 @@
-import os
-import zipfile
-import shutil
+from pathlib import Path
+from shutil import copy2
+from tempfile import NamedTemporaryFile
+from zipfile import ZIP_DEFLATED, ZipFile
 
-zip_filename = 'Midterm_Darsavelidze_Rezo.zip'
 
-include_roots = [
-    'GeorgiaTransitIntelligence',
-    'GeorgiaTransitIntelligence.Tests',
-    'docs',
-    'screenshots',
-    'data',
-    'web-preview',
-    'scripts'
-]
+ROOT = Path(__file__).resolve().parent.parent
+ARCHIVE = ROOT / "Midterm_Darsavelidze_Rezo.zip"
+INCLUDE_ROOTS = (
+    "GeorgiaTransitIntelligence", "GeorgiaTransitIntelligence.Tests", "docs",
+    "screenshots", "data", "web-preview", "scripts",
+)
+ROOT_FILES = ("GeorgiaTransitIntelligence.sln", "GeorgiaTransitIntelligence.slnx", "database.sql", "README.md")
+REQUIRED_FILES = (
+    *ROOT_FILES,
+    "GeorgiaTransitIntelligence/database.sql",
+    "data/kutaisi-municipal/route_patterns.csv",
+    "data/kutaisi-municipal/route_stops.csv",
+    "data/kutaisi-municipal/timetable.csv",
+    "data/georgian-intercity/georgian-intercity-routes.json",
+    "screenshots/1_main_window.png",
+    "screenshots/2_search_results.png",
+    "screenshots/3_add_dialog.png",
+    "screenshots/4_edit_dialog.png",
+)
+EXCLUDE_DIRS = {"bin", "obj", ".vs", ".git", ".idea", "__pycache__", "node_modules"}
+EXCLUDE_SUFFIXES = {".user", ".suo", ".tmp", ".zip", ".ndjson"}
 
-root_files = [
-    'GeorgiaTransitIntelligence.sln',
-    'GeorgiaTransitIntelligence.slnx',
-    'database.sql',
-    'README.md'
-]
 
-exclude_dirs = {'bin', 'obj', '.vs', '.git', '.idea', '__pycache__', 'node_modules'}
-exclude_extensions = {'.user', '.suo', '.tmp'}
+def submission_files():
+    yield from (ROOT / filename for filename in ROOT_FILES)
+    for folder in INCLUDE_ROOTS:
+        for path in sorted((ROOT / folder).rglob("*")):
+            relative = path.relative_to(ROOT)
+            if EXCLUDE_DIRS.intersection(relative.parts) or relative.parts[:2] == ("docs", "superpowers"):
+                continue
+            if path.is_file() and path.suffix.lower() not in EXCLUDE_SUFFIXES and not path.name.startswith(".preview-"):
+                yield path
 
-if os.path.exists(zip_filename):
+
+def main():
+    missing = [name for name in REQUIRED_FILES if not (ROOT / name).is_file()]
+    if missing:
+        raise SystemExit("Missing required submission files:\n" + "\n".join(missing))
+
+    with NamedTemporaryFile(dir=ROOT, suffix=".zip", delete=False) as temporary:
+        temporary_path = Path(temporary.name)
     try:
-        os.remove(zip_filename)
-    except Exception as e:
-        print('Notice on existing zip remove:', e)
+        with ZipFile(temporary_path, "w", ZIP_DEFLATED) as archive:
+            for path in submission_files():
+                archive.write(path, path.relative_to(ROOT).as_posix())
+            missing = set(REQUIRED_FILES).difference(archive.namelist())
+            if missing:
+                raise RuntimeError(f"Required files were excluded: {sorted(missing)}")
+        temporary_path.replace(ARCHIVE)
+    finally:
+        temporary_path.unlink(missing_ok=True)
 
-print(f'Creating clean university submission zip: {zip_filename}')
+    copy2(ARCHIVE, ROOT / "web-preview" / ARCHIVE.name)
+    print(f"Created {ARCHIVE.name} ({ARCHIVE.stat().st_size:,} bytes)")
 
-with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
-    for rf in root_files:
-        if os.path.exists(rf):
-            zipf.write(rf, rf)
-            print(f'  + Root file: {rf}')
 
-    for folder in include_roots:
-        if not os.path.exists(folder):
-            continue
-        for root, dirs, files in os.walk(folder):
-            dirs[:] = [d for d in dirs if d not in exclude_dirs]
-            for file in files:
-                if any(file.endswith(ext) for ext in exclude_extensions):
-                    continue
-                if file.endswith('.zip'):
-                    continue
-                full_path = os.path.join(root, file)
-                # Exclude raw dumps > 2MB to keep archive lightweight and fast
-                if os.path.getsize(full_path) > 2_000_000:
-                    continue
-                rel_path = os.path.relpath(full_path, '.')
-                zipf.write(full_path, rel_path)
-
-size_bytes = os.path.getsize(zip_filename)
-print(f'Created {zip_filename} successfully! Size: {size_bytes:,} bytes ({size_bytes / 1024:.1f} KB)')
-
-# Copy to web-preview for direct browser download button
-web_dest = os.path.join('web-preview', zip_filename)
-shutil.copy2(zip_filename, web_dest)
-print(f'Copied {zip_filename} to web-preview/ directory.')
+if __name__ == "__main__":
+    main()

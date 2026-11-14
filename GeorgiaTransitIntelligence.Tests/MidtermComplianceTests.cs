@@ -1,5 +1,6 @@
 using System.Text;
 using GeorgiaTransitIntelligence.Data;
+using GeorgiaTransitIntelligence.Mapping;
 using GeorgiaTransitIntelligence.Models;
 using GeorgiaTransitIntelligence.Services;
 using Xunit;
@@ -8,6 +9,27 @@ namespace GeorgiaTransitIntelligence.Tests
 {
     public class MidtermComplianceTests
     {
+        [Fact]
+        public void SimulationMap_ProjectsStreetTilesAndVehiclesInTheSameCoordinates()
+        {
+            using var map = new GeoMapControl
+            {
+                Size = new Size(1000, 600),
+                CenterLatitude = 42.2662,
+                CenterLongitude = 42.7180,
+                ZoomLevel = 13
+            };
+
+            PointF center = map.GeoToScreen(42.2662, 42.7180);
+            Assert.Equal(new PointF(500, 300), center);
+            PointF stop = map.GeoToScreen(42.271179, 42.699622);
+            Assert.InRange(stop.X, 392f, 394f);
+            Assert.InRange(stop.Y, 260f, 262f);
+            var roundTrip = map.ScreenToGeo(stop);
+            Assert.Equal(42.271179, roundTrip.Lat, 6);
+            Assert.Equal(42.699622, roundTrip.Lon, 6);
+        }
+
         [Fact]
         public void Requirement2_CalculatedProperty_WorksCorrectly()
         {
@@ -116,12 +138,17 @@ namespace GeorgiaTransitIntelligence.Tests
         public void Requirement7_CrudOperations_PersistCorrectly()
         {
             var repo = new BusRouteRepository();
+            bool usingLocalDb = repo.IsLocalDbAvailable;
+            if (Environment.GetEnvironmentVariable("GTI_REQUIRE_LOCALDB") == "1")
+            {
+                Assert.True(usingLocalDb, "Run database.sql against MSSQLLocalDB before testing persistence.");
+            }
             int initialCount = repo.CountAll();
 
             // 1. Create
             var newRoute = new BusRoute
             {
-                RouteNumber = "TEST-999",
+                RouteNumber = $"TEST-{Guid.NewGuid():N}"[..20],
                 Origin = "Kutaisi (Test)",
                 Destination = "Batumi (Test)",
                 DepartureTime = new TimeSpan(14, 0, 0),
@@ -131,30 +158,50 @@ namespace GeorgiaTransitIntelligence.Tests
             };
 
             int newId = repo.Add(newRoute);
-            Assert.True(newId > 0);
-            Assert.Equal(initialCount + 1, repo.CountAll());
+            BusRouteRepository Reopen() => usingLocalDb ? new BusRouteRepository() : repo;
+            try
+            {
+                Assert.True(newId > 0);
+                Assert.Equal(initialCount + 1, Reopen().CountAll());
+                var saved = Assert.Single(Reopen().Search(newRoute.RouteNumber, "All"));
+                Assert.Equal("Kutaisi (Test)", saved.Origin);
+                Assert.Equal(new TimeSpan(14, 0, 0), saved.DepartureTime);
 
-            // 2. Read
-            var found = repo.Search("TEST-999", "All");
-            Assert.Single(found);
-            Assert.Equal("Kutaisi (Test)", found[0].Origin);
+                saved.Destination = "Batumi (Updated)";
+                saved.Price = 19.00m;
+                Assert.Equal(1, repo.Update(saved));
 
-            // 3. Update
-            var toUpdate = found[0];
-            toUpdate.Destination = "Batumi (Updated)";
-            toUpdate.Price = 19.00m;
-            int updateResult = repo.Update(toUpdate);
-            Assert.Equal(1, updateResult);
+                var updated = Assert.Single(Reopen().Search(newRoute.RouteNumber, "All"));
+                Assert.Equal("Batumi (Updated)", updated.Destination);
+                Assert.Equal(19.00m, updated.Price);
 
-            var updatedSearch = repo.Search("TEST-999", "All");
-            Assert.Single(updatedSearch);
-            Assert.Equal("Batumi (Updated)", updatedSearch[0].Destination);
-            Assert.Equal(19.00m, updatedSearch[0].Price);
+                Assert.Equal(1, repo.Delete(newId));
+                Assert.Empty(Reopen().Search(newRoute.RouteNumber, "All"));
+                Assert.Equal(initialCount, Reopen().CountAll());
+            }
+            finally
+            {
+                if (repo.Search(newRoute.RouteNumber, "All").Any()) repo.Delete(newId);
+            }
+        }
 
-            // 4. Delete
-            int deleteResult = repo.Delete(toUpdate.Id);
-            Assert.Equal(1, deleteResult);
-            Assert.Equal(initialCount, repo.CountAll());
+        [Fact]
+        public async Task MunicipalTimetable_LoadsPublishedDeparturesForSelectedStop()
+        {
+            var loader = new MunicipalDataLoader();
+            await loader.LoadTimetableAsync();
+            Assert.True(loader.IsTimetableLoaded);
+            Assert.True(loader.TotalTimetableRecordsCount > 100_000);
+
+            var departures = loader.GetNextDepartures("1:39", "Monday", TimeSpan.FromHours(8));
+            Assert.NotEmpty(departures);
+            Assert.All(departures, departure =>
+            {
+                Assert.Equal("1:39", departure.StopId);
+                Assert.Equal("Monday", departure.Weekday);
+                Assert.True(departure.DepartureTime >= TimeSpan.FromHours(8));
+            });
+            Assert.Empty(loader.GetNextDepartures("1:39", "Monday", TimeSpan.FromHours(24)));
         }
 
         [Fact]

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using GeorgiaTransitIntelligence.Models;
 
@@ -33,8 +34,8 @@ namespace GeorgiaTransitIntelligence.Services
                 string origin = EscapeCsvField(route.Origin);
                 string destination = EscapeCsvField(route.Destination);
                 string departure = EscapeCsvField(route.DepartureTimeString);
-                string duration = route.DurationMinutes.ToString();
-                string price = route.Price.ToString("F2");
+                string duration = route.DurationMinutes.ToString(CultureInfo.InvariantCulture);
+                string price = route.Price.ToString("F2", CultureInfo.InvariantCulture);
                 string serviceType = EscapeCsvField(route.ServiceType);
                 string arrival = EscapeCsvField(route.EstimatedArrivalTime);
 

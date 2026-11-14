@@ -14,7 +14,7 @@ namespace GeorgiaTransitIntelligence.Data
         private readonly Dictionary<(string RouteNumber, int DirectionId), MunicipalPattern> patternLookup = new();
         private readonly Dictionary<string, List<ScheduledDeparture>> stopDeparturesLookup = new(); // Key: StopId_Weekday
         private readonly List<ScheduledDeparture> allDepartures = new();
-        private bool isTimetableLoaded = false;
+        private volatile bool isTimetableLoaded = false;
         private readonly object lockObj = new();
 
         public IReadOnlyList<MunicipalPattern> Patterns => patterns;
@@ -197,25 +197,12 @@ namespace GeorgiaTransitIntelligence.Data
         /// </summary>
         public List<ScheduledDeparture> GetNextDepartures(string stopId, string weekday, TimeSpan afterTime, int limit = 8)
         {
-            string key = $"{stopId}_{weekday}";
-            if (stopDeparturesLookup.TryGetValue(key, out var list))
-            {
-                lock (lockObj)
-                {
-                    var upcoming = list.Where(d => d.DepartureTime >= afterTime)
-                                       .Take(limit)
-                                       .ToList();
+            if (!isTimetableLoaded) return new List<ScheduledDeparture>();
 
-                    // If near end of day, rollover to earliest departures next morning
-                    if (upcoming.Count < limit)
-                    {
-                        var rollover = list.Take(limit - upcoming.Count);
-                        upcoming.AddRange(rollover);
-                    }
-                    return upcoming;
-                }
-            }
-            return new List<ScheduledDeparture>();
+            string key = $"{stopId}_{weekday}";
+            return stopDeparturesLookup.TryGetValue(key, out var list)
+                ? list.Where(departure => departure.DepartureTime >= afterTime).Take(limit).ToList()
+                : new List<ScheduledDeparture>();
         }
 
         public MunicipalPattern? GetPattern(string routeNumber, int directionId)

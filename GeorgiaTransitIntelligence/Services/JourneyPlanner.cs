@@ -61,14 +61,14 @@ namespace GeorgiaTransitIntelligence.Services
             foreach (var gr in gradedRoutes)
             {
                 intercityCandidates.Add((
-                    gr.IsExpress ? "Citybus Georgia (Express)" : "Intercity Bus",
+                    gr.IsExpress ? "Express Bus" : "Regular Bus",
                     gr.DepartureTime,
                     gr.DurationMinutes,
                     gr.Price,
                     gr.Origin,
                     gr.Destination,
-                    gr.IsExpress ? TransportCategory.IntercityCoach : TransportCategory.Marshrutka,
-                    "Verified Database Schedule"
+                    TransportCategory.IntercityCoach,
+                    "Timetable Manager entry. Confirm the service before traveling."
                 ));
             }
 
@@ -91,6 +91,11 @@ namespace GeorgiaTransitIntelligence.Services
                 }
             }
 
+            var allowedCandidates = intercityCandidates
+                .Where(candidate => candidate.Cat == TransportCategory.Marshrutka ? allowMarshrutka : allowIntercity)
+                .OrderBy(candidate => candidate.Dep)
+                .ToList();
+
             bool isStreetAddress = cleanOrigin.Contains("Tabukashvili", StringComparison.OrdinalIgnoreCase) ||
                                   cleanOrigin.Contains("Street", StringComparison.OrdinalIgnoreCase) ||
                                   cleanOrigin.Contains("ქუჩა", StringComparison.OrdinalIgnoreCase) ||
@@ -101,11 +106,8 @@ namespace GeorgiaTransitIntelligence.Services
             // Direct Intercity Option(s) (only valid when starting directly from a terminal/city node, not a residential street)
             if (!isStreetAddress)
             {
-                foreach (var cand in intercityCandidates.Where(c => c.Dep >= earliestDeparture).Take(4))
+                foreach (var cand in allowedCandidates.Where(c => c.Dep >= earliestDeparture).Take(4))
                 {
-                    if (cand.Cat == TransportCategory.IntercityCoach && !allowIntercity) continue;
-                    if (cand.Cat == TransportCategory.Marshrutka && !allowMarshrutka) continue;
-
                     var (origLat, origLon) = GeometryService.GetCityCoordinates(cleanOrigin);
                     var (destLat, destLon) = GeometryService.GetCityCoordinates(cleanDest);
 
@@ -183,16 +185,10 @@ namespace GeorgiaTransitIntelligence.Services
                     TimeSpan muniArr = muniDep.Add(TimeSpan.FromMinutes(muniRideMinutes));
                     TimeSpan intercityEarliestDep = muniArr.Add(TimeSpan.FromMinutes(12)); // 12 min transfer buffer
 
-                    // Find intercity connection from Kutaisi to destination after intercityEarliestDep
-                    var connectingIntercity = intercityCandidates.FirstOrDefault(c => c.Dep >= intercityEarliestDep);
-
-                    // If no exact departure found right after, provide the best candidate with appropriate transfer
-                    var bestCand = connectingIntercity.Operator != null ? connectingIntercity :
-                        intercityCandidates.OrderBy(c => c.Dep).FirstOrDefault();
-
+                    var bestCand = allowedCandidates.FirstOrDefault(candidate => candidate.Dep >= intercityEarliestDep);
                     if (bestCand.Operator != null)
                     {
-                        TimeSpan actualIntercityDep = bestCand.Dep >= intercityEarliestDep ? bestCand.Dep : intercityEarliestDep.Add(TimeSpan.FromMinutes(15));
+                        TimeSpan actualIntercityDep = bestCand.Dep;
                         TimeSpan finalArrival = actualIntercityDep.Add(TimeSpan.FromMinutes(bestCand.Duration));
                         int totalMins = (int)(finalArrival - earliestDeparture).TotalMinutes;
                         if (totalMins < 0) totalMins += 1440;
@@ -212,7 +208,7 @@ namespace GeorgiaTransitIntelligence.Services
                             TotalFareGEL = 0.40m + bestCand.Fare, // 0.40 GEL municipal bus fare + intercity fare
                             TransferCount = 1,
                             TotalWalkingMinutes = walkMins,
-                            ReliabilityWarning = "Verified: Kutaisi Transport API + Intercity Timetable"
+                            ReliabilityWarning = $"Municipal leg and transfer are estimates. {bestCand.Evidence}"
                         };
 
                         // Leg 1: Walk to municipal stop
@@ -226,7 +222,7 @@ namespace GeorgiaTransitIntelligence.Services
                             ToLatitude = firstStop.Latitude,
                             ToLongitude = firstStop.Longitude,
                             DepartureTime = earliestDeparture,
-                            ArrivalTime = muniDep,
+                            ArrivalTime = earliestDeparture.Add(TimeSpan.FromMinutes(walkMins)),
                             DurationMinutes = walkMins,
                             FareGEL = 0.00m,
                             ServiceIdentifier = "Walk",
@@ -238,17 +234,17 @@ namespace GeorgiaTransitIntelligence.Services
                         {
                             LegType = JourneyLegType.MunicipalBus,
                             FromLocation = firstStop.StopName,
-                            ToLocation = "Chavchavadze Omnibus Terminal",
+                            ToLocation = lastStop.StopName,
                             FromLatitude = firstStop.Latitude,
                             FromLongitude = firstStop.Longitude,
-                            ToLatitude = 42.25671,
-                            ToLongitude = 42.67195,
+                            ToLatitude = lastStop.Latitude,
+                            ToLongitude = lastStop.Longitude,
                             DepartureTime = muniDep,
                             ArrivalTime = muniArr,
                             DurationMinutes = muniRideMinutes,
                             FareGEL = 0.40m,
                             ServiceIdentifier = $"Kutaisi Bus #{patternToChavchavadze.RouteNumber}",
-                            Instructions = $"Board Bus #{patternToChavchavadze.RouteNumber} ({patternToChavchavadze.RouteName}) to Chavchavadze Omnibus Terminal (12 stops)."
+                            Instructions = $"Board Bus #{patternToChavchavadze.RouteNumber} ({patternToChavchavadze.RouteName}) to '{lastStop.StopName}' (estimated ride)."
                         });
 
                         // Leg 3: Transfer walking / buffer

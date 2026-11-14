@@ -6,9 +6,11 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RollForward>Major</RollForward>
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Mapping/YandexLogo.png" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.2" />
   </ItemGroup>
 

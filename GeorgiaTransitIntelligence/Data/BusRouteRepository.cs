@@ -50,15 +50,11 @@ namespace GeorgiaTransitIntelligence.Data
                 using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM dbo.BusRoutes", connection))
                 {
                     connection.Open();
-                    int count = (int)command.ExecuteScalar();
+                    command.ExecuteScalar();
                     isLocalDbAvailable = true;
                 }
             }
             catch (SqlException)
-            {
-                isLocalDbAvailable = false;
-            }
-            catch (Exception)
             {
                 isLocalDbAvailable = false;
             }
@@ -69,68 +65,61 @@ namespace GeorgiaTransitIntelligence.Data
         /// combined with an Express/Regular filter. Fulfills Requirements 8 and 9.
         /// </summary>
         /// <param name="text">Text to search for (empty string returns all).</param>
-        /// <param name="genreOrFilter">Filter: "All", "Express", or "Regular".</param>
+        /// <param name="serviceFilter">Filter: "All", "Express", or "Regular".</param>
         /// <returns>List of matching BusRoute instances.</returns>
-        public List<BusRoute> Search(string text, string genreOrFilter)
+        public List<BusRoute> Search(string text, string serviceFilter)
         {
             string cleanText = text?.Trim() ?? string.Empty;
-            string pattern = "%" + cleanText + "%";
+            string pattern = "%" + cleanText.Replace("[", "[[]").Replace("%", "[%]").Replace("_", "[_]") + "%";
 
             bool? isExpressFilter = null;
-            if (string.Equals(genreOrFilter, "Express", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(serviceFilter, "Express", StringComparison.OrdinalIgnoreCase))
             {
                 isExpressFilter = true;
             }
-            else if (string.Equals(genreOrFilter, "Regular", StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(serviceFilter, "Regular", StringComparison.OrdinalIgnoreCase))
             {
                 isExpressFilter = false;
             }
 
             if (IsLocalDbAvailable)
             {
-                try
+                List<BusRoute> routes = new List<BusRoute>();
+                string sql =
+                    "SELECT Id, RouteNumber, Origin, Destination, DepartureTime, DurationMinutes, Price, IsExpress " +
+                    "FROM dbo.BusRoutes " +
+                    "WHERE (@text = N'' OR Origin LIKE @pattern OR Destination LIKE @pattern OR RouteNumber LIKE @pattern) " +
+                    "  AND (@isExpress IS NULL OR IsExpress = @isExpress) " +
+                    "ORDER BY DepartureTime, RouteNumber";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    List<BusRoute> routes = new List<BusRoute>();
-                    string sql =
-                        "SELECT Id, RouteNumber, Origin, Destination, DepartureTime, DurationMinutes, Price, IsExpress " +
-                        "FROM dbo.BusRoutes " +
-                        "WHERE (@text = N'' OR Origin LIKE @pattern OR Destination LIKE @pattern OR RouteNumber LIKE @pattern) " +
-                        "  AND (@isExpress IS NULL OR IsExpress = @isExpress) " +
-                        "ORDER BY DepartureTime, RouteNumber";
+                    command.Parameters.AddWithValue("@text", cleanText);
+                    command.Parameters.AddWithValue("@pattern", pattern);
+                    command.Parameters.Add("@isExpress", SqlDbType.Bit).Value = (object?)isExpressFilter ?? DBNull.Value;
 
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.Parameters.AddWithValue("@text", cleanText);
-                        command.Parameters.AddWithValue("@pattern", pattern);
-                        command.Parameters.AddWithValue("@isExpress", (object?)isExpressFilter ?? DBNull.Value);
-
-                        connection.Open();
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        while (reader.Read())
                         {
-                            while (reader.Read())
+                            BusRoute route = new BusRoute
                             {
-                                BusRoute route = new BusRoute
-                                {
-                                    Id = (int)reader["Id"],
-                                    RouteNumber = (string)reader["RouteNumber"],
-                                    Origin = (string)reader["Origin"],
-                                    Destination = (string)reader["Destination"],
-                                    DepartureTime = (TimeSpan)reader["DepartureTime"],
-                                    DurationMinutes = (int)reader["DurationMinutes"],
-                                    Price = (decimal)reader["Price"],
-                                    IsExpress = (bool)reader["IsExpress"]
-                                };
-                                routes.Add(route);
-                            }
+                                Id = (int)reader["Id"],
+                                RouteNumber = (string)reader["RouteNumber"],
+                                Origin = (string)reader["Origin"],
+                                Destination = (string)reader["Destination"],
+                                DepartureTime = (TimeSpan)reader["DepartureTime"],
+                                DurationMinutes = (int)reader["DurationMinutes"],
+                                Price = (decimal)reader["Price"],
+                                IsExpress = (bool)reader["IsExpress"]
+                            };
+                            routes.Add(route);
                         }
                     }
-                    return routes;
                 }
-                catch (SqlException)
-                {
-                    isLocalDbAvailable = false;
-                }
+                return routes;
             }
 
             // Fallback for offline/test environments without SQL Server LocalDB
@@ -157,33 +146,26 @@ namespace GeorgiaTransitIntelligence.Data
 
             if (IsLocalDbAvailable)
             {
-                try
-                {
-                    string sql =
-                        "INSERT INTO dbo.BusRoutes (RouteNumber, Origin, Destination, DepartureTime, DurationMinutes, Price, IsExpress) " +
-                        "VALUES (@routeNumber, @origin, @destination, @departureTime, @durationMinutes, @price, @isExpress); " +
-                        "SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                string sql =
+                    "INSERT INTO dbo.BusRoutes (RouteNumber, Origin, Destination, DepartureTime, DurationMinutes, Price, IsExpress) " +
+                    "VALUES (@routeNumber, @origin, @destination, @departureTime, @durationMinutes, @price, @isExpress); " +
+                    "SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@routeNumber", route.RouteNumber);
-                        command.Parameters.AddWithValue("@origin", route.Origin);
-                        command.Parameters.AddWithValue("@destination", route.Destination);
-                        command.Parameters.AddWithValue("@departureTime", route.DepartureTime);
-                        command.Parameters.AddWithValue("@durationMinutes", route.DurationMinutes);
-                        command.Parameters.AddWithValue("@price", route.Price);
-                        command.Parameters.AddWithValue("@isExpress", route.IsExpress);
-
-                        connection.Open();
-                        int newId = (int)command.ExecuteScalar()!;
-                        route.Id = newId;
-                        return newId;
-                    }
-                }
-                catch (SqlException)
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    isLocalDbAvailable = false;
+                    command.Parameters.AddWithValue("@routeNumber", route.RouteNumber);
+                    command.Parameters.AddWithValue("@origin", route.Origin);
+                    command.Parameters.AddWithValue("@destination", route.Destination);
+                    command.Parameters.Add("@departureTime", SqlDbType.Time).Value = route.DepartureTime;
+                    command.Parameters.AddWithValue("@durationMinutes", route.DurationMinutes);
+                    command.Parameters.AddWithValue("@price", route.Price);
+                    command.Parameters.AddWithValue("@isExpress", route.IsExpress);
+
+                    connection.Open();
+                    int newId = (int)command.ExecuteScalar()!;
+                    route.Id = newId;
+                    return newId;
                 }
             }
 
@@ -214,38 +196,31 @@ namespace GeorgiaTransitIntelligence.Data
 
             if (IsLocalDbAvailable)
             {
-                try
-                {
-                    string sql =
-                        "UPDATE dbo.BusRoutes " +
-                        "SET RouteNumber = @routeNumber, " +
-                        "    Origin = @origin, " +
-                        "    Destination = @destination, " +
-                        "    DepartureTime = @departureTime, " +
-                        "    DurationMinutes = @durationMinutes, " +
-                        "    Price = @price, " +
-                        "    IsExpress = @isExpress " +
-                        "WHERE Id = @id;";
+                string sql =
+                    "UPDATE dbo.BusRoutes " +
+                    "SET RouteNumber = @routeNumber, " +
+                    "    Origin = @origin, " +
+                    "    Destination = @destination, " +
+                    "    DepartureTime = @departureTime, " +
+                    "    DurationMinutes = @durationMinutes, " +
+                    "    Price = @price, " +
+                    "    IsExpress = @isExpress " +
+                    "WHERE Id = @id;";
 
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@id", route.Id);
-                        command.Parameters.AddWithValue("@routeNumber", route.RouteNumber);
-                        command.Parameters.AddWithValue("@origin", route.Origin);
-                        command.Parameters.AddWithValue("@destination", route.Destination);
-                        command.Parameters.AddWithValue("@departureTime", route.DepartureTime);
-                        command.Parameters.AddWithValue("@durationMinutes", route.DurationMinutes);
-                        command.Parameters.AddWithValue("@price", route.Price);
-                        command.Parameters.AddWithValue("@isExpress", route.IsExpress);
-
-                        connection.Open();
-                        return command.ExecuteNonQuery();
-                    }
-                }
-                catch (SqlException)
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    isLocalDbAvailable = false;
+                    command.Parameters.AddWithValue("@id", route.Id);
+                    command.Parameters.AddWithValue("@routeNumber", route.RouteNumber);
+                    command.Parameters.AddWithValue("@origin", route.Origin);
+                    command.Parameters.AddWithValue("@destination", route.Destination);
+                    command.Parameters.Add("@departureTime", SqlDbType.Time).Value = route.DepartureTime;
+                    command.Parameters.AddWithValue("@durationMinutes", route.DurationMinutes);
+                    command.Parameters.AddWithValue("@price", route.Price);
+                    command.Parameters.AddWithValue("@isExpress", route.IsExpress);
+
+                    connection.Open();
+                    return command.ExecuteNonQuery();
                 }
             }
 
@@ -278,21 +253,14 @@ namespace GeorgiaTransitIntelligence.Data
         {
             if (IsLocalDbAvailable)
             {
-                try
-                {
-                    string sql = "DELETE FROM dbo.BusRoutes WHERE Id = @id;";
+                string sql = "DELETE FROM dbo.BusRoutes WHERE Id = @id;";
 
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@id", id);
-                        connection.Open();
-                        return command.ExecuteNonQuery();
-                    }
-                }
-                catch (SqlException)
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    isLocalDbAvailable = false;
+                    command.Parameters.AddWithValue("@id", id);
+                    connection.Open();
+                    return command.ExecuteNonQuery();
                 }
             }
 
@@ -310,18 +278,11 @@ namespace GeorgiaTransitIntelligence.Data
         {
             if (IsLocalDbAvailable)
             {
-                try
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM dbo.BusRoutes", connection))
                 {
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM dbo.BusRoutes", connection))
-                    {
-                        connection.Open();
-                        return (int)command.ExecuteScalar()!;
-                    }
-                }
-                catch (SqlException)
-                {
-                    isLocalDbAvailable = false;
+                    connection.Open();
+                    return (int)command.ExecuteScalar()!;
                 }
             }
 
@@ -355,7 +316,7 @@ namespace GeorgiaTransitIntelligence.Data
                 new BusRoute { Id = 15, RouteNumber = "GEO-115", Origin = "Kutaisi Airport (KUT)", Destination = "Tbilisi (Pushkin Sq)",   DepartureTime = new TimeSpan(16, 0, 0), DurationMinutes = 240, Price = 25.00m, IsExpress = true },
                 new BusRoute { Id = 16, RouteNumber = "GEO-116", Origin = "Kutaisi Airport (KUT)", Destination = "Batumi (Radisson)",      DepartureTime = new TimeSpan(16, 30, 0),DurationMinutes = 130, Price = 20.00m, IsExpress = true },
                 new BusRoute { Id = 17, RouteNumber = "GEO-117", Origin = "Tbilisi (Didube)",      Destination = "Borjomi (Park Station)", DepartureTime = new TimeSpan(17, 15, 0),DurationMinutes = 150, Price = 15.00m, IsExpress = false },
-                new BusRoute { Id = 18, RouteNumber = "GEO-118", Origin = "Kutaisi (Chavchavadze)",Destination = "Mestia (Seti Square)",   DepartureTime = new TimeSpan(7, 30, 0),  DurationMinutes = 310, Price = 35.00m, IsExpress = false }
+                new BusRoute { Id = 18, RouteNumber = "GEO-118", Origin = "Zugdidi (Bus Station)",Destination = "Mestia (Seti Square / სეტის მოედანი)",   DepartureTime = new TimeSpan(7, 30, 0),  DurationMinutes = 210, Price = 30.00m, IsExpress = false }
             });
         }
     }

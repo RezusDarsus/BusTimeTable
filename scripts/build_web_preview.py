@@ -1,11 +1,41 @@
+import csv
 import json
-import os
+import re
+from pathlib import Path
 
 with open('web-preview/kutaisi_all_routes.json', encoding='utf-8') as f:
     all_k_routes = json.load(f)
 
 print(f'Loaded {len(all_k_routes)} Kutaisi patterns for build')
 all_k_routes_json = json.dumps(all_k_routes, ensure_ascii=False)
+
+# Read the same schematic geometry the WinForms map uses.
+map_source = Path('GeorgiaTransitIntelligence/Mapping/GeoMapControl.cs').read_text(encoding='utf-8')
+geometry = Path('GeorgiaTransitIntelligence/Services/GeometryService.cs').read_text(encoding='utf-8')
+coordinate_pair = r"\((-?\d+\.\d+),\s*(-?\d+\.\d+)\)"
+
+def coordinates(source):
+    return [[float(lat), float(lon)] for lat, lon in re.findall(coordinate_pair, source)]
+
+with open('data/kutaisi-municipal/route_stops.csv', encoding='utf-8-sig', newline='') as stop_file:
+    stops = {
+        row['StopID']: [float(row['Latitude']), float(row['Longitude']), row['StopName']]
+        for row in csv.DictReader(stop_file)
+    }
+
+desktop_map = {
+    'outline': coordinates(map_source.split('var georgiaPolygon', 1)[1].split('};', 1)[0]),
+    'highway': coordinates(geometry.split('E60HighwayCorridor =', 1)[1].split('};', 1)[0]),
+    'branches': [
+        coordinates(map_source.split(f'var {name} =', 1)[1].split('.Select', 1)[0])
+        for name in ('zugdidiPath', 'telaviPath', 'southPath')
+    ],
+    'cities': [
+        [float(lat), float(lon), name]
+        for name, lat, lon in re.findall(r'\{ "([^"]+)", ' + coordinate_pair, geometry)
+    ],
+    'stops': list(stops.values()),
+}
 
 html_template = r'''<!DOCTYPE html>
 <html lang="en">
@@ -44,10 +74,10 @@ html_template = r'''<!DOCTYPE html>
     .download-btn:hover { background: #0b5a0b; }
 
     /* Navigation Tabs */
-    nav.tabs { background: white; border-bottom: 1px solid var(--border); display: flex; padding: 0 20px; }
-    nav.tabs button { background: none; border: none; padding: 12px 18px; font-size: 0.92rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
-    nav.tabs button.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
-    nav.tabs button:hover { color: var(--navy); }
+    nav.tabs { background: #1b2b48; border-bottom: 1px solid #324462; display: flex; padding: 0 20px; }
+    nav.tabs button { background: none; border: none; padding: 12px 18px; font-size: 0.92rem; font-weight: 600; color: #cfdbec; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+    nav.tabs button.active { color: white; background: #263d61; border-bottom-color: #78bbff; }
+    nav.tabs button:hover { color: white; background: #263d61; }
 
     /* Main Container */
     main { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
@@ -84,15 +114,21 @@ html_template = r'''<!DOCTYPE html>
     .status-bar { padding: 8px 12px; font-size: 0.82rem; color: var(--text-muted); background: white; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; display: flex; justify-content: space-between; }
 
     /* Map Tab */
-    #tab-simulation { padding: 0; position: relative; }
-    .sim-bar { background: var(--navy); color: white; padding: 8px 18px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; flex-wrap: wrap; gap: 10px; }
-    .sim-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-    .sim-controls select, .sim-controls button { padding: 5px 11px; border-radius: 4px; border: none; font-size: 0.84rem; font-weight: 600; cursor: pointer; }
-    .clock-display { color: #facc15; font-size: 0.95rem; font-weight: 700; font-family: monospace; display: flex; align-items: center; gap: 8px; }
-    .fleet-counter { background: #1e2e54; color: #93c5fd; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+    #tab-simulation { padding: 16px 24px 24px; gap: 12px; min-height: 0; background: #f3f6fa; }
+    .simulation-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #183036; }
+    .simulation-heading h2 { font-size: clamp(1.28rem, 2.3vw, 1.8rem); font-weight: 650; letter-spacing: -.035em; }
+    .clock-display { color: #144d97; font-size: .86rem; font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .sim-bar { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+    .sim-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .sim-controls button, .sim-controls select { min-height: 34px; padding: 5px 10px; border-radius: 6px; font-size: .82rem; font-weight: 600; cursor: pointer; }
+    .sim-controls select { border: 1px solid #d7e1ed; background: white; color: #183036; max-width: 100%; }
+    .sim-controls label { font-size: .8rem; color: #435b60; }
+    #btnYandex[aria-pressed="true"], #btnBasemap[aria-pressed="true"] { background: #144d97; color: #fff; }
+    #tab-simulation button:active { translate: 0 1px; }
+    #tab-simulation :focus-visible { outline: 2px solid #144d97; outline-offset: 2px; }
 
     /* Operator Filter Strip */
-    .operator-filter-strip { background: #1a284a; color: white; padding: 6px 18px; display: flex; gap: 8px; align-items: center; z-index: 999; border-top: 1px solid #28395e; overflow-x: auto; flex-wrap: wrap; }
+    .operator-filter-strip { background: #f3f6fa; color: #183036; padding: 8px 16px; display: flex; gap: 8px; align-items: center; z-index: 999; border-top: 1px solid #d7e1ed; overflow-x: auto; flex-wrap: wrap; }
     .operator-filter-strip span { font-size: 0.8rem; color: #94a3b8; font-weight: 600; margin-right: 4px; }
     .op-pill { border: none; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s; opacity: 0.75; display: inline-flex; align-items: center; gap: 6px; }
     .op-pill:hover, .op-pill.active { opacity: 1; transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
@@ -104,11 +140,50 @@ html_template = r'''<!DOCTYPE html>
     .op-pill-geobus { background: #0891b2; color: white; }
     .op-pill-metro { background: #dc2626; color: white; }
 
-    .map-wrapper { flex: 1; position: relative; width: 100%; height: 100%; }
-    #map { width: 100%; height: 100%; }
+    .map-wrapper { flex: 1; min-height: 260px; position: relative; display: flex; overflow: hidden; border: 1px solid #d7e1ed; border-radius: 14px; }
+    .map-canvas { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+    #map { position: absolute; inset: 0; background: #deedef; }
+    #yandex-map { position: absolute; inset: 0; }
+    .map-canvas.yandex-active #map { background: transparent; clip-path: inset(0 0 26px 0); }
+    #yandex-config { margin: auto; max-width: min(440px, 94vw); padding: 24px; border: 1px solid #d7e1ed; border-radius: 12px; color: #183036; }
+    #yandex-config::backdrop { background: #14203c80; }
+    #yandex-config form { display: grid; gap: 12px; }
+    #yandex-config input { width: 100%; padding: 8px; border: 1px solid #d7e1ed; border-radius: 6px; }
+    #yandex-config .action-group { justify-content: flex-end; }
+    #yandex-status:not(:empty) { padding: 6px 10px; color: #8b310c; font-size: .85rem; }
+    .map-estimate, .map-status { position: absolute; z-index: 500; pointer-events: none; padding: 4px 8px; font-size: .82rem; font-weight: 700; }
+    .map-estimate { top: 16px; left: 16px; background: white; color: #244944; border-radius: 5px; }
+    .map-legend { position: absolute; z-index: 500; top: 44px; left: 16px; display: flex; flex-wrap: wrap; gap: 5px 12px; max-width: 55%; background: white; border-radius: 5px; padding: 5px 8px; color: #253955; font-size: .72rem; pointer-events: none; }
+    .map-legend span { display: inline-flex; gap: 4px; align-items: center; }
+    .map-legend span::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--marker); }
+    .map-status { bottom: 22px; left: 12px; background: white; border: 1px solid #c8c8c8; }
+    .map-city { display: flex; align-items: center; gap: 5px; color: #171f32; white-space: nowrap; font-weight: 700; }
+    .map-city::before { content: ''; flex: 0 0 8px; height: 8px; border-radius: 50%; background: #172440; }
+    .inspector-card { position: absolute; top: 16px; right: 16px; z-index: 550; width: min(300px, 42%); max-height: calc(100% - 58px); border: 1px solid #d9e2dd; border-radius: 12px; background: #fff; padding: 16px; overflow: auto; overflow-wrap: anywhere; font-size: .88rem; box-shadow: 0 6px 18px #18303620; }
+    .inspector-title { color: #111827; font-size: 1.08rem; margin-bottom: 14px; }
 
-    /* Vehicle Inspector Overlay Card */
-    .inspector-card { position: absolute; right: 18px; top: 18px; width: 350px; background: rgba(255,255,255,0.97); backdrop-filter: blur(8px); border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,0.22); border: 1px solid var(--border); padding: 16px; z-index: 1000; font-size: 0.85rem; max-height: 90%; overflow-y: auto; }
+    .sim-bar .btn-primary { background: #144d97; }
+    .vehicle-cluster { display: grid; place-items: center; background: #144d97; color: white; border: 2px solid white; border-radius: 50%; font-weight: 700; }
+    #map.grouped .municipal-vehicle { visibility: hidden; }
+    .inspector-card.is-empty .vehicle-details { display: none; }
+    .inspector-card:not(.is-empty) .inspector-empty { display: none; }
+    .sim-controls .btn-secondary { background: #e6efec; color: #183036; }
+    .sim-controls .btn-secondary:hover { background: #d5e5df; }
+    .sim-filters { background: #fff; color: #183036; border: 1px solid #d7e1ed; border-radius: 8px; }
+    .sim-filters summary { cursor: pointer; padding: 7px 12px; font-size: .8rem; font-weight: 600; }
+    .sim-filter-controls { padding: 6px 18px; }
+    @media (max-width: 720px) {
+      #tab-simulation { padding: 12px; gap: 8px; }
+      .simulation-heading { flex-wrap: wrap; }
+      .map-wrapper { display: grid; grid-template-rows: minmax(175px, 1fr) auto; }
+      .inspector-card { position: static; width: 100%; max-height: 180px; border-radius: 0; padding: 10px 14px; }
+      header { flex-wrap: wrap; gap: 8px; padding: 10px 14px; }
+      .header-badges { flex-wrap: wrap; }
+      .student-badge { display: none; }
+      nav.tabs { overflow-x: auto; padding: 0; }
+      nav.tabs button { flex: 0 0 auto; }
+      .map-estimate { font-size: .64rem; }
+    }
     .inspector-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #edf2f7; }
     .inspector-header h4 { font-size: 1.02rem; color: var(--navy); display: flex; align-items: center; gap: 6px; }
     .op-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
@@ -121,11 +196,68 @@ html_template = r'''<!DOCTYPE html>
     .features-tag-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
     .feat-tag { background: #e0f2fe; color: #0369a1; font-size: 0.72rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
 
-    /* Custom Leaflet Vehicle Markers */
+    /* Custom Leaflet Vehicle Markers - Hardware Accelerated & Zero Lag */
+    .leaflet-marker-icon.vehicle-marker-icon {
+      transition: transform 0.05s linear !important;
+      will-change: transform;
+      pointer-events: auto;
+    }
+    .leaflet-marker-icon.traveler-icon {
+      transition: transform 0.06s linear !important;
+      will-change: transform;
+      pointer-events: auto;
+    }
+    #map .bus-marker-badge { width: 24px; height: 24px; min-width: 0; padding: 0; justify-content: center; border-radius: 50%; font-size: 9px; border: 1.5px solid white; }
+    #map .bus-marker-badge .heading-arrow { display: none; }
     .vehicle-marker-icon { display: flex; align-items: center; justify-content: center; }
-    .bus-marker-badge { border-radius: 14px; padding: 2px 7px; color: white; font-weight: 800; font-size: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.35); border: 1.5px solid white; display: flex; align-items: center; gap: 4px; white-space: nowrap; transition: transform 0.2s; cursor: pointer; }
-    .bus-marker-badge:hover { transform: scale(1.22); z-index: 9999 !important; }
-    .heading-arrow { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 7px solid white; display: inline-block; }
+    .bus-marker-badge {
+      border-radius: 14px;
+      padding: 2px 7px;
+      color: white;
+      font-weight: 800;
+      font-size: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+      border: 1.5px solid white;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      transition: filter 0.15s, box-shadow 0.15s;
+    }
+    .bus-marker-badge:hover {
+      filter: brightness(1.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.55);
+      z-index: 9999 !important;
+    }
+    .heading-arrow {
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 7px solid currentColor;
+      display: inline-block;
+      transition: transform 0.12s ease-out;
+      transform-origin: 50% 60%;
+    }
+
+    /* High-Definition Transit Line & Dashed Intersection Styling */
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -32; }
+    }
+    .dashed-intersection-line {
+      stroke-dasharray: 8, 8 !important;
+      animation: dash-flow 2s linear infinite;
+    }
+    .dashed-transfer-link {
+      stroke-dasharray: 5, 5 !important;
+      animation: dash-flow 1.2s linear infinite;
+    }
+    .intersection-halo-ring {
+      stroke-dasharray: 4, 4 !important;
+      animation: dash-flow 3s linear infinite;
+    }
 
     /* Journey Planner */
     .planner-layout { display: grid; grid-template-columns: 340px 1fr; gap: 20px; height: 100%; }
@@ -163,21 +295,21 @@ html_template = r'''<!DOCTYPE html>
   <header>
     <div class="brand">
       <h1>GEORGIA TRANSIT INTELLIGENCE</h1>
-      <p>National Bus Network, Full Kutaisi Municipal Network & Marshrutka (Route Taxi) Center</p>
+      <p>National Bus Network &amp; Timetable Control Center</p>
     </div>
     <div class="header-badges">
       <span class="student-badge">Student: Rezo Darsavelidze</span>
       <span class="student-badge">Topic 13: BusRoutes</span>
-      <a href="/Midterm_Darsavelidze_Rezo.zip" class="download-btn" download>📥 Download Midterm ZIP</a>
+      <a href="./Midterm_Darsavelidze_Rezo.zip" class="download-btn" download>📥 Download Midterm ZIP</a>
     </div>
   </header>
 
   <!-- Navigation Tabs -->
   <nav class="tabs">
-    <button class="active" onclick="switchTab('tab-crud')">Timetable Manager (CRUD)</button>
+    <button class="active" onclick="switchTab('tab-crud')">Timetable Manager</button>
     <button onclick="switchTab('tab-planner')">Georgia Journey Planner</button>
-    <button onclick="switchTab('tab-simulation')">National Live Simulation Map</button>
-    <button onclick="switchTab('tab-explorer')">Kutaisi Municipal & Network Explorer</button>
+    <button onclick="switchTab('tab-simulation')">National Live Simulation</button>
+    <button onclick="switchTab('tab-explorer')">Network Explorer</button>
     <button onclick="switchTab('tab-marshrutka')">Marshrutka (Route Taxi) Directory</button>
   </nav>
 
@@ -316,21 +448,36 @@ html_template = r'''<!DOCTYPE html>
 
     <!-- TAB 3: Map Simulation -->
     <section id="tab-simulation" class="tab-content">
+      <div class="simulation-heading">
+        <h2>Vehicle simulation</h2>
+        <div class="clock-display" id="simClockText">Georgia time</div>
+      </div>
       <div class="sim-bar">
-        <div class="sim-controls">
+        <div class="sim-controls" aria-label="Playback">
           <button id="btnPlayPause" class="btn btn-primary" onclick="toggleSim()">⏸ Pause</button>
           <button class="btn btn-secondary" onclick="resetSim()">Reset Time</button>
-          <span style="font-size:0.85rem; color:#b4cde6;">Speed:</span>
+          <label for="simSpeedSelect">Speed</label>
           <select id="simSpeedSelect" onchange="changeSpeed()">
-            <option value="1">1x Real-time</option>
-            <option value="5" selected>5x Fast</option>
+            <option value="1" selected>1x Real-time</option>
+            <option value="5">5x Fast</option>
             <option value="15">15x Rapid</option>
             <option value="60">60x Warp</option>
           </select>
+        </div>
+        <div class="sim-controls" aria-label="Map view">
+          <button class="btn btn-secondary" onclick="map.zoomIn()" aria-label="Zoom in">+</button>
+          <button class="btn btn-secondary" onclick="map.zoomOut()" aria-label="Zoom out">−</button>
           <button class="btn btn-secondary" onclick="zoomGeorgia()">Georgia View</button>
-          <button class="btn btn-primary" onclick="zoomKutaisi()">Kutaisi City View</button>
-          <button class="btn btn-secondary" onclick="zoomRikoti()">Rikoti Pass View</button>
+          <button class="btn btn-primary" onclick="zoomKutaisi()">Kutaisi City</button>
+          <button id="btnYandex" class="btn btn-secondary" aria-pressed="false" onclick="selectYandex()">Yandex Maps</button>
+          <button id="btnBasemap" class="btn btn-secondary" aria-pressed="false" onclick="toggleStreetMap()">Street map</button>
 
+        </div>
+      </div>
+      <details class="sim-filters">
+        <summary>Map filters</summary>
+        <div class="sim-controls sim-filter-controls">
+          <button class="btn btn-secondary" onclick="zoomRikoti()">Rikoti Pass View</button>
           <!-- Marshrutka / Route Taxi Quick Filter -->
           <span style="font-size:0.85rem; color:#f97316; margin-left:6px;"><b>Route Taxi:</b></span>
           <select id="marshrutkaFilterSelect" style="max-width:210px; padding:5px 8px; font-weight:600; background:#fff7ed; border:1px solid #fdba74;" onchange="handleMarshrutkaFilter()">
@@ -344,33 +491,57 @@ html_template = r'''<!DOCTYPE html>
             <option value="ALL">All 22 Kutaisi Municipal Lines</option>
             <!-- Generated dynamically via JS -->
           </select>
-        </div>
-        <div style="display:flex; gap:12px; align-items:center;">
-          <span class="fleet-counter" id="activeFleetPill">Active Fleet: 85 Vehicles</span>
-          <div class="clock-display" id="simClockText">Sim Clock: 12:00:00 (UTC+4)</div>
-        </div>
-      </div>
 
+          <!-- Intersections Dashed Toggle Button -->
+          <button id="btnDashedIntersections" class="btn btn-secondary" onclick="toggleDashedIntersections()" style="background:#0f172a; border:1px solid #facc15; color:#facc15; font-weight:700; padding:5px 10px; margin-left:4px;">
+            Show Intersections
+          </button>
+        </div>
       <!-- Operator Filter Strip -->
       <div class="operator-filter-strip">
-        <span>FILTER OPERATOR:</span>
-        <button class="op-pill op-pill-all active" onclick="filterOperator('ALL')">All Transit (85)</button>
-        <button class="op-pill op-pill-marsh" onclick="filterOperator('Route Taxi')">🟠 Marshrutka / Route Taxi (25)</button>
-        <button class="op-pill op-pill-muni" onclick="filterOperator('Kutaisi Municipal')">🔷 Kutaisi City Bus (42)</button>
-        <button class="op-pill op-pill-citybus" onclick="filterOperator('Citybus Georgia')">🟣 Citybus (7)</button>
-        <button class="op-pill op-pill-omnibus" onclick="filterOperator('Omnibus Express')">🔵 Omnibus (6)</button>
-        <button class="op-pill op-pill-geobus" onclick="filterOperator('Georgian Bus')">💠 Georgian Bus (5)</button>
-        <button class="op-pill op-pill-metro" onclick="filterOperator('Metro Georgia')">🔴 Metro (6)</button>
+        <button class="op-pill op-pill-all active" onclick="filterOperator('ALL')">All Transit</button>
+        <button class="op-pill op-pill-marsh" onclick="filterOperator('Route Taxi')">Marshrutka / Route Taxi</button>
+        <button class="op-pill op-pill-muni" onclick="filterOperator('Kutaisi Municipal')">Kutaisi City Bus</button>
+        <button class="op-pill op-pill-citybus" onclick="filterOperator('Citybus Georgia')">Citybus</button>
+        <button class="op-pill op-pill-omnibus" onclick="filterOperator('Omnibus Express')">Omnibus</button>
+        <button class="op-pill op-pill-geobus" onclick="filterOperator('Georgian Bus')">Georgian Bus</button>
+        <button class="op-pill op-pill-metro" onclick="filterOperator('Metro Georgia')">Metro</button>
       </div>
 
+      </details>
+      <p id="yandex-status" role="status"></p>
+      <dialog id="yandex-config" aria-labelledby="yandex-title">
+        <form id="yandex-form">
+          <h3 id="yandex-title">Connect Yandex Maps</h3>
+          <p>Use a <a href="https://developer.tech.yandex.com/" target="_blank" rel="noopener">Yandex Maps JavaScript API key</a> that allows this localhost hostname.</p>
+          <label for="yandex-key">API key</label>
+          <input id="yandex-key" type="password" required autocomplete="off">
+          <div class="action-group">
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('yandex-config').close()">Cancel</button>
+            <button class="btn btn-primary">Connect</button>
+          </div>
+        </form>
+      </dialog>
       <div class="map-wrapper">
-        <div id="map"></div>
+        <div class="map-canvas">
+          <div id="yandex-map" hidden></div>
+          <div id="map" aria-label="Georgia transit simulation map"></div>
+          <div class="map-estimate">Estimated vehicle positions</div>
+          <div class="map-legend" aria-label="Vehicle types">
+            <span style="--marker:#0369a1">Municipal bus</span>
+            <span style="--marker:#6d28a7">Intercity coach</span>
+            <span style="--marker:#c2410c">Marshrutka</span>
+          </div>
+          <div class="map-status" id="activeFleetPill"></div>
+        </div>
 
         <!-- Vehicle Inspector Card -->
-        <div class="inspector-card" id="vehicleInspector">
+        <aside class="inspector-card is-empty" id="vehicleInspector">
+          <h3 class="inspector-title">Vehicle Inspector</h3>
+          <p class="inspector-empty">Select a vehicle to see its route and estimated schedule.</p>
+          <div class="vehicle-details">
           <div class="inspector-header">
             <h4><span id="inspBadge" class="op-badge" style="background:#ea580c; color:white;">ROUTE TAXI</span> <span id="inspId">MR-OK-01</span></h4>
-            <span style="color:#16a34a; font-weight:700; font-size:0.75rem;">● SIMULATED LIVE</span>
           </div>
           <p id="inspOperator" style="font-weight:700; color:var(--navy); margin-bottom:2px;">Marshrutka (Route Taxi / სამარშრუტო ტაქსი)</p>
           <p id="inspModel" style="color:var(--text-muted); font-size:0.8rem; margin-bottom:6px;">Mercedes-Benz Sprinter 519 CDI Minibus (18-seater)</p>
@@ -403,17 +574,8 @@ html_template = r'''<!DOCTYPE html>
 
           <p id="inspNextStop" style="font-size:0.82rem; color:#0f6cbd; font-weight:600; margin-top:4px;">Next Landmark: Surami Pass Entrance (~12 min)</p>
 
-          <div class="features-tag-list" id="inspFeatures">
-            <span class="feat-tag">Frequent Departures</span>
-            <span class="feat-tag">High Flexibility</span>
-            <span class="feat-tag">Direct Hub Express</span>
-            <span class="feat-tag">Luggage Hold</span>
           </div>
-
-          <p style="font-size:0.7rem; color:#94a3b8; margin-top:10px; border-top:1px dashed #cbd5e1; padding-top:6px;">
-            ℹ️ Fixed-Route Taxicab / Marshrutka (სამარშრუტო ტაქსი) timetable simulation from regional dispatch logs.
-          </p>
-        </div>
+        </aside>
       </div>
     </section>
 
@@ -770,10 +932,16 @@ html_template = r'''<!DOCTYPE html>
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('nav.tabs button').forEach(el => el.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
-      event.target.classList.add('active');
+      document.querySelector(`nav.tabs button[onclick="switchTab('${tabId}')"]`)?.classList.add('active');
 
       if (tabId === 'tab-simulation') {
-        setTimeout(() => map.invalidateSize(), 200);
+        setTimeout(() => {
+          map.invalidateSize();
+          if (!streetMapInitialized && /^https?:$/.test(location.protocol)) {
+            streetMapInitialized = true;
+            toggleStreetMap();
+          }
+        }, 200);
       }
       if (tabId === 'tab-explorer') {
         renderKutaisiDirectoryTable();
@@ -789,7 +957,136 @@ html_template = r'''<!DOCTYPE html>
     // ==========================================
     let map;
     let simRunning = true;
-    let simSpeed = 5;
+    let simSpeed = 1;
+    let municipalCluster;
+    let streetMapInitialized = false;
+    let yandexMap;
+    let yandexReady;
+    let yandexKey = '';
+    let yandexActive = false;
+
+    function syncYandexView() {
+      if (!yandexActive) return;
+      const {lat, lng} = map.getCenter();
+      yandexMap.setLocation({center: [lng, lat], zoom: map.getZoom(), duration: 0});
+    }
+
+    function leaveYandex() {
+      if (!yandexActive) return;
+      yandexActive = false;
+      yandexMap.destroy();
+      yandexMap = undefined;
+      document.querySelector('.map-canvas').classList.remove('yandex-active');
+      document.getElementById('yandex-map').hidden = true;
+      document.getElementById('btnYandex').setAttribute('aria-pressed', 'false');
+      schematicBase.addTo(map);
+    }
+
+    function loadYandex(key) {
+      if (yandexReady && key === yandexKey) return yandexReady;
+      const script = document.createElement('script');
+      script.src = 'https://api-maps.yandex.ru/v3/?' + new URLSearchParams({apikey: key, lang: 'en_US'});
+      const ready = new Promise((resolve, reject) => {
+        script.onload = async () => {
+          try {
+            const api = window.ymaps3;
+            await api.ready;
+
+
+            resolve(api);
+          } catch (error) {
+            reject(error);
+          }
+        };
+        script.onerror = () => reject(new Error("SDK request failed"));
+      });
+      yandexKey = key;
+      yandexReady = new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => reject(new Error("SDK initialization timed out")), 15000);
+        ready.then(resolve, reject).finally(() => clearTimeout(timeout));
+      }).catch(error => {
+        script.remove();
+        yandexReady = undefined;
+        yandexKey = '';
+        throw error;
+      });
+      script.referrerPolicy = 'strict-origin-when-cross-origin';
+      document.head.append(script);
+      return yandexReady;
+    }
+
+    async function selectYandex(key) {
+      const button = document.getElementById('btnYandex');
+      const status = document.getElementById('yandex-status');
+      if (yandexActive) {
+        leaveYandex();
+        return;
+      }
+      if (!/^https?:$/.test(location.protocol)) {
+        status.textContent = 'Open the preview through localhost to connect Yandex Maps.';
+        return;
+      }
+      key ||= yandexKey;
+      if (!key) {
+        document.getElementById('yandex-config').showModal();
+        return;
+      }
+      button.disabled = true;
+      status.textContent = 'Connecting to Yandex Maps…';
+      const container = document.getElementById('yandex-map');
+      try {
+        const api = await loadYandex(key);
+        if (!document.getElementById('tab-simulation').classList.contains('active')) return;
+        const {YMap, YMapDefaultSchemeLayer} = api;
+        const {lat, lng} = map.getCenter();
+        container.hidden = false;
+        yandexMap = new YMap(container, {
+          location: {center: [lng, lat], zoom: map.getZoom()},
+          behaviors: [], projection: api.projections.sphericalMercator
+        });
+        yandexMap.addChild(new YMapDefaultSchemeLayer());
+        yandexActive = true;
+        streetTiles.remove();
+        schematicBase.remove();
+        document.querySelector('.map-canvas').classList.add('yandex-active');
+        document.getElementById('btnBasemap').setAttribute('aria-pressed', 'false');
+        button.setAttribute('aria-pressed', 'true');
+        status.textContent = '';
+      } catch (error) {
+        yandexMap?.destroy();
+        yandexMap = undefined;
+        container.hidden = true;
+        yandexReady = undefined;
+        yandexKey = '';
+        status.textContent = 'Yandex Maps could not load (' + (['SDK request failed', 'SDK initialization timed out'].includes(error?.message) ? error.message : error?.name ?? 'SDK error') + '). Check your key and localhost restriction.';
+      } finally {
+        button.disabled = false;
+        if (status.textContent === 'Connecting to Yandex Maps…') status.textContent = '';
+      }
+    }
+
+    document.getElementById('yandex-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const input = document.getElementById('yandex-key');
+      const key = input.value.trim();
+      if (!key) return;
+      input.value = '';
+      document.getElementById('yandex-config').close();
+      selectYandex(key);
+    });
+
+    function toggleStreetMap() {
+      leaveYandex();
+      document.getElementById('yandex-status').textContent = '';
+      const button = document.getElementById('btnBasemap');
+      const showStreets = !map.hasLayer(streetTiles);
+      if (showStreets) streetTiles.addTo(map);
+      else {
+        streetTiles.remove();
+        schematicBase.addTo(map);
+      }
+      button.setAttribute('aria-pressed', String(showStreets));
+    }
     let simTime = new Date();
     let currentOperatorFilter = 'ALL';
     let currentKutaisiLineFilter = 'ALL';
@@ -975,48 +1272,63 @@ html_template = r'''<!DOCTYPE html>
       return (brng + 360) % 360;
     }
 
-    function interpolateAlongPolyline(pts, fraction) {
-      if (!pts || pts.length === 0) return { lat: 42.26, lng: 42.70, heading: 0, nextStop: '', totalKm: 0, currentKm: 0 };
-      if (pts.length === 1) return { lat: pts[0][0], lng: pts[0][1], heading: 0, nextStop: pts[0][2] || '', totalKm: 1, currentKm: 0 };
-
+    // Precompute segment distances, cumulative distances, and bearings once for zero-overhead fast runtime interpolation
+    function preparePolyline(pts) {
+      if (!pts || pts.length === 0) return { pts: [], dists: [], cumDists: [0], totalDist: 0, bearings: [] };
       let dists = [];
+      let cumDists = [0];
+      let bearings = [];
       let totalDist = 0;
       for (let i = 0; i < pts.length - 1; i++) {
-        let d = getDistanceKm(pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1]);
+        let p1 = pts[i];
+        let p2 = pts[i + 1];
+        let d = getDistanceKm(p1[0], p1[1], p2[0], p2[1]);
         dists.push(d);
         totalDist += d;
+        cumDists.push(totalDist);
+        bearings.push(calculateBearing(p1[0], p1[1], p2[0], p2[1]));
+      }
+      return { pts: pts, dists: dists, cumDists: cumDists, totalDist: totalDist, bearings: bearings };
+    }
+
+    function interpolateAlongPrepared(prep, fraction) {
+      if (!prep || !prep.pts || prep.pts.length === 0) {
+        return { lat: 42.26, lng: 42.70, heading: 0, nextStop: '', totalKm: 0, currentKm: 0 };
+      }
+      if (prep.pts.length === 1 || prep.totalDist === 0) {
+        return { lat: prep.pts[0][0], lng: prep.pts[0][1], heading: 0, nextStop: prep.pts[0][2] || '', totalKm: 1, currentKm: 0 };
       }
 
-      if (totalDist === 0) return { lat: pts[0][0], lng: pts[0][1], heading: 0, nextStop: pts[0][2] || '', totalKm: 1, currentKm: 0 };
-
-      let targetDist = fraction * totalDist;
-      let accumulated = 0;
-
-      for (let i = 0; i < dists.length; i++) {
-        if (accumulated + dists[i] >= targetDist || i === dists.length - 1) {
-          let segDist = dists[i];
-          let segFrac = segDist > 0 ? (targetDist - accumulated) / segDist : 0;
-          segFrac = Math.max(0, Math.min(1, segFrac));
-
-          let lat = pts[i][0] + segFrac * (pts[i+1][0] - pts[i][0]);
-          let lng = pts[i][1] + segFrac * (pts[i+1][1] - pts[i][1]);
-          let heading = calculateBearing(pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1]);
-          let nextStopName = pts[i+1][2] || ('Landmark #' + (i + 1));
-
-          return {
-            lat: lat,
-            lng: lng,
-            heading: heading,
-            nextStop: nextStopName,
-            totalKm: totalDist,
-            currentKm: targetDist
-          };
-        }
-        accumulated += dists[i];
+      let targetDist = Math.max(0, Math.min(1, fraction)) * prep.totalDist;
+      let cum = prep.cumDists;
+      let i = 0;
+      while (i < cum.length - 2 && cum[i + 1] < targetDist) {
+        i++;
       }
+      let segDist = prep.dists[i];
+      let segFrac = segDist > 0 ? (targetDist - cum[i]) / segDist : 0;
+      segFrac = Math.max(0, Math.min(1, segFrac));
 
-      let last = pts.length - 1;
-      return { lat: pts[last][0], lng: pts[last][1], heading: 0, nextStop: pts[last][2] || '', totalKm: totalDist, currentKm: totalDist };
+      let p1 = prep.pts[i];
+      let p2 = prep.pts[i + 1];
+      let lat = p1[0] + segFrac * (p2[0] - p1[0]);
+      let lng = p1[1] + segFrac * (p2[1] - p1[1]);
+      let heading = prep.bearings[i] || 0;
+      let nextStopName = p2[2] || ('Landmark #' + (i + 1));
+
+      return {
+        lat: lat,
+        lng: lng,
+        heading: heading,
+        nextStop: nextStopName,
+        totalKm: prep.totalDist,
+        currentKm: targetDist
+      };
+    }
+
+    function interpolateAlongPolyline(pts, fraction) {
+      let prep = preparePolyline(pts);
+      return interpolateAlongPrepared(prep, fraction);
     }
 
     function sliceCorridor(fullPath, fromIdx, toIdx) {
@@ -1193,37 +1505,83 @@ html_template = r'''<!DOCTYPE html>
 
     // Initialize Map
     function initMap() {
-      map = L.map('map').setView([42.2600, 42.6950], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
+      const geography = __DESKTOP_MAP__;
+      map = L.map('map', { zoomControl: false, zoomAnimation: false, zoomSnap: 0.5, minZoom: 6, maxZoom: 17 })
+        .setView([42.15, 43.30], 8);
+      const canvas = document.querySelector('.map-canvas');
+      new ResizeObserver(() => {
+        if (canvas.clientWidth && canvas.clientHeight) map.invalidateSize({ pan: false });
+      }).observe(canvas);
 
-      // Render glowing highway corridors
-      const e60LatLngs = e60FullCorridor.map(p => [p[0], p[1]]);
-      L.polyline(e60LatLngs, { color: '#0f6cbd', weight: 6, opacity: 0.85, lineJoin: 'round' }).addTo(map);
-      L.polyline(e60LatLngs, { color: '#facc15', weight: 2.5, opacity: 0.9, dashArray: '8, 8' }).addTo(map);
+      window.schematicBase = L.layerGroup().addTo(map);
+      map.createPane('schematicLand').style.zIndex = 250;
+      L.polygon(geography.outline, {
+        pane: 'schematicLand',
+        color: '#cbdbd5', weight: 1, fillColor: '#f7f9f2', fillOpacity: 1, interactive: false
+      }).addTo(window.schematicBase);
 
-      // Regional Branches
-      L.polyline(s1ZugdidiCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(s12PotiCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(s8AkhaltsikheCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(s3KazbegiCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(s5TelaviCorridor.map(p => [p[0], p[1]]), { color: '#475569', weight: 4.5, opacity: 0.8 }).addTo(map);
-      L.polyline(svanetiCorridor.map(p => [p[0], p[1]]), { color: '#64748b', weight: 3.5, opacity: 0.75, dashArray: '4, 4' }).addTo(map);
+      window.transitCorridorsGroup = L.layerGroup().addTo(map);
+      window.intersectionHubsGroup = L.layerGroup();
+      window.kutaisiLinesGroup = L.layerGroup().addTo(map);
+      L.polyline(geography.highway, { color: '#5b8f85', weight: 5.5 }).addTo(window.transitCorridorsGroup);
+      L.polyline(geography.highway, { color: '#74a999', weight: 4 }).addTo(window.transitCorridorsGroup);
+      geography.branches.forEach(branch => {
+        L.polyline(branch, { color: '#d9e2dd', weight: 2 }).addTo(window.schematicBase);
+      });
 
-      // Dedicated Route Taxi (Marshrutka) Regional Branches
-      L.polyline(tskaltuboCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(tkibuliCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(chiaturaCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(martviliCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(baghdatiCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(vaniCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.polyline(sighnaghiCorridor.map(p => [p[0], p[1]]), { color: '#ea580c', weight: 4, opacity: 0.85 }).addTo(map);
+      const majorCities = new Set(['Tbilisi', 'Kutaisi', 'Batumi', 'Zugdidi', 'Poti']);
+      const cityLabels = geography.cities.map(([lat, lon, name]) => ({
+        name,
+        marker: L.marker([lat, lon], {
+          interactive: false,
+          icon: L.divIcon({ className: 'map-city', html: name, iconSize: [8, 16], iconAnchor: [4, 8] })
+        })
+      }));
+      const municipalStops = L.layerGroup(geography.stops.map(([lat, lon, name]) =>
+        L.circleMarker([lat, lon], { radius: 4, color: '#fff', weight: 1, fillColor: '#1e88e5', fillOpacity: .75 })
+          .bindTooltip(() => {
+            const label = document.createElement('span');
+            label.textContent = name;
+            return label;
+          })
+      ));
+      function updateMapDetail() {
+        const zoom = map.getZoom();
+        cityLabels.forEach(({ name, marker }) => {
+          const show = majorCities.has(name) || (zoom >= 9.5 && (!name.includes('(') || zoom >= 11.5));
+          if (show) marker.addTo(window.schematicBase);
+          else marker.remove();
+        });
+        if (zoom >= 12) municipalStops.addTo(map);
+        else municipalStops.remove();
+        updateMapStatus();
+      }
+      municipalCluster = L.marker([42.2662, 42.7180], { title: 'Zoom to Kutaisi vehicles' }).on('click', zoomKutaisi);
+      map.on('zoomend', updateMapDetail);
+      map.on('move zoom resize', syncYandexView);
+      window.streetTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        referrerPolicy: 'strict-origin-when-cross-origin',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      });
+      streetTiles.on('load', () => {
+        if (!map.hasLayer(streetTiles)) return;
+        if (streetTiles.getContainer()?.querySelector('.leaflet-tile-loaded')) {
+          schematicBase.remove();
+        } else {
+          schematicBase.addTo(map);
+        }
+      });
+      if (location.protocol === 'file:') {
+        const button = document.getElementById('btnBasemap');
+        button.disabled = true;
+        button.title = 'Open the preview through localhost to use the street map.';
+      }
 
       // Group for stop markers and route polylines
       stopMarkersGroup = L.layerGroup().addTo(map);
 
-      // Draw all 22 Kutaisi municipal lines on the map in thin light blue vector polylines
+      // Draw all 22 Kutaisi municipal lines on the map with clear visual hierarchy
       const colorPalette = [
         '#0284c7', '#0ea5e9', '#38bdf8', '#0284c7', '#0369a1', '#2563eb',
         '#1d4ed8', '#1e40af', '#0284c7', '#0891b2', '#06b6d4', '#22d3ee',
@@ -1239,14 +1597,29 @@ html_template = r'''<!DOCTYPE html>
           let polyColor = colorPalette[colorIdx % colorPalette.length];
           colorIdx++;
 
+          let isReturnOrCross = k.endsWith('_1');
+
+          // Subtle casing so overlapping streets do not blur together
+          L.polyline(linePts, {
+            color: '#0f172a',
+            weight: 4.5,
+            opacity: 0.45,
+            lineCap: 'round',
+            lineJoin: 'round'
+          }).addTo(window.kutaisiLinesGroup);
+
+          // Line core: Inbound/intersecting return lines are rendered DASHED
           let poly = L.polyline(linePts, {
             color: polyColor,
-            weight: 3.5,
-            opacity: 0.7,
-            dashArray: k.endsWith('_1') ? '6, 6' : null
-          }).addTo(map);
+            weight: 3,
+            opacity: isReturnOrCross ? 0.75 : 0.85,
+            dashArray: isReturnOrCross ? '6, 6' : null,
+            className: isReturnOrCross ? 'dashed-intersection-line' : '',
+            lineCap: 'round',
+            lineJoin: 'round'
+          }).addTo(window.kutaisiLinesGroup);
 
-          poly.bindTooltip(`<b>Line ${p.route}:</b> ${p.name}<br><small>${p.dir_text}</small>`, { sticky: true });
+          poly.bindTooltip(`<b>Line ${p.route}:</b> ${p.name}<br><small>${p.dir_text} ${isReturnOrCross ? '(Dashed Return Leg)' : '(Outbound)'}</small>`, { sticky: true });
           kutaisiRoutePolylines[k] = poly;
         }
       });
@@ -1297,58 +1670,108 @@ html_template = r'''<!DOCTYPE html>
         marshSelect.appendChild(opt);
       });
 
-      // Major city landmark markers
+      // Major Transit Intersections & Interchange Hubs
       const majorHubs = [
-        { name: 'Tbilisi (Didube / Okriba)', lat: 41.7508, lon: 44.7788 },
-        { name: 'Tbilisi (Ortachala)', lat: 41.6750, lon: 44.8350 },
-        { name: 'Kutaisi (Chavchavadze Central)', lat: 42.2578, lon: 42.6678 },
-        { name: 'Kutaisi (Red Bridge - წითელი ხიდი)', lat: 42.2712, lon: 42.6996 },
-        { name: 'Tskaltubo Spa Central', lat: 42.3260, lon: 42.6000 },
-        { name: 'Batumi (Mayakovsky / Central)', lat: 41.6580, lon: 41.6770 },
-        { name: 'Kutaisi Airport (KUT)', lat: 42.1800, lon: 42.4820 },
-        { name: 'Zugdidi (Central)', lat: 42.5088, lon: 41.8709 },
-        { name: 'Poti (Central)', lat: 42.1462, lon: 41.6720 },
-        { name: 'Tkibuli Central', lat: 42.3500, lon: 42.9900 },
-        { name: 'Chiatura Cable City', lat: 42.2900, lon: 43.2800 },
-        { name: 'Gori (E60 Interchange)', lat: 41.9842, lon: 44.1158 },
-        { name: 'Khashuri (Hub)', lat: 41.9942, lon: 43.5999 },
-        { name: 'Rikoti Mountain Pass', lat: 42.0550, lon: 43.4850 },
-        { name: 'Stepantsminda (Kazbegi)', lat: 42.6567, lon: 44.6433 },
-        { name: 'Mestia (Svaneti)', lat: 43.0440, lon: 42.7297 },
-        { name: 'Borjomi (Park Station)', lat: 41.8398, lon: 43.3850 },
-        { name: 'Akhaltsikhe (Central)', lat: 41.6390, lon: 42.9826 },
-        { name: 'Telavi (Kakheti)', lat: 41.9198, lon: 45.4731 },
-        { name: 'Sighnaghi (City of Love)', lat: 41.6210, lon: 45.9220 }
+        { name: 'Tbilisi Didube Intermodal Hub', lat: 41.7508, lon: 44.7788, desc: 'Major Northern Gateway · Metro Line 1 · Okriba & Kazbegi Terminals', lines: 'Highway E60, S3, Marshrutkas, Tbilisi Metro' },
+        { name: 'Tbilisi Ortachala International Station', lat: 41.6750, lon: 44.8350, desc: 'Eastern Gateway · Kakheti & Southern Intercity Hub', lines: 'Highway E60, S5 Kakheti, Metro Georgia' },
+        { name: 'Kutaisi Chavchavadze Central Hub', lat: 42.2578, lon: 42.6678, desc: 'Central Transit Hub · Omnibus Platform · 22 Municipal Lines · Regional Route Taxis', lines: 'Highway E60, All 22 Kutaisi City Buses, 25 Marshrutkas' },
+        { name: 'Kutaisi Red Bridge (წითელი ხიდი)', lat: 42.2712, lon: 42.6996, desc: 'Rioni River Crossing · Central Historic Interchange', lines: 'Lines 1L, 1R, 4, 10, 19, 111, 114' },
+        { name: 'Samtredia Junction (E60 / S1)', lat: 42.1626, lon: 42.3417, desc: 'Major Western Highway Interchange (Zugdidi / Batumi Split)', lines: 'Highway E60, S1 Zugdidi, Samegrelo Marshrutkas' },
+        { name: 'Grigoleti Coast Junction (E60 / S12)', lat: 42.0450, lon: 41.7450, desc: 'Black Sea Highway Interchange (Poti Seaport / Adjara Coast Split)', lines: 'Highway E60, S12 Poti Corridor' },
+        { name: 'Khashuri Central Junction (E60 / S8)', lat: 41.9942, lon: 43.5999, desc: 'Shida Kartli Highway Interchange (Borjomi / Akhaltsikhe Split)', lines: 'Highway E60, S8 Samtskhe-Javakheti Corridor' },
+        { name: 'Mtskheta Junction (E60 / S3)', lat: 41.8410, lon: 44.7150, desc: 'Georgian Military Highway Interchange (Kazbegi / Stepantsminda Split)', lines: 'Highway E60, S3 Military Highway' },
+        { name: 'Zestafoni Interchange (E60 / Chiatura)', lat: 42.1080, lon: 43.0450, desc: 'Imereti Mining & Industrial Highway Interchange', lines: 'Highway E60, Chiatura / Sachkhere Road' },
+        { name: 'Rikoti Mountain Pass Interchange', lat: 42.0550, lon: 43.4850, desc: 'Continental Divide Interchange (East / West Georgia)', lines: 'Highway E60 Highway Tunnel Bypass' },
+        { name: 'Gori Highway Interchange', lat: 41.9842, lon: 44.1158, desc: 'Shida Kartli Regional Transit Interchange', lines: 'Highway E60, Shida Kartli Route Taxis' },
+        { name: 'Batumi Central Station Interchange', lat: 41.6580, lon: 41.6770, desc: 'Adjara Transit Terminal · Intercity Coaches · Black Sea Fleet', lines: 'Highway E60, Citybus, Omnibus, Metro GEO' },
+        { name: 'Kutaisi International Airport (KUT)', lat: 42.1800, lon: 42.4820, desc: 'Air-Rail-Bus Intermodal Terminal', lines: 'Highway E60, Georgian Bus, Omnibus Airport Express' },
+        { name: 'Zugdidi Central Station', lat: 42.5088, lon: 41.8709, desc: 'Samegrelo-Svaneti Transit Gateway', lines: 'S1, Svaneti Mountain Route, Regional Taxis' },
+        { name: 'Stepantsminda (Kazbegi) Terminal', lat: 42.6567, lon: 44.6433, desc: 'Greater Caucasus Mountain Hub', lines: 'S3, Kazbegi Route Taxis' }
       ];
 
       majorHubs.forEach(h => {
+        // Outer pulsing dashed orbit ring indicating transit intersection
         L.circleMarker([h.lat, h.lon], {
-          radius: 5,
-          color: '#14203c',
+          radius: 12,
+          color: '#facc15',
+          weight: 2.2,
+          dashArray: '4, 4',
+          className: 'intersection-halo-ring',
+          fillColor: '#fef08a',
+          fillOpacity: 0.22
+        }).addTo(window.intersectionHubsGroup);
+
+        // Core intersection hub dot
+        L.circleMarker([h.lat, h.lon], {
+          radius: 5.5,
+          color: '#0f172a',
+          weight: 2,
           fillColor: '#ffffff',
-          fillOpacity: 1,
-          weight: 2.5
-        }).addTo(map).bindPopup(`<b>${h.name}</b><br>Transit Hub`);
+          fillOpacity: 1
+        }).addTo(window.intersectionHubsGroup).bindPopup(`
+          <div style="font-family:sans-serif; min-width:210px;">
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+              <span style="background:#0f172a; color:#facc15; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; border:1px dashed #facc15;">🔀 INTERSECTION</span>
+              <span style="font-size:11px; color:#16a34a; font-weight:700;">● ACTIVE</span>
+            </div>
+            <b style="font-size:0.95rem; color:#0f172a;">${h.name}</b><br>
+            <span style="font-size:0.8rem; color:#475569;">${h.desc}</span>
+            <div style="margin-top:6px; font-size:0.75rem; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; padding:4px 6px;">
+              <b style="color:#0284c7;">Intersecting Lines:</b> ${h.lines}
+            </div>
+          </div>
+        `);
       });
+
+      window.dashedIntersectionsEnabled = false;
+      window.toggleDashedIntersections = function() {
+        window.dashedIntersectionsEnabled = !window.dashedIntersectionsEnabled;
+        const btn = document.getElementById('btnDashedIntersections');
+        if (btn) {
+          if (window.dashedIntersectionsEnabled) {
+            btn.innerHTML = '🔀 Intersections: Dashed ON';
+            btn.style.color = '#facc15';
+            btn.style.borderColor = '#facc15';
+            if (window.intersectionHubsGroup && !map.hasLayer(window.intersectionHubsGroup)) map.addLayer(window.intersectionHubsGroup);
+          } else {
+            btn.innerHTML = '🔀 Intersections: Dashed OFF';
+            btn.style.color = '#94a3b8';
+            btn.style.borderColor = '#475569';
+            if (window.intersectionHubsGroup && map.hasLayer(window.intersectionHubsGroup)) map.removeLayer(window.intersectionHubsGroup);
+          }
+        }
+      };
+
+      function getVehicleArrowEl(v) {
+        if (v.arrowEl && v.arrowEl.isConnected) return v.arrowEl;
+        if (!v.marker) return null;
+        let el = v.marker.getElement();
+        if (el) {
+          v.arrowEl = el.querySelector('.heading-arrow');
+          return v.arrowEl;
+        }
+        return null;
+      }
 
       // Build and register vehicles
       const fleetData = buildVehiclesFleet();
 
       fleetData.forEach(v => {
-        let pos = interpolateAlongPolyline(v.path, v.t);
+        v.preparedPath = preparePolyline(v.path);
+        let pos = interpolateAlongPrepared(v.preparedPath, v.t);
 
-        let iconLabel = v.routeNo ? `🚌 #${v.routeNo}` : (v.isMarsh ? `🚐 TAXI` : v.op.badge);
+        let iconLabel = v.routeNo ? `#${v.routeNo}` : (v.isMarsh ? "MRS" : v.op.badge.slice(0, 3));
 
         let customIcon = L.divIcon({
-          className: 'vehicle-marker-icon',
+          className: v.routeNo ? 'vehicle-marker-icon municipal-vehicle' : 'vehicle-marker-icon',
           html: `
-            <div class="bus-marker-badge" style="background:${v.op.color}; color:${v.op.textColor};">
-              <span class="heading-arrow" style="transform: rotate(${pos.heading}deg);"></span>
+            <div class="bus-marker-badge" style="background:${v.routeNo ? '#0369a1' : v.isMarsh ? '#c2410c' : '#6d28a7'}; color:white;">
+              <span class="heading-arrow" style="transform: rotate(${Math.round(pos.heading)}deg);"></span>
               <span>${iconLabel}</span>
             </div>
           `,
-          iconSize: [68, 24],
-          iconAnchor: [34, 12]
+          iconSize: [25, 25],
+          iconAnchor: [12, 12]
         });
 
         let marker = L.marker([pos.lat, pos.lng], { icon: customIcon }).addTo(map);
@@ -1359,6 +1782,7 @@ html_template = r'''<!DOCTYPE html>
 
         v.marker = marker;
         v.currentHeading = pos.heading;
+        v.lastHeading = Math.round(pos.heading);
         v.currentLat = pos.lat;
         v.currentLng = pos.lng;
         v.nextStopName = pos.nextStop;
@@ -1367,22 +1791,42 @@ html_template = r'''<!DOCTYPE html>
         allVehicleSims.push(v);
       });
 
-      // Default inspector selection
-      let defaultBus = allVehicleSims.find(x => x.id === 'MR-OK-01') || allVehicleSims[0];
-      if (defaultBus) showVehicleInspector(defaultBus);
+      updateMapDetail();
+      updateSimClock();
 
-      // Animation ticker loop
+      // Animation ticker and elapsed-time clock
+      let simTickCounter = 0;
+      let lastTick = performance.now();
       setInterval(() => {
+        const now = performance.now();
+        const elapsed = now - lastTick;
+        lastTick = now;
         if (!simRunning) return;
+        simTickCounter++;
 
-        simTime = new Date(simTime.getTime() + 1000 * simSpeed);
-        document.getElementById('simClockText').innerText = `Sim Clock: ${simTime.toLocaleTimeString()} (UTC+4)`;
+        simTime = new Date(simTime.getTime() + elapsed * simSpeed);
+        if (simTickCounter % 4 === 0) updateSimClock();
 
         allVehicleSims.forEach(v => {
-          v.t += v.speed * (simSpeed / 5);
+          v.t += v.speed * (simSpeed / 25);
           if (v.t > 1.0) v.t = 0.0;
 
-          let pos = interpolateAlongPolyline(v.path, v.t);
+          // Skip DOM operations completely if vehicle is filtered out
+          if (!map.hasLayer(v.marker)) {
+            if (window.inspectedVehicleId === v.id && (simTickCounter % 4 === 0)) {
+              let pos = interpolateAlongPrepared(v.preparedPath, v.t);
+              v.currentLat = pos.lat;
+              v.currentLng = pos.lng;
+              v.currentHeading = pos.heading;
+              v.nextStopName = pos.nextStop;
+              v.totalKm = pos.totalKm;
+              v.currentKm = pos.currentKm;
+              updateInspectorDynamic(v);
+            }
+            return;
+          }
+
+          let pos = interpolateAlongPrepared(v.preparedPath, v.t);
           v.currentLat = pos.lat;
           v.currentLng = pos.lng;
           v.currentHeading = pos.heading;
@@ -1390,29 +1834,28 @@ html_template = r'''<!DOCTYPE html>
           v.totalKm = pos.totalKm;
           v.currentKm = pos.currentKm;
 
+          // Smooth GPU hardware-accelerated movement via Leaflet setLatLng & CSS transition
           v.marker.setLatLng([pos.lat, pos.lng]);
 
-          let iconLabel = v.routeNo ? `🚌 #${v.routeNo}` : (v.isMarsh ? `🚐 TAXI` : v.op.badge);
-          v.marker.setIcon(L.divIcon({
-            className: 'vehicle-marker-icon',
-            html: `
-              <div class="bus-marker-badge" style="background:${v.op.color}; color:${v.op.textColor};">
-                <span class="heading-arrow" style="transform: rotate(${pos.heading}deg);"></span>
-                <span>${iconLabel}</span>
-              </div>
-            `,
-            iconSize: [68, 24],
-            iconAnchor: [34, 12]
-          }));
+          // Update heading rotation on live element without rebuilding DOM
+          let arrow = getVehicleArrowEl(v);
+          if (arrow) {
+            let roundH = Math.round(pos.heading);
+            if (v.lastHeading !== roundH) {
+              arrow.style.transform = `rotate(${roundH}deg)`;
+              v.lastHeading = roundH;
+            }
+          }
 
-          if (window.inspectedVehicleId === v.id) {
+          if (window.inspectedVehicleId === v.id && (simTickCounter % 3 === 0)) {
             updateInspectorDynamic(v);
           }
         });
-      }, 250);
+      }, 50);
     }
 
     function showVehicleInspector(v) {
+      document.getElementById('vehicleInspector').classList.remove('is-empty');
       window.inspectedVehicleId = v.id;
       const b = document.getElementById('inspBadge');
       b.innerText = v.routeNo ? `LINE #${v.routeNo}` : (v.isMarsh ? 'ROUTE TAXI' : v.op.badge);
@@ -1426,15 +1869,6 @@ html_template = r'''<!DOCTYPE html>
       document.getElementById('inspCorridor').innerHTML = `Corridor / Road: <b>${v.corridor}</b>`;
       document.getElementById('inspDepTime').innerText = v.depTime;
       document.getElementById('inspArrTime').innerText = v.arrTime;
-
-      const featWrap = document.getElementById('inspFeatures');
-      featWrap.innerHTML = '';
-      v.op.features.forEach(f => {
-        let span = document.createElement('span');
-        span.className = 'feat-tag';
-        span.innerText = f;
-        featWrap.appendChild(span);
-      });
 
       updateInspectorDynamic(v);
     }
@@ -1475,14 +1909,36 @@ html_template = r'''<!DOCTYPE html>
           stopMarkersGroup.clearLayers();
 
           let latLngs = v.path.map(st => [st[0], st[1]]);
-          highlightedRouteLayer = L.polyline(latLngs, {
-            color: '#f97316',
-            weight: 6.5,
-            opacity: 0.95,
-            lineCap: 'round'
-          }).addTo(map);
+          highlightedRouteLayer = L.layerGroup().addTo(map);
 
-          map.fitBounds(highlightedRouteLayer.getBounds(), { padding: [40, 40] });
+          // Casing
+          L.polyline(latLngs, {
+            color: '#0f172a',
+            weight: 8.5,
+            opacity: 0.9,
+            lineCap: 'round',
+            lineJoin: 'round'
+          }).addTo(highlightedRouteLayer);
+
+          // Vibrant Orange Route Taxi Core
+          L.polyline(latLngs, {
+            color: '#f97316',
+            weight: 5,
+            opacity: 1,
+            lineCap: 'round',
+            lineJoin: 'round'
+          }).addTo(highlightedRouteLayer);
+
+          // Animated dashed flow along highway
+          L.polyline(latLngs, {
+            color: '#fef08a',
+            weight: 2,
+            dashArray: '6, 6',
+            className: 'dashed-intersection-line',
+            lineCap: 'round'
+          }).addTo(highlightedRouteLayer);
+
+          map.fitBounds(L.polyline(latLngs).getBounds(), { padding: [40, 40] });
           showVehicleInspector(v);
         }
       } else {
@@ -1523,25 +1979,63 @@ html_template = r'''<!DOCTYPE html>
       if (!p || !p.stops || p.stops.length === 0) return;
 
       let latLngs = p.stops.map(st => [st[0], st[1]]);
+      highlightedRouteLayer = L.layerGroup().addTo(map);
 
-      highlightedRouteLayer = L.polyline(latLngs, {
+      // 1. Dark casing for the selected primary route
+      L.polyline(latLngs, {
+        color: '#0f172a',
+        weight: 9,
+        opacity: 0.9,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(highlightedRouteLayer);
+
+      // 2. Glowing yellow primary line
+      L.polyline(latLngs, {
         color: '#facc15',
-        weight: 6.5,
-        opacity: 0.95,
-        lineCap: 'round'
-      }).addTo(map);
+        weight: 5.5,
+        opacity: 1,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(highlightedRouteLayer);
 
+      // 3. Dynamically find all intersecting routes in Kutaisi and render them as DASHED lines!
+      let myStops = p.stops;
+      let intersectingRoutes = new Set();
+      Object.keys(KUTAISI_ALL_PATTERNS).forEach(k => {
+        if (k.startsWith(rNo + '_')) return;
+        let other = KUTAISI_ALL_PATTERNS[k];
+        if (!other.stops || other.stops.length < 2) return;
+        let crosses = other.stops.some(oSt => {
+          return myStops.some(mSt => Math.abs(oSt[0] - mSt[0]) < 0.0018 && Math.abs(oSt[1] - mSt[1]) < 0.0025);
+        });
+        if (crosses && !intersectingRoutes.has(other.route)) {
+          intersectingRoutes.add(other.route);
+          let oPts = other.stops.map(st => [st[0], st[1]]);
+          // Render intersecting route with dashed styling!
+          L.polyline(oPts, {
+            color: '#38bdf8',
+            weight: 3.2,
+            opacity: 0.7,
+            dashArray: '6, 8',
+            className: 'dashed-intersection-line',
+            lineCap: 'round'
+          }).addTo(highlightedRouteLayer).bindTooltip(`<b>🔀 Intersecting Route:</b> Line ${other.route} (${other.name})`, { sticky: true });
+        }
+      });
+
+      // 4. Render stops along the route with intersection highlights
       p.stops.forEach((st, idx) => {
         L.circleMarker([st[0], st[1]], {
-          radius: 4.5,
-          color: '#0284c7',
+          radius: 5,
+          color: '#0f172a',
           fillColor: '#ffffff',
           fillOpacity: 1,
-          weight: 2
+          weight: 2.5
         }).addTo(stopMarkersGroup).bindPopup(`<b>Stop #${idx + 1}: ${st[2]}</b><br>Kutaisi Municipal Line ${rNo}`);
       });
 
-      map.fitBounds(highlightedRouteLayer.getBounds(), { padding: [40, 40] });
+      map.fitBounds(L.polyline(latLngs).getBounds(), { padding: [40, 40] });
 
       let bus = allVehicleSims.find(x => x.routeNo === rNo);
       if (bus) showVehicleInspector(bus);
@@ -1565,7 +2059,31 @@ html_template = r'''<!DOCTYPE html>
         }
       });
 
-      document.getElementById('activeFleetPill').innerText = `Active Fleet: ${visibleCount} Vehicles`;
+      updateMapStatus(visibleCount);
+    }
+
+    function updateMapStatus(vehicleCount = allVehicleSims.filter(vehicle => map.hasLayer(vehicle.marker)).length) {
+      const grouped = map.getZoom() < 10
+        ? allVehicleSims.filter(vehicle => vehicle.routeNo && map.hasLayer(vehicle.marker)).length
+        : 0;
+      map.getContainer().classList.toggle('grouped', grouped > 0);
+      if (grouped > 0) {
+        municipalCluster.setIcon(L.divIcon({
+          className: 'vehicle-cluster', html: String(grouped), iconSize: [34, 34], iconAnchor: [17, 17]
+        })).addTo(map);
+      } else {
+        municipalCluster.remove();
+      }
+      document.getElementById('activeFleetPill').textContent =
+        `Zoom: ${map.getZoom().toFixed(1)}x | Simulated vehicles: ${vehicleCount} | Municipal stops: ${__STOP_COUNT__}`;
+    }
+
+    const georgiaClock = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Tbilisi', hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+
+    function updateSimClock() {
+      document.getElementById('simClockText').textContent = `${georgiaClock.format(simTime)} · Georgia time`;
     }
 
     function toggleSim() {
@@ -1575,6 +2093,11 @@ html_template = r'''<!DOCTYPE html>
 
     function resetSim() {
       simTime = new Date();
+      simRunning = true;
+      document.getElementById('btnPlayPause').textContent = '⏸ Pause';
+      document.getElementById('simSpeedSelect').value = '1';
+      changeSpeed();
+      updateSimClock();
     }
 
     function changeSpeed() {
@@ -1582,11 +2105,11 @@ html_template = r'''<!DOCTYPE html>
     }
 
     function zoomGeorgia() {
-      map.setView([42.15, 43.40], 8);
+      map.setView([42.15, 43.30], 8);
     }
 
     function zoomKutaisi() {
-      map.setView([42.2578, 42.6850], 13);
+      map.setView([42.2662, 42.7180], 13);
     }
 
     function zoomRikoti() {
@@ -2043,12 +2566,23 @@ html_template = r'''<!DOCTYPE html>
 
       // 2. Walking Path & Bus Stop (if walking required)
       if (origInfo.walkMeters > 0) {
+        // Casing
+        L.polyline([origInfo.coords, origInfo.stopCoords], {
+          color: '#431407',
+          weight: 6,
+          opacity: 0.85,
+          lineCap: 'round'
+        }).addTo(window.journeySimLayer);
+
+        // Dashed pedestrian path
         L.polyline([origInfo.coords, origInfo.stopCoords], {
           color: '#ea580c',
-          weight: 4,
-          dashArray: '6, 8',
-          opacity: 0.95
-        }).addTo(window.journeySimLayer);
+          weight: 3.5,
+          dashArray: '6, 6',
+          className: 'dashed-intersection-line',
+          opacity: 1,
+          lineCap: 'round'
+        }).addTo(window.journeySimLayer).bindTooltip(`<b>🚶 Pedestrian Walkway:</b> ${origInfo.walkMeters}m to bus stop`, { sticky: true });
 
         const busStopIcon = L.divIcon({
           className: 'stop-pin',
@@ -2063,28 +2597,70 @@ html_template = r'''<!DOCTYPE html>
       // 3. Municipal Bus Street Route (if applicable)
       if (origInfo.lineStops && origInfo.lineStops.length > 0) {
         const lineCoords = origInfo.lineStops.map(s => [s[0], s[1]]);
+        // Casing
+        L.polyline(lineCoords, {
+          color: '#082f49',
+          weight: 8,
+          opacity: 0.85,
+          lineCap: 'round',
+          lineJoin: 'round'
+        }).addTo(window.journeySimLayer);
+
+        // Core line
         L.polyline(lineCoords, {
           color: '#0284c7',
-          weight: 6,
-          opacity: 0.9
-        }).addTo(window.journeySimLayer);
+          weight: 5,
+          opacity: 0.95,
+          lineCap: 'round',
+          lineJoin: 'round'
+        }).addTo(window.journeySimLayer).bindTooltip(`<b>🚌 Transit Leg:</b> Kutaisi Municipal Bus #${origInfo.lineNum}`, { sticky: true });
       }
 
-      // 4. Omnibus Central Terminal Hub
+      // 4. Omnibus Central Terminal Hub & Dashed Transfer Link
       const hubIcon = L.divIcon({
         className: 'hub-pin',
-        html: '<div style="background:#1e3a8a; color:#facc15; border-radius:999px; padding:3px 9px; font-size:11px; font-weight:800; border:2px solid white; box-shadow:0 3px 8px rgba(0,0,0,0.4); white-space:nowrap;">🏢 Omnibus Central Terminal</div>',
-        iconSize: [180, 26],
-        iconAnchor: [90, 13]
+        html: '<div style="background:#1e3a8a; color:#facc15; border-radius:999px; padding:3px 9px; font-size:11px; font-weight:800; border:2px solid white; box-shadow:0 3px 8px rgba(0,0,0,0.4); white-space:nowrap;">🔀 Transfer Hub: Omnibus Terminal</div>',
+        iconSize: [210, 26],
+        iconAnchor: [105, 13]
       });
       L.marker([42.25671, 42.67195], { icon: hubIcon }).addTo(window.journeySimLayer)
-        .bindPopup('<b>🏢 Transfer Hub:</b> ცენტრალური ავტოსადგური / Chavchavadze Omnibus Terminal<br>Transfer to: <b>Omnibus Express Coach</b>');
+        .bindPopup('<b>🔀 Transfer Intersection:</b> ცენტრალური ავტოსადგური / Chavchavadze Omnibus Terminal<br>Transfer buffer: <b>' + origInfo.transferMins + ' min</b> to <b>Omnibus Express Coach</b>');
 
-      // 5. Highway E60 Corridor to Destination
+      // Transfer interchange dashed link between arriving bus stop and departure bay
+      if (origInfo.lineStops && origInfo.lineStops.length > 0) {
+        let lastStop = origInfo.lineStops[origInfo.lineStops.length - 1];
+        L.polyline([[lastStop[0], lastStop[1]], [42.25671, 42.67195]], {
+          color: '#facc15',
+          weight: 5,
+          dashArray: '5, 5',
+          className: 'dashed-transfer-link',
+          lineCap: 'round'
+        }).addTo(window.journeySimLayer).bindTooltip('<b>🔀 Platform Transfer Interchange (Dashed Link)</b>', { sticky: true });
+      }
+
+      // 5. Highway E60 Corridor to Destination with casing and dashed track
+      L.polyline(HIGHWAY_KUTAISI_TBILISI, {
+        color: '#0f172a',
+        weight: 8,
+        opacity: 0.9,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(window.journeySimLayer);
+
       L.polyline(HIGHWAY_KUTAISI_TBILISI, {
         color: idx === 1 ? '#ea580c' : '#8e24aa',
-        weight: 6,
-        opacity: 0.85
+        weight: 5,
+        opacity: 0.95,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(window.journeySimLayer).bindTooltip(idx === 1 ? '<b>🚐 Regional Route Taxi:</b> Highway E60 Express' : '<b>🚍 Omnibus Express Coach:</b> Highway E60 Express', { sticky: true });
+
+      L.polyline(HIGHWAY_KUTAISI_TBILISI, {
+        color: '#facc15',
+        weight: 2,
+        dashArray: '8, 8',
+        className: 'dashed-intersection-line',
+        lineCap: 'round'
       }).addTo(window.journeySimLayer);
 
       // 6. Destination Marker
@@ -2113,31 +2689,57 @@ html_template = r'''<!DOCTYPE html>
       `;
       document.getElementById('tab-simulation').appendChild(hud);
 
-      // Animated traveler points
-      const simPoints = [];
+      // Animated traveler path - smoothly subdivided so movement glides without lag
+      const rawSteps = [];
       if (origInfo.walkMeters > 0) {
-        simPoints.push({ pt: origInfo.coords, mode: 'walk', label: `🚶 Step 1: Walking from ${origInfo.name}...` });
-        simPoints.push({ pt: origInfo.stopCoords, mode: 'muni', label: `🚏 Step 2: Arrived at ${origInfo.stopName}. Boarding Line ${origInfo.lineNum}...` });
+        rawSteps.push({ pt: origInfo.coords, mode: 'walk', label: `🚶 Step 1: Walking from ${origInfo.name} (${origInfo.walkMeters}m)...` });
+        rawSteps.push({ pt: origInfo.stopCoords, mode: 'muni', label: `🚏 Step 2: Arrived at ${origInfo.stopName}. Boarding Line ${origInfo.lineNum}...` });
       } else {
-        simPoints.push({ pt: origInfo.coords, mode: 'transfer', label: `🏢 Starting directly at ${origInfo.name}...` });
+        rawSteps.push({ pt: origInfo.coords, mode: 'transfer', label: `🏢 Starting directly at ${origInfo.name}...` });
       }
 
       if (origInfo.lineStops && origInfo.lineStops.length > 0) {
         origInfo.lineStops.slice(1).forEach(s => {
-          simPoints.push({ pt: [s[0], s[1]], mode: 'muni', label: `🚌 Step 2: Riding Bus #${origInfo.lineNum} past ${s[2]}...` });
+          rawSteps.push({ pt: [s[0], s[1]], mode: 'muni', label: `🚌 Step 2: Riding Bus #${origInfo.lineNum} past ${s[2]}...` });
         });
       }
 
-      simPoints.push({ pt: [42.25671, 42.67195], mode: 'transfer', label: `🔄 Step 3: Transfer buffer (${origInfo.transferMins} min) at Omnibus Terminal Platform 2...` });
+      rawSteps.push({ pt: [42.25671, 42.67195], mode: 'transfer', label: `🔄 Step 3: Transfer buffer (${origInfo.transferMins} min) at Omnibus Terminal Platform 2...` });
 
       HIGHWAY_KUTAISI_TBILISI.slice(1).forEach(pt => {
-        simPoints.push({ pt: pt, mode: 'coach', label: '🚍 Step 4: Express transit along Highway E60 to Tbilisi...' });
+        rawSteps.push({ pt: pt, mode: 'coach', label: '🚍 Step 4: Express transit along Highway E60 to Tbilisi...' });
       });
+
+      // Subdivide coarse steps into smooth continuous sub-steps (~160 points total)
+      const simPoints = [];
+      for (let i = 0; i < rawSteps.length; i++) {
+        if (i === 0) {
+          simPoints.push(rawSteps[0]);
+          continue;
+        }
+        let prev = rawSteps[i - 1];
+        let curr = rawSteps[i];
+        let p1 = prev.pt;
+        let p2 = curr.pt;
+        let dLat = p2[0] - p1[0];
+        let dLng = p2[1] - p1[1];
+        let dist = Math.hypot(dLat, dLng);
+        let maxStep = curr.mode === 'walk' ? 0.0006 : (curr.mode === 'muni' ? 0.002 : 0.012);
+        let numSub = Math.max(1, Math.ceil(dist / maxStep));
+        for (let s = 1; s <= numSub; s++) {
+          let frac = s / numSub;
+          simPoints.push({
+            pt: [p1[0] + frac * dLat, p1[1] + frac * dLng],
+            mode: curr.mode,
+            label: curr.label
+          });
+        }
+      }
 
       let sIdx = 0;
       const travelerIcon = L.divIcon({
         className: 'traveler-icon',
-        html: `<div id="travelerBadge" style="background:#ea580c; color:white; font-weight:800; font-size:11px; padding:3px 8px; border-radius:999px; border:2px solid white; box-shadow:0 3px 10px rgba(0,0,0,0.5); white-space:nowrap;">🚶 Traveler</div>`,
+        html: `<div id="travelerBadge" style="background:#ea580c; color:white; font-weight:800; font-size:11px; padding:3px 8px; border-radius:999px; border:2px solid white; box-shadow:0 3px 10px rgba(0,0,0,0.5); white-space:nowrap; transition: background 0.2s;">🚶 Traveler</div>`,
         iconSize: [110, 26],
         iconAnchor: [55, 13]
       });
@@ -2158,22 +2760,22 @@ html_template = r'''<!DOCTYPE html>
         const step = simPoints[sIdx];
         travelerMarker.setLatLng(step.pt);
         const hudText = document.getElementById('hudStageText');
-        if (hudText) hudText.innerText = step.label;
+        if (hudText && hudText.innerText !== step.label) hudText.innerText = step.label;
 
         const badge = document.getElementById('travelerBadge');
         if (badge) {
-          if (step.mode === 'walk') {
+          if (step.mode === 'walk' && badge.innerText !== '🚶 Walking') {
             badge.style.background = '#ea580c'; badge.innerHTML = '🚶 Walking';
-          } else if (step.mode === 'muni') {
+          } else if (step.mode === 'muni' && !badge.innerText.includes('Bus')) {
             badge.style.background = '#0284c7'; badge.innerHTML = `🚌 Bus #${origInfo.lineNum}`;
-          } else if (step.mode === 'transfer') {
+          } else if (step.mode === 'transfer' && !badge.innerText.includes('Transfer')) {
             badge.style.background = '#eab308'; badge.style.color = '#1e293b'; badge.innerHTML = '🔄 Transfer Hub';
-          } else if (step.mode === 'coach') {
+          } else if (step.mode === 'coach' && !badge.innerText.includes('Express') && !badge.innerText.includes('Marshrutka')) {
             badge.style.background = idx === 1 ? '#ea580c' : '#8e24aa'; badge.style.color = 'white';
             badge.innerHTML = idx === 1 ? '🚐 Okriba Marshrutka' : '🚍 Omnibus Express';
           }
         }
-      }, 550);
+      }, 60);
     }
 
     function stopJourneySim() {
@@ -2331,6 +2933,9 @@ html_template = r'''<!DOCTYPE html>
 </body>
 </html>
 '''
+
+html_template = html_template.replace('__DESKTOP_MAP__', json.dumps(desktop_map, ensure_ascii=False))
+html_template = html_template.replace('__STOP_COUNT__', str(len(stops)))
 
 with open('web-preview/index.html', 'w', encoding='utf-8') as f:
     f.write(html_template)

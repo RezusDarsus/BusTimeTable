@@ -3,7 +3,7 @@
 **Project:** Georgia Transit Intelligence — C# Windows Forms Midterm  
 **Student:** Rezo Darsavelidze  
 **Student Topic:** Topic 13 — Bus Timetable (`dbo.BusRoutes`)  
-**Assessment Target:** 25/25 Points + 3 Bonus Points  
+**Assessment Target:** 25 points maximum, including any CSV bonus
 **Submission Package:** `Midterm_Darsavelidze_Rezo.zip`  
 
 ---
@@ -11,15 +11,15 @@
 ## ⏱ Minute 1: Introduction & Timetable Manager
 
 1. **Launch the application:**
-   - Press <kbd>F5</kbd> in Visual Studio 2026. The application opens directly to the **Timetable Manager** tab.
+   - Press <kbd>F5</kbd> in Visual Studio 2026. The application opens directly to the **Timetable Manager** tab. Check that the footer says **LocalDB [Live Connected]** before starting the graded demo.
 2. **Explain the Architecture:**
    - *"This application manages a single SQL Server table, `dbo.BusRoutes`, in `BusTimetableDb` using Microsoft SQL Server LocalDB and `Microsoft.Data.SqlClient`."*
    - *"The grid displays 18 realistic routes with columns formatted properly, and the internal database `Id` column is hidden."*
 3. **Demonstrate Search & Filter Together (Requirements 8 & 9):**
-   - In the search box `txtSearch`, type `Batumi`.
-   - Observe the grid update in real-time to show 6 routes connecting Batumi.
+   - In the search box `txtSearch`, type `Zugdidi`.
+   - Observe the grid update in real-time to show three matching routes in the fresh database.
    - Now in `cmbFilter`, select **Express**.
-   - Observe the list narrow to only Express routes to/from Batumi (e.g. `GEO-101`, `GEO-103`, `GEO-112`, `GEO-116`).
+   - Observe the list narrow to one Express route, `GEO-108`.
    - Clear the search box and set filter back to **All** to restore all 18 routes.
 4. **Demonstrate SQL Injection Protection (Requirement 5):**
    - Type `' OR 1=1 --` in the search box.
@@ -41,13 +41,13 @@
      - Price: `14.50`
      - Express: Checked
    - Click **Save**.
-   - Point out: The new route appears immediately in the grid, and `lblStatus` confirms: *"Bus route 'GEO-200' added successfully."*
+   - Point out the new row and the `lblStatus` confirmation. Close and reopen the app and search for `GEO-200` to show that it persisted.
 2. **Edit Route (Update):**
    - Double-click the row for `GEO-200` (or select it and click **Edit**).
    - Point out: The dialog opens **pre-populated** with all existing values.
    - Change Destination to `Kobuleti (Central Station)` and Price to `16.00`.
    - Click **Save**.
-   - Point out: The row is updated in place, and `lblStatus` reports the update.
+   - Point out the updated row and status. Reopen the app and search for `GEO-200` to confirm the saved destination and price.
 3. **Cancel Verification:**
    - Double-click `GEO-200` again.
    - Change Price to `99.00`, but click **Cancel** (or press <kbd>Esc</kbd>).
@@ -56,7 +56,7 @@
    - Select `GEO-200` and click **Delete**.
    - A confirmation dialog appears: *"Are you sure you want to delete route 'GEO-200'...?"*
    - Click **No** → Nothing is deleted.
-   - Click **Delete** again and click **Yes** → The route is deleted from the database.
+   - Click **Delete** again and click **Yes** → Reopen the app and search for `GEO-200` to confirm the row is gone.
 
 ---
 
@@ -64,7 +64,7 @@
 
 1. **Input Validation (Requirement 10):**
    - Click **+ Add Route**.
-   - Leave Origin blank and click **Save**. A warning dialog appears: *"Origin station cannot be empty."* The dialog stays open with user data intact.
+   - Enter a route number, leave Origin blank, and click **Add Route**. A warning dialog appears: *"Origin station cannot be empty."* The dialog stays open with user data intact.
    - Enter `Kutaisi` for both Origin and Destination and click **Save**. A warning dialog appears: *"Origin and destination cannot be identical..."*
 2. **Explain Model & Calculated Property (Requirement 2):**
    - In Visual Studio, show `BusRoute.cs`:
@@ -74,10 +74,10 @@
    - Explain: *"This is a calculated get-only property that is computed on the fly from `IsExpress` without existing as a separate database column."*
    - Show `dgvBusRoutes_CellFormatting`: Express routes are highlighted with a soft blue tint (`Color.FromArgb(238, 244, 255)`).
 3. **Bonus CSV Export (+3 Points):**
-   - Type `Tbilisi` in the search box.
+   - Type `Mestia` in the search box to find the row containing `სეტის მოედანი`.
    - Click **Export CSV**.
    - Choose a filename (e.g. `Tbilisi_Routes.csv`) and save.
-   - Open the file in Notepad or Excel: show that only the filtered rows were exported, headers are included, and Georgian Unicode characters (`ქუთაისი`, `თბილისი`) render cleanly due to UTF-8 with BOM.
+   - Open the file in Notepad or Excel: show that only the filtered rows were exported, headers are included, and Georgian characters (`სეტის მოედანი`) render cleanly due to UTF-8 with BOM.
 
 ---
 
@@ -94,7 +94,7 @@
      - Orange markers: Regional marshrutkas
 3. Click any moving vehicle:
    - The **Vehicle Inspector** on the right displays: Operator, Route Number, Scheduled Departure, Estimated Arrival, and Next Stop.
-   - Emphasize: *"The simulation is driven by real published timetables and runs according to Georgia time (`Asia/Tbilisi`). Vehicle movements are estimated simulations based on scheduled intervals."*
+   - Emphasize: *"The clock uses Georgia time. The map estimates vehicle positions using timetable entries and sample municipal frequencies."*
 4. Click **Kutaisi City**:
    - The map zooms into Kutaisi, displaying detailed municipal routes, 450 municipal bus stops, and city buses navigating between stops.
 
@@ -108,11 +108,7 @@
    - Destination: `Batumi`
    - Departure Time: `08:00`
 3. Click **Find Multimodal Journeys**:
-   - The planner generates viable itineraries combining:
-     1. Walking from Red Bridge to nearby bus stop.
-     2. Kutaisi Municipal Bus #10 to Chavchavadze Bus Station.
-     3. 15-minute transfer buffer at coach terminal.
-     4. Scheduled intercity coach from Kutaisi to Batumi Central.
+   - Open a multimodal result and explain the estimated walking and municipal legs, the transfer buffer, and the intercity departure. The result includes a reliability note.
 4. Click **▶ Simulate My Journey on Map**:
    - The map automatically loads the journey path, highlights the route in purple, sets the simulation clock to departure, and begins the animated journey!
 5. Briefly show **Network Explorer**:
